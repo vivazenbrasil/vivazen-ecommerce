@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@theme {
+  --color-zen-olive: #9fa378;
+  --color-zen-creme: #e6dfd1;
+  --color-zen-salvia: #ced1b4;
+  --color-zen-dark: #3a3d36;
+  --color-zen-shadow: #7a7f53;
+}

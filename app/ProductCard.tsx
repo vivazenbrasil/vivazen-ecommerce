@@ -26,7 +26,7 @@ export default function ProductCard({ id, nome, sub, desc, preco, precoDe, emoji
         boxShadow: isHovered ? '0 24px 48px rgba(61,74,38,.12)' : 'none',
       }}
     >
-      <div className="bg-gradient-to-br from-e0d4bc to-ccc0a0 h-70 flex items-center justify-center text-8xl relative">
+      <div className="bg-linear-to-br from-e0d4bc to-ccc0a0 h-70 flex items-center justify-center text-8xl relative">
         {emoji}
         <span className="absolute top-4 left-4 bg-b8962e text-white text-xs font-semibold tracking-wider uppercase px-2.5 py-1 rounded-sm">
           {tag}
@@ -46,7 +46,7 @@ export default function ProductCard({ id, nome, sub, desc, preco, precoDe, emoji
         <p className="text-sm text-7a7a6a leading-relaxed mb-5">
           {desc}
         </p>
-
+\
         <div className="flex items-center justify-between">
           <div>
             <div className="text-xs text-7a7a6a line-through">R$ {precoDe.toFixed(2).replace('.', ',')}</div>

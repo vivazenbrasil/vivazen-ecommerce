@@ -29,7 +29,7 @@ export default function Sobre() {
           {/* LADO DIREITO (IMAGEM) */}
           <div className="relative h-80 w-full md:h-96 md:w-96 bg-white rounded-2xl overflow-hidden shadow-sm">
             <Image 
-              src="/sobre.jpeg" 
+              src="/logo.jpeg" 
               alt="marca-vivazen" 
               fill
               className="object-cover" 

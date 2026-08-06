@@ -1,4 +1,4 @@
-import vivazen_caixa from '@/public/vivazen_caixa.jpeg';
+import livit_box from '@/public/livit_box.jpeg';
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
@@ -11,7 +11,7 @@ export default function ProductHighlightSection({ linktreeUrl }: ProductHighligh
     <section id="produto" className="flex max-w-6xl flex-col-reverse items-center gap-12 px-6 py-20 md:flex-row md:py-32 mx-auto">
       <div className="flex-1 w-full flex justify-center">
         <div className="relative w-full max-w-sm aspect-3/4 rounded-3xl overflow-hidden shadow-xl border-4 border-white">
-          <Image src={vivazen_caixa} alt="Detalhes do Produto VivaZen" fill className="object-cover" />
+          <Image src={livit_box} alt="Detalhes do Produto VivaZen" fill className="object-cover" sizes="(max-width: 768px) 100vw, 384px" />
         </div>
       </div>
       

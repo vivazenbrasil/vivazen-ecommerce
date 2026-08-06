@@ -1,6 +1,6 @@
 'use client'
 
-import tabelaNutricional from '@/public/tabelinha.png';
+import nutrition_information from '@/public/nutrition_information.jpeg';
 import AboutSection from './AboutSection';
 import HeroSection from './HeroSection';
 import NutritionalInfoSection from './NutritionalInfoSection';
@@ -41,7 +41,7 @@ export default function Home() {
       <HeroSection linktreeUrl={linktreeUrl} />
       <AboutSection />
       <ProductHighlightSection linktreeUrl={linktreeUrl} />
-      <NutritionalInfoSection tabelaNutricional={tabelaNutricional} nutrientes={nutrientes} />
+      <NutritionalInfoSection tabelaNutricional={nutrition_information} nutrientes={nutrientes} />
     </>
   );
 }

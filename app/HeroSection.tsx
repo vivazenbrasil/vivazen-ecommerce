@@ -1,4 +1,4 @@
-import vivazen_caixa from '@/public/vivazen_caixa.jpeg';
+import livit from '@/public/livit.jpeg';
 import { ShoppingBag } from "lucide-react";
 import Image from "next/image";
 
@@ -26,7 +26,7 @@ export default function HeroSection({ linktreeUrl }: HeroSectionProps) {
       </div>
       <div className="flex flex-1 w-full justify-center">
         <div className="relative w-full max-w-md aspect-square rounded-3xl overflow-hidden shadow-xl border-4 border-white">
-          <Image src={vivazen_caixa} alt="Produto Principal VivaZen" fill className="object-cover" priority />
+          <Image src={livit} alt="Produto Principal VivaZen" fill className="object-cover" priority />
         </div>
       </div>
     </section>

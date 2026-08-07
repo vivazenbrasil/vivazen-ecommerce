@@ -1,4 +1,4 @@
-import { Leaf, Mail, MapPin, Smartphone } from 'lucide-react'
+import { Leaf, Mail, Smartphone } from 'lucide-react'
 
 export default function Footer() {
   return (

@@ -7,7 +7,7 @@ import NutritionalInfoSection from './NutritionalInfoSection';
 import ProductHighlightSection from './ProductHighlightSection';
 
 export default function Home() {
-  const linktreeUrl = "https://linktr.ee/vivazenbrasil";
+  const linktreeUrl = "https://ev.braip.com/checkout/plakqv0l/che74r9l?currency=BRL";
   
   const nutrientes = [
     {

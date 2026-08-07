@@ -1,13 +1,13 @@
 'use client'
 
-import tabelaNutricional from '@/public/tabelinha.png';
+import nutrition_information from '@/public/nutrition_information.jpeg';
 import AboutSection from './AboutSection';
 import HeroSection from './HeroSection';
 import NutritionalInfoSection from './NutritionalInfoSection';
 import ProductHighlightSection from './ProductHighlightSection';
 
 export default function Home() {
-  const linktreeUrl = "https://linktr.ee/vivazenbrasil";
+  const linktreeUrl = "https://ev.braip.com/checkout/plakqv0l/che74r9l?currency=BRL";
   
   const nutrientes = [
     {
@@ -41,7 +41,7 @@ export default function Home() {
       <HeroSection linktreeUrl={linktreeUrl} />
       <AboutSection />
       <ProductHighlightSection linktreeUrl={linktreeUrl} />
-      <NutritionalInfoSection tabelaNutricional={tabelaNutricional} nutrientes={nutrientes} />
+      <NutritionalInfoSection tabelaNutricional={nutrition_information} nutrientes={nutrientes} />
     </>
   );
 }

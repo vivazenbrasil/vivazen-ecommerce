@@ -14,7 +14,7 @@ export default function Header() {
         <span className="text-2xl font-bold tracking-tighter">VivaZen</span>
       </Link>
       <nav className="hidden md:flex">
-        <Link href="/#sobre" className="text-stone-600 hover:text-green-700 px-4 py-2 font-medium transition-colors">A Empresa</Link>
+        <Link href="/sobre" className="text-stone-600 hover:text-green-700 px-4 py-2 font-medium transition-colors">A Empresa</Link>
         <Link href="/#produto" className="text-stone-600 hover:text-green-700 px-4 py-2 font-medium transition-colors">O Produto</Link>
       </nav>
     </header>

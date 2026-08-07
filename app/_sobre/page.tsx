@@ -1,77 +1,133 @@
-import { Heart, Smile, Trees } from 'lucide-react'
-import Image from 'next/image'
+import Image from "next/image";
+import { Leaf } from "lucide-react";
+import { Fraunces } from "next/font/google";
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-fraunces",
+});
 
 export default function Sobre() {
-  return    <div className="bg-white font-jost">
+  return (
+    <main className={`${fraunces.variable} bg-[#eaf0e1] overflow-hidden`}>
       {/* HERO */}
-      <section className="bg-zen-light px-6 py-20 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold text-green-900 mb-4">
-          Nossa História
-        </h1>
-        <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-          A VivaZen nasceu do sonho de levar mais saúde e bem-estar para a vida das pessoas através do poder da natureza.
-        </p>
-      </section>
+      <section className="relative">
+        <div className="max-w-7xl mx-auto px-6 py-24 lg:py-32">
 
-      {/* CONTEÚDO */}
-      <section className="max-w-4xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          {/* LADO ESQUERDO (TEXTO) */}
-          <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
-            <p>
-              Acreditamos que a natureza oferece tudo o que precisamos para uma vida equilibrada e saudável. Nossa jornada começou com uma pequena horta orgânica, onde cultivávamos ervas e plantas com métodos sustentáveis, sem o uso de agrotóxicos. A paixão por compartilhar os benefícios desses ingredientes puros nos levou a criar a VivaZen.
-            </p>
-            <p>
-              Hoje, selecionamos cuidadosamente cada produto, garantindo que eles venham de fontes responsáveis e que mantenham a pureza e a potência de seus ingredientes. Nossa missão é simples: oferecer produtos naturais de alta qualidade que promovam o bem-estar do corpo e da mente, de forma acessível e transparente.
-            </p>
+          <div className="grid lg:grid-cols-2 items-center">
+
+            {/* TEXTO */}
+            <div className="z-20 max-w-xl">
+
+              <span className="flex items-center gap-2 uppercase tracking-[0.25em] text-[#B2794A] font-semibold text-sm mb-5">
+                <Leaf size={18} />
+                Nossa História
+              </span>
+
+              <h1 className="font-[family-name:var(--font-fraunces)] italic text-[#1E3A2B] text-5xl md:text-6xl xl:text-7xl leading-none">
+                Da terra para
+                <br />
+                o seu bem-estar
+              </h1>
+
+              <p className="mt-8 text-lg text-stone-600 leading-8">
+                A VivaZen nasceu do sonho de levar mais saúde e equilíbrio
+                para a vida das pessoas através do poder da natureza.
+              </p>
+            </div>
+
+            {/* IMAGEM */}
+            <div className="relative h-[650px] hidden lg:block">
+
+              <div className="absolute right-[-220px] top-1/2 -translate-y-1/2 w-[900px] h-[900px]">
+
+                <Image
+                  src="/image_capsules.png"
+                  alt="Vivazen"
+                  fill
+                  priority
+                  className="object-contain object-right"
+                />
+
+              </div>
+
+            </div>
+
           </div>
 
-          {/* LADO DIREITO (IMAGEM) */}
-          <div className="relative h-80 w-full md:h-96 md:w-96 bg-white rounded-2xl overflow-hidden shadow-sm">
-            <Image 
-              src="/sobre.jpeg" 
-              alt="marca-vivazen" 
-              fill
-              className="object-cover" 
-              sizes="(max-width: 768px) 100vw, 384px"
-              priority
-            />
-          </div>
-        </div>
-        
-        <h2 className="text-3xl font-bold text-green-900 mt-16 mb-8 text-center">Nossos Valores</h2>
-
-        {/* VALORES */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mt-8 text-center">
-          <div className="flex flex-col items-center">
-            <div className="bg-green-100 text-green-800 rounded-full p-4 mb-4">
-              <Trees className="h-8 w-8" />
-            </div>
-            <h3 className="font-semibold text-xl text-gray-800 mb-2">Qualidade</h3>
-            <p className="text-gray-600">
-              Ingredientes puros e processos que garantem a máxima eficácia dos nossos produtos.
-            </p>
-          </div>
-          <div className="flex flex-col items-center">
-            <div className="bg-green-100 text-green-800 rounded-full p-4 mb-4">
-              <Heart className="h-8 w-8" />
-            </div>
-            <h3 className="font-semibold text-xl text-gray-800 mb-2">Cuidado</h3>
-            <p className="text-gray-600">
-              Cada produto é pensado e selecionado com o carinho que você merece.
-            </p>
-          </div>
-          <div className="flex flex-col items-center">
-            <div className="bg-green-100 text-green-800 rounded-full p-4 mb-4">
-              <Smile className="h-8 w-8"/>
-            </div>
-            <h3 className="font-semibold text-xl text-gray-800 mb-2">Bem-estar</h3>
-            <p className="text-gray-600">
-              Promovemos um estilo de vida mais saudável e feliz para nossos clientes.
-            </p>
-          </div>
         </div>
       </section>
-    </div>
 
+      {/* JORNADA */}
+
+      <section className="py-24 bg-[#eaf0e1]">
+
+        <div className="max-w-5xl mx-auto px-6">
+
+          <div className="text-center mb-20">
+
+            <span className="uppercase tracking-[0.3em] text-[#B2794A] font-semibold">
+              Nossa Jornada
+            </span>
+
+            <h2 className="font-[family-name:var(--font-fraunces)] italic text-5xl text-[#1E3A2B] mt-4">
+              Crescendo com a natureza
+            </h2>
+
+          </div>
+
+          <div className="relative max-w-3xl mx-auto">
+
+            {/* Linha */}
+            <div className="absolute left-[7px] top-5 bottom-5 w-[2px] bg-[#DDD0C2]" />
+
+            {/* Origem */}
+
+            <div className="relative pl-12 pb-20">
+
+              <div className="absolute left-0 top-2 w-4 h-4 rounded-full bg-[#B2794A]" />
+
+              <h3 className="uppercase tracking-widest text-[#B2794A] font-semibold mb-4">
+                Origem
+              </h3>
+
+              <p className="text-lg text-stone-600 leading-9">
+                Nossa jornada começou com uma pequena horta orgânica, onde
+                cultivávamos ervas e plantas com métodos sustentáveis,
+                sem o uso de agrotóxicos. A paixão por compartilhar os
+                benefícios desses ingredientes puros nos levou à criação
+                da VivaZen.
+              </p>
+
+            </div>
+
+            {/* Hoje */}
+
+            <div className="relative pl-12">
+
+              <div className="absolute left-0 top-2 w-4 h-4 rounded-full bg-[#1E3A2B]" />
+
+              <h3 className="uppercase tracking-widest text-[#1E3A2B] font-semibold mb-4">
+                Hoje
+              </h3>
+
+              <p className="text-lg text-stone-600 leading-9">
+                Selecionamos cuidadosamente cada produto, garantindo que
+                venham de fontes responsáveis e mantenham a pureza de seus
+                ingredientes. Nossa missão é oferecer produtos naturais de
+                alta qualidade que promovam o bem-estar de forma acessível
+                e transparente.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+    </main>
+  );
 }

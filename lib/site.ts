@@ -8,7 +8,9 @@
 
 export const site = {
   nome: 'VivaZen',
-  url: 'https://vivazen.com.br', // CONFIRMAR: domínio final (usado no SEO e no OpenGraph)
+  // Alimenta metadataBase, canonical, OpenGraph e JSON-LD. Se mudar de domínio,
+  // é aqui — todas as URLs absolutas do SEO derivam deste valor.
+  url: 'https://vivazenbrasil.com.br',
   tagline: 'A natureza em sua forma mais pura',
   descricao:
     'Suplemento natural para quem busca equilíbrio, sono de qualidade e menos estresse no dia a dia. Fórmula com L-Triptofano, L-Teanina, Magnésio e vitaminas.',

@@ -2,7 +2,7 @@
 
 import SectionHeading from '@/components/ui/SectionHeading'
 import { nutrientes, produto } from '@/lib/site'
-import tabelaNutricional from '@/public/nutrition_information.jpeg'
+import tabelaNutricional from '@/public/nutrition_information.webp'
 import { ChevronDown, X, ZoomIn, ZoomOut } from 'lucide-react'
 import Image from 'next/image'
 import { MouseEvent, RefObject, useEffect, useRef, useState } from 'react'
@@ -142,11 +142,16 @@ export default function NutritionalInfoSection() {
               aria-label="Ampliar tabela nutricional"
               className="focus-visible:ring-clay/50 relative mx-auto w-full cursor-pointer overflow-hidden rounded-xl focus-visible:ring-4 focus-visible:outline-none"
             >
+              {/*
+                Sem width/height fixos de propósito: o import estático já traz a
+                dimensão real do arquivo (1122x1402). Antes estava declarado
+                800x550 — proporção 1.45 contra os 0.80 reais —, o que fazia o
+                navegador reservar uma caixa deitada e depois "pular" para a
+                caixa em pé quando a imagem carregava.
+              */}
               <Image
                 src={tabelaNutricional}
                 alt={`Tabela nutricional do suplemento ${produto.nome}`}
-                width={800}
-                height={550}
                 sizes="(max-width: 768px) 90vw, 500px"
                 className="border-sand/60 h-auto w-full rounded-xl border-4 shadow-lg"
               />
@@ -282,8 +287,6 @@ export default function NutritionalInfoSection() {
               <Image
                 src={tabelaNutricional}
                 alt={`Tabela nutricional do suplemento ${produto.nome} (ampliada)`}
-                width={1200}
-                height={825}
                 sizes="(max-width: 768px) 95vw, 768px"
                 className="pointer-events-none h-auto w-full rounded-lg"
                 draggable={false}

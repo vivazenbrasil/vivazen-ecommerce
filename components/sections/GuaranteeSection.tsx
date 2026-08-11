@@ -1,5 +1,19 @@
 import { garantia, site } from '@/lib/site'
+import seloGarantia from '@/public/selo-garantia.webp'
 import { ShieldCheck } from 'lucide-react'
+import Image from 'next/image'
+
+/**
+ * O número de dias está DESENHADO dentro de public/selo-garantia.webp — a arte
+ * não é gerada a partir de `garantia.dias`, é um arquivo pronto.
+ *
+ * Por isso o selo só aparece quando os dois números batem. Se um dia a garantia
+ * virar 30 dias e ninguém trocar a arte, a seção volta sozinha para o círculo
+ * desenhado em CSS logo abaixo, em vez de estampar "7 DIAS" ao lado de um texto
+ * falando em 30 — que seria informação errada sobre garantia, justamente o tipo
+ * de coisa que dá dor de cabeça com o CDC.
+ */
+const DIAS_NO_SELO = 7
 
 export default function GuaranteeSection() {
   return (
@@ -13,23 +27,44 @@ export default function GuaranteeSection() {
 
           <div className="relative grid items-center gap-10 md:grid-cols-[auto_1fr] md:gap-12">
             {/* Selo */}
-            <div className="border-clay-soft/40 mx-auto flex h-36 w-36 shrink-0 flex-col items-center justify-center rounded-full border-2 text-center">
-              <ShieldCheck className="text-clay-soft h-9 w-9" />
-              {garantia.dias > 0 ? (
-                <>
-                  <span className="font-display text-cream mt-1 text-4xl leading-none">
-                    {garantia.dias}
+            {garantia.dias === DIAS_NO_SELO ? (
+              <div className="relative mx-auto shrink-0">
+                {/*
+                  O selo é preto sobre o verde escuro da seção. Este halo dourado
+                  desfocado atrás dele é o que separa as duas coisas — sem ele o
+                  miolo do selo some no fundo e só sobra o anel.
+                */}
+                <div
+                  aria-hidden="true"
+                  className="bg-clay-soft/25 pointer-events-none absolute inset-4 rounded-full blur-2xl"
+                />
+                <Image
+                  src={seloGarantia}
+                  alt={`Selo de ${garantia.dias} dias de garantia`}
+                  sizes="(max-width: 768px) 176px, 224px"
+                  className="relative h-auto w-44 drop-shadow-xl md:w-56"
+                />
+              </div>
+            ) : (
+              /* Fallback em CSS — ver o comentário do DIAS_NO_SELO no topo. */
+              <div className="border-clay-soft/40 mx-auto flex h-36 w-36 shrink-0 flex-col items-center justify-center rounded-full border-2 text-center">
+                <ShieldCheck className="text-clay-soft h-9 w-9" />
+                {garantia.dias > 0 ? (
+                  <>
+                    <span className="font-display text-cream mt-1 text-4xl leading-none">
+                      {garantia.dias}
+                    </span>
+                    <span className="text-cream/70 text-xs tracking-widest uppercase">
+                      dias
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-clay-soft mt-2 px-3 text-[10px] leading-tight italic">
+                    ⚠️ definir garantia.dias
                   </span>
-                  <span className="text-cream/70 text-xs tracking-widest uppercase">
-                    dias
-                  </span>
-                </>
-              ) : (
-                <span className="text-clay-soft mt-2 px-3 text-[10px] leading-tight italic">
-                  ⚠️ definir garantia.dias
-                </span>
-              )}
-            </div>
+                )}
+              </div>
+            )}
 
             <div>
               <span className="text-clay-soft block text-xs font-semibold tracking-[0.25em] uppercase">

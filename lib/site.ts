@@ -102,6 +102,9 @@ export const entrega = {
 } as const
 
 export const garantia = {
+  // ⚠️ Este número também está desenhado dentro de public/selo-garantia.webp.
+  // Se mudar aqui, troque a arte — senão a seção esconde o selo e volta para o
+  // círculo em CSS (a trava está em components/sections/GuaranteeSection.tsx).
   dias: 7,
   titulo: 'Satisfação garantida ou seu dinheiro de volta',
   comoSolicitar: [

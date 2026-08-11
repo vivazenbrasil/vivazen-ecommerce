@@ -91,11 +91,11 @@ Um arquivo por bloco da home, na ordem em que aparecem na página. Todos são Se
 | `AboutSection.tsx` | Faixa verde escura apresentando a VivaZen, com três pilares e link para `/sobre`. |
 | `ProblemSection.tsx` | Os quatro problemas que o produto endereça (sono, ansiedade, energia, foco). Existe para o visitante se reconhecer antes de ouvir a solução. |
 | `ProductHighlightSection.tsx` | Quatro motivos para escolher o Livit, ao lado da foto da caixa. |
-| `NutritionalInfoSection.tsx` | **Client.** A tabela nutricional com lupa no hover e modal com zoom e arraste, mais o acordeão explicando cada nutriente. É o arquivo mais complexo do projeto — se for mexer, mexa com calma. |
+| `NutritionalInfoSection.tsx` | **Client.** A tabela nutricional com lupa no hover e modal com zoom e arraste, mais o acordeão explicando cada nutriente. É o arquivo mais complexo do projeto — se for mexer, mexa com calma. As duas `<Image>` daqui não têm `width`/`height` escritos na mão de propósito: o import é estático e o Next lê a dimensão do próprio arquivo. |
 | `HowToUseSection.tsx` | Modo de uso em três passos, prazo de resultado e como armazenar. Os textos vêm de `produto.modoDeUso` e **precisam bater com o rótulo aprovado**. |
 | `WarningsSection.tsx` | Advertências, contraindicações e o aviso da ANVISA. Obrigatório por lei para suplemento. |
 | `ShippingSection.tsx` | Entrega: postagem, rastreio, embalagem e a tabela de prazo por região — essa tabela só aparece se houver prazo preenchido em `entrega.prazos`. |
-| `GuaranteeSection.tsx` | Selo de garantia, como pedir reembolso e o aviso dos 7 dias do CDC. |
+| `GuaranteeSection.tsx` | Selo de garantia, como pedir reembolso e o aviso dos 7 dias do CDC. O selo é a arte `selo-garantia.webp`, e o número de dias está desenhado dentro dela — ver "Detalhes que parecem detalhe" no fim deste arquivo antes de mexer em `garantia.dias`. |
 | `TestimonialsSection.tsx` | Depoimentos. **Não renderiza nada enquanto `depoimentos` estiver vazio em `lib/site.ts`** — ver o aviso abaixo. |
 | `FaqSection.tsx` | **Client.** Acordeão com as dúvidas frequentes. As perguntas vêm do array `faq`. |
 | `FinalCtaSection.tsx` | Último CTA, com os reforços de garantia, rastreio e pagamento seguro. |
@@ -132,14 +132,18 @@ O arquivo de configuração. Exporta:
 |---|---|
 | `livit.jpeg` | Foto do hero da home. Também é a imagem de preview no OpenGraph. |
 | `livit_box.jpeg` | Foto da seção "Por que o Livit". |
-| `nutrition_information.jpeg` | A tabela nutricional. É a imagem da lupa e do modal — **não comprima demais**, ela precisa ficar legível no zoom. |
-| `capsulas-brinde.png` | Foto das duas mãos brindando, usada na `/sobre`. É o recorte de `image_capsules.png`. |
-| `image_capsules.png` | **Órfã.** Original de onde saiu o recorte acima. Nada aponta mais para ela, mas ela continua sendo publicada. Pode apagar. |
-| `capsula-vivazen.jpeg`, `logo.jpeg` | Não usadas em nenhum componente hoje. |
+| `nutrition_information.webp` | A tabela nutricional. É a imagem da lupa e do modal — **não comprima demais**, ela precisa ficar legível no zoom. 1122×1402. |
+| `capsulas-brinde.webp` | Foto das duas mãos brindando, usada na `/sobre`. 1492×700. |
+| `selo-garantia.webp` | O selo de "7 dias de garantia" da `GuaranteeSection`. Tem fundo transparente. |
+| `logo.webp` | **Não usada em nenhum componente hoje.** O cabeçalho usa o ícone de folha do lucide mais o nome em texto. Se for aproveitar essa arte, repare que ela tem fundo branco opaco e o cabeçalho é creme. |
 
-Sobre a `capsulas-brinde.png`: a original tinha 41% da altura em branco vazio (225px acima e 209px abaixo do conteúdo), o que fazia a imagem parecer solta no meio da página. O recorte tirou esse vazio. A proporção nativa dela é 1492×700.
+As imagens estão em WebP porque os originais pesavam demais para uma landing: o `selo_garantia.png` sozinho tinha 2,9 MB e virou 53 KB. Ao trocar qualquer uma delas, gere WebP também.
+
+Sobre a `capsulas-brinde.webp`: a foto original tinha 41% da altura em branco vazio (225px acima e 209px abaixo do conteúdo), o que fazia a imagem parecer solta no meio da página. O recorte tirou esse vazio, e é dessa proporção de 1492×700 que sai a classe `md:aspect-1492/700` na `/sobre`. Se trocar o arquivo, confira a proporção junto.
 
 Essa foto tem **fundo branco opaco**, sem transparência. É por isso que na `/sobre` ela fica numa faixa de fundo branco em vez de sobre o creme da página — assim o branco dela deixa de ser uma emenda visível e passa a ser o fundo da seção. Se você trocar essa foto, ou mantenha o fundo branco, ou ajuste a cor da faixa junto.
+
+O selo de garantia veio com 26% de cada lado em área transparente em volta do desenho. Ele foi recortado até o conteúdo antes de virar WebP — senão ele apareceria menor do que o tamanho reservado na tela e ligeiramente fora do eixo. Vale a mesma conferência para qualquer arte nova com transparência.
 
 ### Configuração na raiz
 
@@ -175,6 +179,10 @@ Duas fontes: **Geist** no texto corrido e **Fraunces** (itálico) nos títulos, 
 
 **`whitespace-nowrap` no `L-Triptofano` e no `L-Teanina`.** Por padrão o navegador pode quebrar a linha depois de um hífen que já existe no texto, e o `L-` ficava pendurado sozinho na borda. Se você citar outro ativo com hífen, faça o mesmo.
 
+**O número de dias da garantia está desenhado dentro do selo.** A arte `selo-garantia.webp` é um arquivo pronto com "7 DIAS" impresso; ela não é gerada a partir de `garantia.dias`. Por isso a `GuaranteeSection` tem a constante `DIAS_NO_SELO` e só mostra a imagem quando os dois números batem — se a garantia mudar para 30 dias e ninguém trocar a arte, a seção volta sozinha para um círculo desenhado em CSS. **Se você alterar `garantia.dias`, troque a arte e atualize `DIAS_NO_SELO` junto.** Prazo de garantia errado na tela é problema com o CDC, não detalhe de design.
+
+**Não escreva `width`/`height` em `<Image>` de import estático.** O Next já lê a dimensão do arquivo. A tabela nutricional estava declarada como 800×550 (proporção 1,45) sendo que o arquivo é 1122×1402 (0,80): o navegador reservava uma caixa deitada e pulava para a caixa em pé quando a imagem carregava. Escrever a dimensão na mão só cria uma cópia que envelhece sozinha na primeira vez que alguém trocar o arquivo.
+
 **O checkout é externo.** Todo botão avisa que o visitante vai para a Braip. Não tire esse aviso: ser jogado sem explicação num domínio `ev.braip.com` gera desconfiança e abandono.
 
 ## Pendências
@@ -182,8 +190,8 @@ Duas fontes: **Geist** no texto corrido e **Fraunces** (itálico) nos títulos, 
 - [ ] Preencher `entrega.prazos` em `lib/site.ts` — enquanto estiverem vazios, a tabela de prazo por região fica oculta no site (ver `ShippingSection.tsx`)
 - [ ] Preencher `produto.registroAnvisa`, se houver número de notificação
 - [ ] Instalar GA4 e Meta Pixel — hoje não há como medir nada do marketing. O `CtaButton` é o ponto único para o evento de clique
-- [ ] Converter as imagens para WebP (`capsulas-brinde.png` tem 922 KB)
-- [ ] Apagar `components/ui/Icons.tsx` e `public/image_capsules.png`, ambos sem uso
+- [ ] Converter para WebP também a `livit.jpeg` (237 KB) e a `livit_box.jpeg` (116 KB) — as outras já foram
+- [ ] Apagar `components/ui/Icons.tsx`, sem uso
 - [ ] Coletar depoimentos reais para ligar a `TestimonialsSection`
 - [ ] `app/sitemap.ts` e `app/robots.ts`
 - [ ] Imagem dedicada de OpenGraph em 1200×630 (hoje usa a `livit.jpeg`, que é quadrada e corta no preview do WhatsApp)

@@ -1,6 +1,6 @@
 import CtaButton from '@/components/ui/CtaButton'
 import { produto, site } from '@/lib/site'
-import capsulasBrinde from '@/public/capsulas-brinde.png'
+import capsulasBrinde from '@/public/capsulas-brinde.webp'
 import { FlaskConical, Leaf, Recycle, Sprout, Users } from 'lucide-react'
 import type { Metadata } from 'next'
 import Image from 'next/image'
@@ -85,13 +85,14 @@ export default function Sobre() {
 
       {/*
         FAIXA DA IMAGEM
-        A foto tem fundo branco opaco (PNG sem canal alpha), então ela vive numa
+        A foto tem fundo branco opaco (sem canal alpha), então ela vive numa
         faixa branca de largura total: o branco deixa de ser uma emenda visível
         sobre o creme e passa a ser o fundo da seção.
 
-        capsulas-brinde.png é o recorte de image_capsules.png — a original tinha
+        capsulas-brinde.webp é o recorte de image_capsules.png — a original tinha
         41% da altura em branco morto (225px acima, 209px abaixo do conteúdo).
-        Proporção nativa do recorte: 1492/700 ≈ 2.131.
+        Proporção nativa do recorte: 1492/700 ≈ 2.131 — é dela que sai a classe
+        `md:aspect-1492/700` abaixo. Se trocar o arquivo, confira a proporção.
 
         No mobile usamos uma caixa mais alta (3/2) com object-cover, o que corta
         as laterais e aproxima nos potes — senão os braços ficariam minúsculos.

@@ -1,4 +1,3 @@
-import { AlertTriangle } from 'lucide-react'
 import type { ReactNode } from 'react'
 
 interface LegalPageProps {
@@ -8,9 +7,11 @@ interface LegalPageProps {
 }
 
 /**
- * Casca das páginas institucionais.
- * O bloco de aviso serve de lembrete durante o desenvolvimento — remova-o
- * depois que um advogado revisar os textos.
+ * Casca das páginas institucionais (privacidade, termos, trocas e devoluções).
+ *
+ * Serve para as três não divergirem de cabeçalho e espaçamento com o tempo.
+ * Os textos foram revisados juridicamente — se alterar o conteúdo de qualquer
+ * uma delas, atualize a data em `atualizadoEm` na página correspondente.
  */
 export default function LegalPage({ titulo, atualizadoEm, children }: LegalPageProps) {
   return (
@@ -22,17 +23,7 @@ export default function LegalPage({ titulo, atualizadoEm, children }: LegalPageP
         Última atualização: {atualizadoEm}
       </p>
 
-      <div className="border-clay/25 bg-clay/5 mt-8 flex gap-3 rounded-xl border p-5">
-        <AlertTriangle className="text-clay mt-0.5 h-4 w-4 shrink-0" />
-        <p className="text-sm leading-relaxed text-stone-600">
-          <strong className="text-forest">Modelo-base para revisão.</strong> Este
-          texto cobre o essencial exigido pelo CDC e pela LGPD, mas precisa ser
-          revisado por um advogado e ter os dados da empresa preenchidos antes de
-          entrar no ar. Remova este aviso depois da revisão.
-        </p>
-      </div>
-
-      <div className="legal-prose mt-12 space-y-8">{children}</div>
+      <div className="mt-12 space-y-8">{children}</div>
     </div>
   )
 }

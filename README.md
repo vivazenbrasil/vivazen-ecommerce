@@ -70,7 +70,7 @@ O alias `@/` aponta para a raiz do projeto (`tsconfig.json`), então `@/lib/site
 | `trocas-e-devolucoes/page.tsx` | Política de trocas, devoluções e reembolso. |
 | `favicon.ico` | O Next encontra e usa esse arquivo automaticamente por estar aqui. |
 
-As três páginas legais são **modelos-base que ainda precisam de revisão de um advogado**. Cada uma mostra um aviso laranja no topo dizendo isso. Depois da revisão, remova esse aviso editando `components/layout/LegalPage.tsx` (é o bloco com o ícone `AlertTriangle`) — mexer num lugar tira das três.
+As três páginas legais já passaram por revisão jurídica. Se você alterar o conteúdo de alguma delas, atualize a data no `atualizadoEm` daquela página.
 
 ### `components/layout/`
 
@@ -181,7 +181,6 @@ Duas fontes: **Geist** no texto corrido e **Fraunces** (itálico) nos títulos, 
 
 - [ ] Preencher `entrega.prazos` em `lib/site.ts` — enquanto estiverem vazios, a tabela de prazo por região fica oculta no site (ver `ShippingSection.tsx`)
 - [ ] Preencher `produto.registroAnvisa`, se houver número de notificação
-- [ ] Revisão jurídica das três páginas legais e remoção do aviso em `LegalPage.tsx`
 - [ ] Instalar GA4 e Meta Pixel — hoje não há como medir nada do marketing. O `CtaButton` é o ponto único para o evento de clique
 - [ ] Converter as imagens para WebP (`capsulas-brinde.png` tem 922 KB)
 - [ ] Apagar `components/ui/Icons.tsx` e `public/image_capsules.png`, ambos sem uso

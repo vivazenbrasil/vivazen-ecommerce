@@ -1,47 +1,31 @@
-'use client'
-
-import nutrition_information from '@/public/nutrition_information.jpeg';
-import AboutSection from './AboutSection';
-import HeroSection from './HeroSection';
-import NutritionalInfoSection from './NutritionalInfoSection';
-import ProductHighlightSection from './ProductHighlightSection';
+import AboutSection from '@/components/sections/AboutSection'
+import FaqSection from '@/components/sections/FaqSection'
+import FinalCtaSection from '@/components/sections/FinalCtaSection'
+import GuaranteeSection from '@/components/sections/GuaranteeSection'
+import HeroSection from '@/components/sections/HeroSection'
+import HowToUseSection from '@/components/sections/HowToUseSection'
+import NutritionalInfoSection from '@/components/sections/NutritionalInfoSection'
+import ProblemSection from '@/components/sections/ProblemSection'
+import ProductHighlightSection from '@/components/sections/ProductHighlightSection'
+import ShippingSection from '@/components/sections/ShippingSection'
+import TestimonialsSection from '@/components/sections/TestimonialsSection'
+import WarningsSection from '@/components/sections/WarningsSection'
 
 export default function Home() {
-  const linktreeUrl = "https://ev.braip.com/checkout/plakqv0l/che74r9l?currency=BRL";
-  
-  const nutrientes = [
-    {
-      nome: 'L-Triptofano',
-      descricao: 'Aminoácido essencial que auxilia na produção de serotonina, um neurotransmissor que regula o humor, o sono e o apetite. Ajuda a combater o estresse e a ansiedade.'
-    },
-    {
-      nome: 'L-Teanina',
-      descricao: 'Encontrada no chá verde, a L-Teanina promove relaxamento sem causar sonolência. Melhora o foco, a concentração e reduz a sensação de estresse.'
-    },
-    {
-      nome: 'Magnésio',
-      descricao: 'Mineral crucial para mais de 300 reações bioquímicas no corpo. Auxilia na função muscular e nervosa, regula a pressão arterial e contribui para a saúde óssea.'
-    },
-    {
-      nome: 'Vitamina B3 (Niacina)',
-      descricao: 'Essencial para o metabolismo energético, ajuda a converter alimentos em energia. Contribui para a saúde da pele, do sistema nervoso e para a regulação do colesterol.'
-    },
-    {
-      nome: 'Inositol',
-      descricao: 'Componente do complexo B, o Inositol desempenha um papel na comunicação celular e na resposta à insulina, auxiliando no equilíbrio hormonal e no bem-estar mental.'
-    },
-    {
-      nome: 'Vitamina D3 (Colecalciferol)',
-      descricao: 'Fundamental para a absorção de cálcio e fósforo, fortalecendo ossos e dentes. Também desempenha um papel vital no funcionamento do sistema imunológico e muscular.'
-    }
-  ];
-
   return (
     <>
-      <HeroSection linktreeUrl={linktreeUrl} />
+      <HeroSection />
       <AboutSection />
-      <ProductHighlightSection linktreeUrl={linktreeUrl} />
-      <NutritionalInfoSection tabelaNutricional={nutrition_information} nutrientes={nutrientes} />
+      <ProblemSection />
+      <ProductHighlightSection />
+      <NutritionalInfoSection />
+      <HowToUseSection />
+      <WarningsSection />
+      <ShippingSection />
+      <GuaranteeSection />
+      <TestimonialsSection />
+      <FaqSection />
+      <FinalCtaSection />
     </>
-  );
+  )
 }

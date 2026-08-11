@@ -1,5 +1,10 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# nunca versionar binários — e nada em public/ deve ser executável,
+# senão fica baixável publicamente no site
+*.exe
+*.msi
+
 # dependencies
 /node_modules
 /.pnp

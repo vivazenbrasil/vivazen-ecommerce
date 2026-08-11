@@ -1,9 +1,28 @@
 @import "tailwindcss";
 
 @theme {
-  --color-zen-olive: #9fa378;
-  --color-zen-creme: #e6dfd1;
-  --color-zen-salvia: #ced1b4;
-  --color-zen-dark: #3a3d36;
-  --color-zen-shadow: #7a7f53;
+  /* Paleta VivaZen */
+  --color-forest: #1e3a2b;
+  --color-forest-soft: #2f5340;
+  --color-cream: #eaf0e1;
+  --color-cream-deep: #dde6d0;
+  --color-clay: #b2794a;
+  --color-clay-soft: #c9986f;
+  --color-sand: #ddd0c2;
+
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-geist-sans);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Respeita quem prefere menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }

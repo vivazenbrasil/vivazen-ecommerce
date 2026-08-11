@@ -63,14 +63,24 @@ export default function ShippingSection() {
           ))}
         </div>
 
-        {/* Tabela de prazos por região */}
-        <div className="border-sand mt-12 overflow-hidden rounded-2xl border">
-          <div className="bg-cream border-sand text-forest flex items-center gap-2 border-b px-6 py-4 font-semibold">
-            <MapPin className="text-clay h-4 w-4" />
-            Prazo médio por região
-          </div>
+        {/*
+          Tabela de prazos por região.
 
-          {prazosPreenchidos.length > 0 ? (
+          Só aparece quando existe pelo menos um prazo preenchido em
+          `entrega.prazos` (lib/site.ts). Enquanto estiverem todos vazios, o
+          bloco inteiro fica fora do ar: prometer prazo sem ter o número é pior
+          do que não falar de prazo, e o checkout da Braip já calcula o prazo
+          real para o CEP do cliente — o que a descrição da seção acima explica.
+
+          Para religar, basta preencher os prazos. Nada mais precisa mudar aqui.
+        */}
+        {prazosPreenchidos.length > 0 && (
+          <div className="border-sand mt-12 overflow-hidden rounded-2xl border">
+            <div className="bg-cream border-sand text-forest flex items-center gap-2 border-b px-6 py-4 font-semibold">
+              <MapPin className="text-clay h-4 w-4" />
+              Prazo médio por região
+            </div>
+
             <ul className="divide-sand/60 divide-y">
               {prazosPreenchidos.map((item) => (
                 <li
@@ -82,17 +92,14 @@ export default function ShippingSection() {
                 </li>
               ))}
             </ul>
-          ) : (
-            <p className="text-clay px-6 py-6 text-sm italic">
-              ⚠️ Preencher os prazos por região em lib/site.ts (campo `entrega.prazos`).
-            </p>
-          )}
 
-          <p className="border-sand/60 border-t px-6 py-4 text-xs leading-relaxed text-stone-500">
-            Prazos contados em dias úteis após a postagem e válidos para capitais e
-            regiões metropolitanas. Cidades do interior podem ter prazo adicional.
-          </p>
-        </div>
+            <p className="border-sand/60 border-t px-6 py-4 text-xs leading-relaxed text-stone-500">
+              Prazos contados em dias úteis após a postagem e válidos para
+              capitais e regiões metropolitanas. Cidades do interior podem ter
+              prazo adicional.
+            </p>
+          </div>
+        )}
 
         {entrega.freteGratisAcima && (
           <p className="bg-forest text-cream mt-6 rounded-2xl px-6 py-4 text-center font-medium">

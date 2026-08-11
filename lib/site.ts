@@ -168,7 +168,7 @@ export const faq = [
   {
     pergunta: 'Em quanto tempo chega?',
     resposta:
-      'O prazo varia conforme a sua região e aparece calculado no checkout, junto com o valor do frete, antes de você finalizar a compra. Os prazos médios por região estão na seção "Entrega" desta página.',
+      'O prazo varia conforme a sua região e aparece calculado no checkout, junto com o valor do frete, antes de você finalizar a compra. Depois da postagem você recebe o código de rastreio para acompanhar a entrega.',
   },
   {
     pergunta: 'A compra é segura? Por que sou direcionado para outro site?',

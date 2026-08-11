@@ -94,7 +94,7 @@ Um arquivo por bloco da home, na ordem em que aparecem na página. Todos são Se
 | `NutritionalInfoSection.tsx` | **Client.** A tabela nutricional com lupa no hover e modal com zoom e arraste, mais o acordeão explicando cada nutriente. É o arquivo mais complexo do projeto — se for mexer, mexa com calma. |
 | `HowToUseSection.tsx` | Modo de uso em três passos, prazo de resultado e como armazenar. Os textos vêm de `produto.modoDeUso` e **precisam bater com o rótulo aprovado**. |
 | `WarningsSection.tsx` | Advertências, contraindicações e o aviso da ANVISA. Obrigatório por lei para suplemento. |
-| `ShippingSection.tsx` | Entrega: postagem, rastreio, embalagem e a tabela de prazo por região. |
+| `ShippingSection.tsx` | Entrega: postagem, rastreio, embalagem e a tabela de prazo por região — essa tabela só aparece se houver prazo preenchido em `entrega.prazos`. |
 | `GuaranteeSection.tsx` | Selo de garantia, como pedir reembolso e o aviso dos 7 dias do CDC. |
 | `TestimonialsSection.tsx` | Depoimentos. **Não renderiza nada enquanto `depoimentos` estiver vazio em `lib/site.ts`** — ver o aviso abaixo. |
 | `FaqSection.tsx` | **Client.** Acordeão com as dúvidas frequentes. As perguntas vêm do array `faq`. |
@@ -179,7 +179,7 @@ Duas fontes: **Geist** no texto corrido e **Fraunces** (itálico) nos títulos, 
 
 ## Pendências
 
-- [ ] Preencher `entrega.prazos` em `lib/site.ts` — os três prazos por região estão vazios e a página mostra o ⚠️
+- [ ] Preencher `entrega.prazos` em `lib/site.ts` — enquanto estiverem vazios, a tabela de prazo por região fica oculta no site (ver `ShippingSection.tsx`)
 - [ ] Preencher `produto.registroAnvisa`, se houver número de notificação
 - [ ] Revisão jurídica das três páginas legais e remoção do aviso em `LegalPage.tsx`
 - [ ] Instalar GA4 e Meta Pixel — hoje não há como medir nada do marketing. O `CtaButton` é o ponto único para o evento de clique

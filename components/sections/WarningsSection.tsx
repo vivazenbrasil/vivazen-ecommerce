@@ -13,7 +13,12 @@ export default function WarningsSection() {
 
           <ul className="mt-6 space-y-3.5">
             {produto.contraindicacoes.map((item) => (
-              <li key={item} className="flex gap-3 leading-relaxed text-stone-700">
+              <li
+                key={item}
+                className={`flex gap-3 leading-relaxed text-stone-700 ${
+                  item.startsWith('ALÉRGICOS') ? 'font-bold' : ''
+                }`}
+              >
                 <span className="bg-clay mt-2 h-1.5 w-1.5 shrink-0 rounded-full" />
                 {item}
               </li>

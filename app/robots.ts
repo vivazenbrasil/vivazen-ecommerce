@@ -4,7 +4,7 @@ import type { MetadataRoute } from 'next'
 /**
  * Gera o /robots.txt.
  *
- * ⚠️ `robots.txt` NÃO é mecanismo de segurança — é um índice público, e é o
+ * ATENÇÃO: `robots.txt` NÃO é mecanismo de segurança — é um índice público, e é o
  * primeiro arquivo que scanner automatizado lê. Nunca liste aqui um caminho que
  * você quer esconder: escrever `Disallow: /admin` anuncia que existe um /admin.
  * Página que não pode ser vista precisa de senha, não de um pedido ao robô.

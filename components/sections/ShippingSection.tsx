@@ -56,7 +56,9 @@ export default function ShippingSection() {
               </h3>
               <p className="mt-2.5 leading-relaxed text-stone-600">
                 {card.texto || (
-                  <span className="text-clay italic">⚠️ {card.aviso}</span>
+                  <span className="text-clay italic">
+                    [falta preencher] {card.aviso}
+                  </span>
                 )}
               </p>
             </div>

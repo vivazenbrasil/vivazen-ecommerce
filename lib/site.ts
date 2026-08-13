@@ -2,7 +2,7 @@
  * Fonte única de verdade dos dados da VivaZen.
  * Tudo que aparece no site vem daqui — altere só neste arquivo.
  *
- * ⚠️ Os campos marcados com CONFIRMAR são obrigatórios por lei (ANVISA / CDC / LGPD)
+ * ATENÇÃO: os campos marcados com CONFIRMAR são obrigatórios por lei (ANVISA / CDC / LGPD)
  * ou impactam diretamente a conversão. Preencha antes de publicar.
  */
 
@@ -107,7 +107,7 @@ export const entrega = {
 } as const
 
 export const garantia = {
-  // ⚠️ Este número também está desenhado dentro de public/selo-garantia.webp.
+  // ATENÇÃO: este número também está desenhado dentro de public/selo-garantia.webp.
   // Se mudar aqui, troque a arte — senão a seção esconde o selo e volta para o
   // círculo em CSS (a trava está em components/sections/GuaranteeSection.tsx).
   dias: 7,
@@ -156,7 +156,7 @@ export const nutrientes = [
 ] as const
 
 /**
- * ⚠️ SOMENTE DEPOIMENTOS REAIS.
+ * ATENÇÃO: SOMENTE DEPOIMENTOS REAIS.
  * Inventar avaliação de cliente é propaganda enganosa (art. 37 do CDC) e a Meta
  * derruba anúncio por isso. Preencha com prints/mensagens que você realmente
  * recebeu e tenha autorização de uso. Enquanto o array estiver vazio, a seção

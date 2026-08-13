@@ -28,7 +28,7 @@ Todo dado de negócio do site — nome do produto, preço, prazos de entrega, di
 
 Se você precisa mudar um preço, um prazo ou um número de telefone, **é nesse arquivo e só nesse arquivo**. Mudar lá atualiza a home, as páginas legais, o rodapé e o SEO de uma vez.
 
-Campos ainda não preenchidos aparecem como um aviso laranja com ⚠️ na própria tela, de propósito. Isso é para o campo faltando não passar batido até a produção. Se você ver um ⚠️ no site, é um campo vazio em `lib/site.ts`, não um bug.
+Campos ainda não preenchidos aparecem como um aviso laranja em itálico, `[falta preencher]`, na própria tela, de propósito. Isso é para o campo faltando não passar batido até a produção. Se você ver um `[falta preencher]` no site, é um campo vazio em `lib/site.ts`, não um bug.
 
 ### Cuidado ao editar `lib/site.ts`
 
@@ -39,7 +39,7 @@ Os objetos exportados usam `as const`. Isso faz o TypeScript tratar cada texto c
 // esse literal nunca pode ser falso, então o TS conclui que o ramo do || é
 // inalcançável, colapsa o tipo para `never`, e qualquer acesso a propriedade ali
 // vira erro de compilação
-{card.texto || <span>⚠️ {card.aviso}</span>}
+{card.texto || <span>[falta preencher] {card.aviso}</span>}
 ```
 
 Onde esse padrão de "mostra aviso se estiver vazio" existe, o array é **tipado explicitamente com `string`** para manter o guard alcançável. Ver `components/sections/ShippingSection.tsx` — o comentário no topo do arquivo explica. Se você criar um guard novo desse tipo, faça o mesmo, senão o build quebra no dia em que alguém preencher o campo.
@@ -190,6 +190,8 @@ Duas fontes: **Geist** no texto corrido e **Fraunces** (itálico) nos títulos, 
 **A `og-image.jpg` tem três regras, e todas as três são obrigatórias.** Ela é a imagem que aparece quando alguém cola o link do site num grupo de WhatsApp — para um produto vendido por link, é uma das imagens mais vistas da marca, e ninguém nunca a vê no site. As regras: **1200×630** de verdade (antes o `og:image` apontava para uma foto quase quadrada declarada como 1200×630, e o WhatsApp cortava o produto no meio); **JPEG**, porque o robô do WhatsApp não é confiável com WebP; e **abaixo de 300 KB**, que é o limite acima do qual ele desiste e não mostra preview nenhum. Depois de trocar, teste colando o link num grupo — não confie no código.
 
 **O `site.url` leva `www`.** Na Vercel o domínio principal é o `www.vivazenbrasil.com.br`, e o endereço sem `www` responde 308 redirecionando para ele. O `canonical` tem que apontar para a URL final, que não redireciona — por isso o valor em `lib/site.ts` tem o `www`. Se você inverter o principal na Vercel, inverta lá também, senão o site declara ao Google um endereço diferente daquele que o servidor entrega.
+
+**Sem emoji em nenhum lugar.** Nem na tela, nem em comentário, nem aqui, nem em mensagem de commit. Este é um site que vende: emoji num aviso ou num título destoa da identidade (verde escuro, terracota, Fraunces itálico) e custa credibilidade justamente na página que foi feita para construir credibilidade. Onde é preciso chamar atenção, use rótulo em texto — `[falta preencher]` na tela, `ATENÇÃO:` em comentário. Havia um triângulo de alerta em três avisos de campo vazio que renderizavam na tela de produção; foram trocados.
 
 **O checkout é externo.** Todo botão avisa que o visitante vai para a Braip. Não tire esse aviso: ser jogado sem explicação num domínio `ev.braip.com` gera desconfiança e abandono.
 

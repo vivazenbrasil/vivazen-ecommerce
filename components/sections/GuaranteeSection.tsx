@@ -60,7 +60,7 @@ export default function GuaranteeSection() {
                   </>
                 ) : (
                   <span className="text-clay-soft mt-2 px-3 text-[10px] leading-tight italic">
-                    ⚠️ definir garantia.dias
+                    [falta definir garantia.dias]
                   </span>
                 )}
               </div>

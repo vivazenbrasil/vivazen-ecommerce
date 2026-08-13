@@ -41,7 +41,8 @@ export default function HowToUseSection() {
                   <p className="mt-2.5 leading-relaxed text-stone-600">
                     {passo.texto || (
                       <span className="text-clay italic">
-                        ⚠️ Preencher em lib/site.ts — deve bater com o rótulo aprovado
+                        [falta preencher] Em lib/site.ts — deve bater com o
+                        rótulo aprovado
                       </span>
                     )}
                   </p>

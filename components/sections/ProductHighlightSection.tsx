@@ -1,6 +1,6 @@
 import CtaButton from '@/components/ui/CtaButton'
 import { produto } from '@/lib/site'
-import livit_box from '@/public/livit_box.jpeg'
+import livit_box from '@/public/livit_box.webp'
 import Image from 'next/image'
 
 const motivos = [

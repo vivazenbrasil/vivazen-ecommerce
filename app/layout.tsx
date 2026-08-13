@@ -45,13 +45,30 @@ export const metadata: Metadata = {
     siteName: site.nome,
     title: `${site.nome} — ${produto.promessa}`,
     description: site.descricao,
-    images: [{ url: '/livit.jpeg', width: 1200, height: 630, alt: `${produto.nome} — ${site.nome}` }],
+    /*
+      og-image.jpg existe só para isso: é a imagem do preview quando alguém
+      compartilha o link no WhatsApp, no Instagram ou no Facebook.
+
+      Ela é 1200x630 de verdade. Antes aqui estava a livit.jpeg, que é 1448x1086
+      (quase quadrada) declarada como 1200x630 — o WhatsApp cortava o produto
+      pela metade. Se trocar a arte, mantenha as três coisas: 1200x630, JPEG (o
+      robô do WhatsApp não é confiável com WebP) e abaixo de 300 KB, que é o
+      limite acima do qual ele simplesmente não mostra preview nenhum.
+    */
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: `${produto.nome} — ${site.nome}`,
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: `${site.nome} — ${produto.promessa}`,
     description: site.descricao,
-    images: ['/livit.jpeg'],
+    images: ['/og-image.jpg'],
   },
   robots: { index: true, follow: true },
 }
@@ -73,7 +90,7 @@ const jsonLd = {
       name: produto.nome,
       category: produto.categoria,
       description: site.descricao,
-      image: `${site.url}/livit.jpeg`,
+      image: `${site.url}/og-image.jpg`,
       brand: { '@type': 'Brand', name: site.nome },
     },
   ],

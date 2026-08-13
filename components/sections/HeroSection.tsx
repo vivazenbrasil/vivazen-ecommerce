@@ -1,6 +1,6 @@
 import CtaButton from '@/components/ui/CtaButton'
 import { produto } from '@/lib/site'
-import livit from '@/public/livit.jpeg'
+import livit from '@/public/livit.webp'
 import { Check, Leaf } from 'lucide-react'
 import Image from 'next/image'
 

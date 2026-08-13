@@ -55,7 +55,7 @@ lib/                    dados e configuração
 public/                 imagens
 ```
 
-O alias `@/` aponta para a raiz do projeto (`tsconfig.json`), então `@/lib/site` e `@/public/livit.jpeg` funcionam de qualquer arquivo.
+O alias `@/` aponta para a raiz do projeto (`tsconfig.json`), então `@/lib/site` e `@/public/livit.webp` funcionam de qualquer arquivo.
 
 ### `app/`
 
@@ -112,7 +112,6 @@ O array `depoimentos` em `lib/site.ts` está vazio de propósito, e a seção so
 |---|---|
 | `CtaButton.tsx` | O botão de compra, usado em toda parte. Tem duas variantes de cor (fundo claro e fundo escuro) e a opção `comAviso`, que mostra embaixo o texto explicando que o checkout acontece na Braip. Como todo CTA passa por aqui, este é o ponto único para plugar rastreamento de conversão depois. |
 | `SectionHeading.tsx` | O cabeçalho padrão de seção: o texto pequeno em maiúsculas, o título em Fraunces itálico e a descrição. Serve para as seções não divergirem de espaçamento e tamanho ao longo do tempo. |
-| `Icons.tsx` | **Arquivo morto.** Só re-exporta ícones do lucide-react e nada no projeto importa ele. Pode apagar. |
 
 ### `lib/site.ts`
 
@@ -128,16 +127,19 @@ O arquivo de configuração. Exporta:
 
 ### `public/`
 
-| Arquivo | Uso |
-|---|---|
-| `livit.jpeg` | Foto do hero da home. Também é a imagem de preview no OpenGraph. |
-| `livit_box.jpeg` | Foto da seção "Por que o Livit". |
-| `nutrition_information.webp` | A tabela nutricional. É a imagem da lupa e do modal — **não comprima demais**, ela precisa ficar legível no zoom. 1122×1402. |
-| `capsulas-brinde.webp` | Foto das duas mãos brindando, usada na `/sobre`. 1492×700. |
-| `selo-garantia.webp` | O selo de "7 dias de garantia" da `GuaranteeSection`. Tem fundo transparente. |
-| `logo.webp` | **Não usada em nenhum componente hoje.** O cabeçalho usa o ícone de folha do lucide mais o nome em texto. Se for aproveitar essa arte, repare que ela tem fundo branco opaco e o cabeçalho é creme. |
+| Arquivo | Peso | Uso |
+|---|---|---|
+| `livit.webp` | 73 KB | Foto do hero da home. 1448×1086. |
+| `livit_box.webp` | 85 KB | Foto da seção "Por que o Livit". |
+| `nutrition_information.webp` | 154 KB | A tabela nutricional. É a imagem da lupa e do modal — **não comprima demais**, ela precisa ficar legível no zoom. 1122×1402. |
+| `capsulas-brinde.webp` | 49 KB | Foto das duas mãos brindando, usada na `/sobre`. 1492×700. |
+| `selo-garantia.webp` | 53 KB | O selo de "7 dias de garantia" da `GuaranteeSection`. Tem fundo transparente. |
+| `og-image.jpg` | 72 KB | **Só para preview de link.** Nenhuma página mostra essa imagem — ela existe para o WhatsApp, o Instagram e o Facebook. Ver a regra dela em "Detalhes que parecem detalhe". |
+| `logo.webp` | 28 KB | **Não usada em nenhum componente hoje.** O cabeçalho usa o ícone de folha do lucide mais o nome em texto. Se for aproveitar essa arte, repare que ela tem fundo branco opaco e o cabeçalho é creme. |
 
-As imagens estão em WebP porque os originais pesavam demais para uma landing: o `selo_garantia.png` sozinho tinha 2,9 MB e virou 53 KB. Ao trocar qualquer uma delas, gere WebP também.
+Tudo em WebP menos a `og-image.jpg`, e por um motivo: os originais pesavam demais para uma landing. A arte original do selo, em PNG, tinha 2,9 MB e virou 53 KB; a `capsulas-brinde` tinha sido salva em modo lossless e caiu de 652 KB para 49 KB. Ao trocar qualquer imagem, gere WebP — **exceto** a de preview de link.
+
+Vale saber por que a economia é tão grande: WebP tem dois modos, lossless e lossy. Lossless é o certo para logo, ícone e desenho de traço; para foto ele guarda pixel por pixel e o arquivo fica maior que um JPEG. Se você gerar um WebP de foto e ele vier com centenas de KB, é quase certo que saiu em lossless.
 
 Sobre a `capsulas-brinde.webp`: a foto original tinha 41% da altura em branco vazio (225px acima e 209px abaixo do conteúdo), o que fazia a imagem parecer solta no meio da página. O recorte tirou esse vazio, e é dessa proporção de 1492×700 que sai a classe `md:aspect-1492/700` na `/sobre`. Se trocar o arquivo, confira a proporção junto.
 
@@ -149,7 +151,7 @@ O selo de garantia veio com 26% de cada lado em área transparente em volta do d
 
 | Arquivo | O que faz |
 |---|---|
-| `next.config.ts` | Sem customização, só o default do Next. |
+| `next.config.ts` | Só os headers de segurança — ver a seção "Segurança" mais abaixo. Cada header tem o comentário explicando o que ele fecha. |
 | `postcss.config.mjs` | Registra o plugin do Tailwind v4. Não precisa mexer. |
 | `eslint.config.mjs` | ESLint com as regras do Next (core-web-vitals + typescript). |
 | `tsconfig.json` | TypeScript em modo `strict`, com o alias `@/*` apontando para a raiz. |
@@ -183,15 +185,36 @@ Duas fontes: **Geist** no texto corrido e **Fraunces** (itálico) nos títulos, 
 
 **Não escreva `width`/`height` em `<Image>` de import estático.** O Next já lê a dimensão do arquivo. A tabela nutricional estava declarada como 800×550 (proporção 1,45) sendo que o arquivo é 1122×1402 (0,80): o navegador reservava uma caixa deitada e pulava para a caixa em pé quando a imagem carregava. Escrever a dimensão na mão só cria uma cópia que envelhece sozinha na primeira vez que alguém trocar o arquivo.
 
+**A `og-image.jpg` tem três regras, e todas as três são obrigatórias.** Ela é a imagem que aparece quando alguém cola o link do site num grupo de WhatsApp — para um produto vendido por link, é uma das imagens mais vistas da marca, e ninguém nunca a vê no site. As regras: **1200×630** de verdade (antes o `og:image` apontava para uma foto quase quadrada declarada como 1200×630, e o WhatsApp cortava o produto no meio); **JPEG**, porque o robô do WhatsApp não é confiável com WebP; e **abaixo de 300 KB**, que é o limite acima do qual ele desiste e não mostra preview nenhum. Depois de trocar, teste colando o link num grupo — não confie no código.
+
+**O `site.url` leva `www`.** Na Vercel o domínio principal é o `www.vivazenbrasil.com.br`, e o endereço sem `www` responde 308 redirecionando para ele. O `canonical` tem que apontar para a URL final, que não redireciona — por isso o valor em `lib/site.ts` tem o `www`. Se você inverter o principal na Vercel, inverta lá também, senão o site declara ao Google um endereço diferente daquele que o servidor entrega.
+
 **O checkout é externo.** Todo botão avisa que o visitante vai para a Braip. Não tire esse aviso: ser jogado sem explicação num domínio `ev.braip.com` gera desconfiança e abandono.
+
+## Segurança
+
+O site é estático: não tem rota de API, server action, middleware, banco, login nem formulário. Isso não é pouco — é o que faz a superfície de ataque ser praticamente nula. Não existe injeção de SQL onde não há SQL, nem vazamento de cadastro onde não há cadastro. **Ao adicionar qualquer uma dessas coisas, essa garantia cai por terra e a conta precisa ser refeita** — em particular o CSP, que hoje é frouxo de propósito (só `frame-ancestors`) porque não há entrada de dado nesta origem.
+
+Os headers ficam em `next.config.ts`, com o comentário de cada um. O que eles cobrem: enquadramento da página em iframe de terceiro (o golpe de sobrepor um botão de compra falso), sniffing de tipo de conteúdo, vazamento de URL completa no referer ao sair para o checkout, e acesso a câmera/microfone/localização/pagamento.
+
+Duas coisas que nenhum header resolve, e que valem mais que todas elas juntas:
+
+- **O acesso ao GitHub e à Vercel.** Quem entra numa dessas duas contas muda o site no ar. 2FA nas duas.
+- **Clone da página.** O HTML é público por definição; qualquer um copia a landing, troca o link do checkout e roda anúncio em cima. É o golpe comum com produto de plataforma de afiliado. A defesa é vigilância e denúncia, não código.
+
+Não há rastreamento instalado — nem GA4, nem Pixel, nem cookie de terceiro. Como consequência, o site **não coleta dado nenhum de visitante**, e a exposição à LGPD é praticamente zero. Se um dia entrar analytics, passa a precisar de banner de consentimento.
 
 ## Pendências
 
 - [ ] Preencher `entrega.prazos` em `lib/site.ts` — enquanto estiverem vazios, a tabela de prazo por região fica oculta no site (ver `ShippingSection.tsx`)
+- [ ] Preencher `entrega.freteGratisAcima`, se existir frete grátis
 - [ ] Preencher `produto.registroAnvisa`, se houver número de notificação
-- [ ] Instalar GA4 e Meta Pixel — hoje não há como medir nada do marketing. O `CtaButton` é o ponto único para o evento de clique
-- [ ] Converter para WebP também a `livit.jpeg` (237 KB) e a `livit_box.jpeg` (116 KB) — as outras já foram
-- [ ] Apagar `components/ui/Icons.tsx`, sem uso
-- [ ] Coletar depoimentos reais para ligar a `TestimonialsSection`
-- [ ] `app/sitemap.ts` e `app/robots.ts`
-- [ ] Imagem dedicada de OpenGraph em 1200×630 (hoje usa a `livit.jpeg`, que é quadrada e corta no preview do WhatsApp)
+- [ ] Coletar depoimentos reais para ligar a `TestimonialsSection` — é a maior lacuna de conversão do site hoje
+- [ ] Validar o layout no celular de verdade, olhando a tela. Isso nunca foi feito: as medidas de texto do hero foram tiradas do DOM, não de um aparelho
+
+### Decidido não fazer
+
+Não são esquecimento, foram descartados de propósito:
+
+- **`app/sitemap.ts` e `app/robots.ts`** — com 6 páginas, todas alcançáveis pelo menu e pelo rodapé, o Google acha tudo seguindo link. O ganho seria achar mais rápido, não ser encontrado. Se o site crescer para dezenas de páginas, vale reabrir.
+- **GA4 e Meta Pixel** — não há campanha paga rodando. Enquanto não houver, medir não muda decisão nenhuma, e instalar criaria obrigação de consentimento de cookie. O `CtaButton` é o ponto único por onde todo CTA passa, então é lá que o evento entra no dia que fizer sentido.

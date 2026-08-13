@@ -10,7 +10,12 @@ export const site = {
   nome: 'VivaZen',
   // Alimenta metadataBase, canonical, OpenGraph e JSON-LD. Se mudar de domínio,
   // é aqui — todas as URLs absolutas do SEO derivam deste valor.
-  url: 'https://vivazenbrasil.com.br',
+  //
+  // O `www` não é enfeite: na Vercel o domínio principal é o com www, e o sem
+  // www responde 308 redirecionando para ele. O canonical tem que apontar para a
+  // URL final, que não redireciona. Se algum dia inverter o principal na Vercel,
+  // inverta aqui também.
+  url: 'https://www.vivazenbrasil.com.br',
   tagline: 'A natureza em sua forma mais pura',
   descricao:
     'Suplemento natural para quem busca equilíbrio, sono de qualidade e menos estresse no dia a dia. Fórmula com L-Triptofano, L-Teanina, Magnésio e vitaminas.',

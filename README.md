@@ -68,6 +68,8 @@ O alias `@/` aponta para a raiz do projeto (`tsconfig.json`), então `@/lib/site
 | `politica-de-privacidade/page.tsx` | Política de privacidade (LGPD). |
 | `termos-de-uso/page.tsx` | Termos de uso. |
 | `trocas-e-devolucoes/page.tsx` | Política de trocas, devoluções e reembolso. |
+| `sitemap.ts` | Gera o `/sitemap.xml`. A lista de rotas é escrita na mão — **ao criar uma página nova, acrescente ela lá**, nada avisa se esquecer. |
+| `robots.ts` | Gera o `/robots.txt`. Libera tudo e aponta o sitemap. |
 | `favicon.ico` | O Next encontra e usa esse arquivo automaticamente por estar aqui. |
 
 As três páginas legais já passaram por revisão jurídica. Se você alterar o conteúdo de alguma delas, atualize a data no `atualizadoEm` daquela página.
@@ -204,6 +206,8 @@ Duas coisas que nenhum header resolve, e que valem mais que todas elas juntas:
 
 Não há rastreamento instalado — nem GA4, nem Pixel, nem cookie de terceiro. Como consequência, o site **não coleta dado nenhum de visitante**, e a exposição à LGPD é praticamente zero. Se um dia entrar analytics, passa a precisar de banner de consentimento.
 
+Um detalhe sobre o `robots.txt`, que costuma ser mal entendido: **ele não protege nada.** É um índice público, e é o primeiro arquivo que scanner automatizado abre. Escrever `Disallow: /qualquer-coisa` ali não esconde a página — anuncia que ela existe, e só os robôs honestos obedecem. Nunca liste caminho privado no `app/robots.ts`. O que não pode ser visto precisa de senha.
+
 ## Pendências
 
 - [ ] Preencher `entrega.prazos` em `lib/site.ts` — enquanto estiverem vazios, a tabela de prazo por região fica oculta no site (ver `ShippingSection.tsx`)
@@ -216,5 +220,4 @@ Não há rastreamento instalado — nem GA4, nem Pixel, nem cookie de terceiro. 
 
 Não são esquecimento, foram descartados de propósito:
 
-- **`app/sitemap.ts` e `app/robots.ts`** — com 6 páginas, todas alcançáveis pelo menu e pelo rodapé, o Google acha tudo seguindo link. O ganho seria achar mais rápido, não ser encontrado. Se o site crescer para dezenas de páginas, vale reabrir.
 - **GA4 e Meta Pixel** — não há campanha paga rodando. Enquanto não houver, medir não muda decisão nenhuma, e instalar criaria obrigação de consentimento de cookie. O `CtaButton` é o ponto único por onde todo CTA passa, então é lá que o evento entra no dia que fizer sentido.

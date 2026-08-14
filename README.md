@@ -91,6 +91,7 @@ Um arquivo por bloco da home, na ordem em que aparecem na página. Todos são Se
 |---|---|
 | `HeroSection.tsx` | Primeira tela: nome do produto, promessa, ativos da fórmula, selos, preço e o CTA principal. |
 | `OffersSection.tsx` | Os kits de 1, 2 e 3 frascos, com preço cortado, economia e um card em destaque. **Não renderiza nada enquanto nenhum kit tiver preço e link de checkout** em `ofertas`. Traz junto as formas de pagamento — ver abaixo por que elas não são uma seção separada. |
+| `VideoSection.tsx` | O vídeo promocional com o botão logo abaixo — ela pede esse clique no fim do vídeo. Duas colunas a partir de `lg` para o vídeo vertical não empurrar o botão para fora da tela. |
 | `AboutSection.tsx` | Faixa verde escura apresentando a VivaZen, com três pilares e link para `/sobre`. |
 | `ProblemSection.tsx` | Os quatro problemas que o produto endereça (sono, ansiedade, energia, foco). Existe para o visitante se reconhecer antes de ouvir a solução. |
 | `ProductHighlightSection.tsx` | Quatro motivos para escolher o Livit, ao lado da foto da caixa. |
@@ -139,6 +140,9 @@ O arquivo de configuração. Exporta:
 | `nutrition_information.webp` | 154 KB | A tabela nutricional. É a imagem da lupa e do modal — **não comprima demais**, ela precisa ficar legível no zoom. 1122×1402. |
 | `capsulas-brinde.webp` | 49 KB | Foto das duas mãos brindando, usada na `/sobre`. 1492×700. |
 | `selo-garantia.webp` | 53 KB | O selo de "7 dias de garantia" da `GuaranteeSection`. Tem fundo transparente. |
+| `livit_video_promocional.mp4` | 16,5 MB | O vídeo da `VideoSection`. Vertical, 478×850, 76s, com fala. É o maior arquivo do projeto — ver a regra do `preload` abaixo. |
+| `livit-video-capa.webp` | 21 KB | A capa do vídeo (`poster`). É um quadro real extraído do próprio vídeo. **Trocou o vídeo, gere capa nova** — sem ela o player vira um retângulo preto. |
+| `livit-caixa.webp` | 100 KB | Caixa e pote na `ProductHighlightSection`. Fundo transparente de verdade, por isso é usada sem moldura. |
 | `1-frasco.webp` | 22 KB | Kit de 1 frasco na seção de ofertas. |
 | `2-frascos.webp` | 37 KB | Kit de 2 frascos. |
 | `3-frascos.webp` | 42 KB | Kit de 3 frascos. |
@@ -190,6 +194,10 @@ Duas fontes: **Geist** no texto corrido e **Fraunces** (itálico) nos títulos, 
 **`whitespace-nowrap` no `L-Triptofano` e no `L-Teanina`.** Por padrão o navegador pode quebrar a linha depois de um hífen que já existe no texto, e o `L-` ficava pendurado sozinho na borda. Se você citar outro ativo com hífen, faça o mesmo.
 
 **O número de dias da garantia está desenhado dentro do selo.** A arte `selo-garantia.webp` é um arquivo pronto com "7 DIAS" impresso; ela não é gerada a partir de `garantia.dias`. Por isso a `GuaranteeSection` tem a constante `DIAS_NO_SELO` e só mostra a imagem quando os dois números batem — se a garantia mudar para 30 dias e ninguém trocar a arte, a seção volta sozinha para um círculo desenhado em CSS. **Se você alterar `garantia.dias`, troque a arte e atualize `DIAS_NO_SELO` junto.** Prazo de garantia errado na tela é problema com o CDC, não detalhe de design.
+
+**O vídeo tem 16,5 MB e mesmo assim não pesa na página — por causa de uma palavra.** É o `preload="metadata"` no `<video>`. Com ele, só o cabeçalho do arquivo desce junto com a página; os megabytes só saem do servidor quando alguém aperta o play. Se alguém trocar isso por `preload="auto"`, ou pior, colocar `autoplay`, todo visitante passa a baixar 16 MB para ver uma landing — no 4G isso é a página inteira travando. Pelo mesmo motivo não existe `autoplay`: o vídeo tem fala, e navegador nenhum deixa áudio começar sozinho.
+
+**Vídeo sem `poster` é um retângulo preto.** A primeira tentativa aqui foi o fragmento de mídia `#t=0.1` na URL, que em tese faz o navegador pintar o quadro de 0,1s como capa. Não funcionou: com `preload="metadata"` o Chrome nem chegou a pedir o arquivo. A capa é um quadro real exportado do vídeo. Se não tiver ffmpeg à mão, dá para extrair pelo próprio navegador: carregue o vídeo num `<video>` fora da tela, dê `currentTime`, desenhe num `<canvas>` e salve o `toDataURL`.
 
 **A qualidade real de uma imagem é decidida em dois lugares, e o segundo manda.** O `next/image` reencoda toda imagem antes de servir, e o padrão dele é `quality=75`. Um arquivo impecável em `public/` sai recomprimido a 75 assim mesmo. Para subir isso, não basta escrever `quality={90}` no componente: **a partir do Next 16 o valor precisa estar na lista `images.qualities` do `next.config.ts`**, senão é ignorado em silêncio e cai no padrão. Foi exatamente o que aconteceu com a foto do hero — o `quality={90}` estava no código e a URL servida continuava com `q=75`. Para conferir se pegou, procure o `q=` no `srcset` do HTML gerado; não confie no que está escrito no componente.
 

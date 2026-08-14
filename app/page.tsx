@@ -10,6 +10,7 @@ import ProblemSection from '@/components/sections/ProblemSection'
 import ProductHighlightSection from '@/components/sections/ProductHighlightSection'
 import ShippingSection from '@/components/sections/ShippingSection'
 import TestimonialsSection from '@/components/sections/TestimonialsSection'
+import VideoSection from '@/components/sections/VideoSection'
 import WarningsSection from '@/components/sections/WarningsSection'
 
 export default function Home() {
@@ -20,6 +21,11 @@ export default function Home() {
           WhatsApp já vem com intenção de compra, e a oferta é o que ele veio
           ver. Some sozinha enquanto não houver kit configurado em lib/site.ts. */}
       <OffersSection />
+      {/* Depois das ofertas, com o botão apontando de volta para elas. Se você
+          preferir que o vídeo apresente o produto ANTES do preço, basta mover
+          esta linha para cima de <OffersSection /> — aí o botão dele passa a
+          levar o visitante para frente, que é uma leitura ainda melhor. */}
+      <VideoSection />
       <AboutSection />
       <ProblemSection />
       <ProductHighlightSection />

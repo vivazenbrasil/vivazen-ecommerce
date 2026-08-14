@@ -1,6 +1,6 @@
 import CtaButton from '@/components/ui/CtaButton'
 import { produto } from '@/lib/site'
-import livit_box from '@/public/livit_box.webp'
+import livitCaixa from '@/public/livit-caixa.webp'
 import Image from 'next/image'
 
 const motivos = [
@@ -30,16 +30,24 @@ export default function ProductHighlightSection() {
   return (
     <section id="produto" className="py-20 md:py-28">
       <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 lg:grid-cols-2 lg:gap-16">
+        {/*
+          Sem moldura, sem borda branca e sem recorte: a arte nova tem fundo
+          transparente de verdade (60% dos pixels), então o produto flutua sobre
+          o creme da página. A versão anterior tinha fundo próprio e precisava
+          da moldura para o fundo não brigar com o da seção.
+
+          `drop-shadow` e não `shadow`: o primeiro segue o contorno recortado da
+          embalagem, o segundo desenharia um retângulo em volta da imagem toda,
+          incluindo a área transparente — que é justamente o que denuncia um PNG
+          mal aplicado.
+        */}
         <div className="flex justify-center lg:order-2">
-          <div className="relative aspect-3/4 w-full max-w-sm overflow-hidden rounded-[2rem] border-4 border-white shadow-2xl">
-            <Image
-              src={livit_box}
-              alt={`Caixa do suplemento ${produto.nome}`}
-              fill
-              sizes="(max-width: 1024px) 90vw, 384px"
-              className="object-cover"
-            />
-          </div>
+          <Image
+            src={livitCaixa}
+            alt={`Caixa e pote do suplemento ${produto.nome}`}
+            sizes="(max-width: 1024px) 90vw, 480px"
+            className="h-auto w-full max-w-md drop-shadow-2xl"
+          />
         </div>
 
         <div className="lg:order-1">

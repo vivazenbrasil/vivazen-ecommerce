@@ -90,6 +90,7 @@ Um arquivo por bloco da home, na ordem em que aparecem na página. Todos são Se
 | Arquivo | O que faz |
 |---|---|
 | `HeroSection.tsx` | Primeira tela: nome do produto, promessa, ativos da fórmula, selos, preço e o CTA principal. |
+| `OffersSection.tsx` | Os kits de 1, 2 e 3 frascos, com preço cortado, economia e um card em destaque. **Não renderiza nada enquanto nenhum kit tiver preço e link de checkout** em `ofertas`. Traz junto as formas de pagamento — ver abaixo por que elas não são uma seção separada. |
 | `AboutSection.tsx` | Faixa verde escura apresentando a VivaZen, com três pilares e link para `/sobre`. |
 | `ProblemSection.tsx` | Os quatro problemas que o produto endereça (sono, ansiedade, energia, foco). Existe para o visitante se reconhecer antes de ouvir a solução. |
 | `ProductHighlightSection.tsx` | Quatro motivos para escolher o Livit, ao lado da foto da caixa. |
@@ -112,7 +113,7 @@ O array `depoimentos` em `lib/site.ts` está vazio de propósito, e a seção so
 
 | Arquivo | O que faz |
 |---|---|
-| `CtaButton.tsx` | O botão de compra, usado em toda parte. Tem duas variantes de cor (fundo claro e fundo escuro) e a opção `comAviso`, que mostra embaixo o texto explicando que o checkout acontece na Braip. Como todo CTA passa por aqui, este é o ponto único para plugar rastreamento de conversão depois. |
+| `CtaButton.tsx` | O botão de compra, usado em toda parte. Duas variantes de cor (fundo claro e escuro), `bloco` para ocupar a largura toda nos cards de oferta, `href` para apontar para o checkout de um kit específico, e `comAviso`, que mostra embaixo o texto explicando que o checkout acontece na Braip. Se o `href` começar com `#`, ele entende que é âncora interna: não abre aba nova e omite o aviso da Braip. **Como todo CTA passa por aqui, este é o ponto único para plugar rastreamento de conversão depois — não escreva `<a href={checkout}>` solto numa seção nova.** |
 | `SectionHeading.tsx` | O cabeçalho padrão de seção: o texto pequeno em maiúsculas, o título em Fraunces itálico e a descrição. Serve para as seções não divergirem de espaçamento e tamanho ao longo do tempo. |
 
 ### `lib/site.ts`
@@ -121,6 +122,8 @@ O arquivo de configuração. Exporta:
 
 - `site` — nome, domínio, contatos, razão social, CNPJ
 - `produto` — nome, preço, quantidade, selos, modo de uso, contraindicações, aviso da ANVISA, URL do checkout
+- `ofertas` — os kits de 1, 2 e 3 frascos; `ofertasPublicadas` é o filtro dos que têm preço e link
+- `formasDePagamento` — os meios aceitos, exibidos abaixo dos kits
 - `entrega` — transportadora, prazos por região, rastreio, embalagem
 - `garantia` — dias, como solicitar, aviso do CDC
 - `nutrientes` — os seis ativos e a descrição de cada um
@@ -136,6 +139,9 @@ O arquivo de configuração. Exporta:
 | `nutrition_information.webp` | 154 KB | A tabela nutricional. É a imagem da lupa e do modal — **não comprima demais**, ela precisa ficar legível no zoom. 1122×1402. |
 | `capsulas-brinde.webp` | 49 KB | Foto das duas mãos brindando, usada na `/sobre`. 1492×700. |
 | `selo-garantia.webp` | 53 KB | O selo de "7 dias de garantia" da `GuaranteeSection`. Tem fundo transparente. |
+| `1-frasco.webp` | 22 KB | Kit de 1 frasco na seção de ofertas. |
+| `2-frascos.webp` | 37 KB | Kit de 2 frascos. |
+| `3-frascos.webp` | 42 KB | Kit de 3 frascos. |
 | `og-image.jpg` | 72 KB | **Só para preview de link.** Nenhuma página mostra essa imagem — ela existe para o WhatsApp, o Instagram e o Facebook. Ver a regra dela em "Detalhes que parecem detalhe". |
 | `logo.webp` | 28 KB | **Não usada em nenhum componente hoje.** O cabeçalho usa o ícone de folha do lucide mais o nome em texto. Se for aproveitar essa arte, repare que ela tem fundo branco opaco e o cabeçalho é creme. |
 
@@ -191,6 +197,14 @@ Duas fontes: **Geist** no texto corrido e **Fraunces** (itálico) nos títulos, 
 
 **O `site.url` leva `www`.** Na Vercel o domínio principal é o `www.vivazenbrasil.com.br`, e o endereço sem `www` responde 308 redirecionando para ele. O `canonical` tem que apontar para a URL final, que não redireciona — por isso o valor em `lib/site.ts` tem o `www`. Se você inverter o principal na Vercel, inverta lá também, senão o site declara ao Google um endereço diferente daquele que o servidor entrega.
 
+**O preço mora num lugar só, e esse lugar muda sozinho.** Com kits configurados em `ofertas`, o preço aparece na seção de ofertas e o hero deixa de mostrar preço; sem kits, o hero mostra o preço avulso e a seção de ofertas não existe. Os dois lados leem `ofertasPublicadas`, então a troca é automática. O motivo é que o valor avulso e o valor dos kits são preços diferentes do mesmo produto: exibir os dois a dois cliques de distância faz o visitante achar que foi cobrado a mais em um dos caminhos, e desconfiança de preço não se resolve — a pessoa fecha a aba. Se for mexer no hero ou nas ofertas, mantenha essa exclusividade.
+
+**As três fotos dos kits têm a mesma janela vertical (700px de altura).** É isso que mantém os frascos na mesma escala entre os cards, e por isso a `OffersSection` renderiza as imagens com altura fixa e largura automática. Se você trocar as fotos e recortar cada uma só no próprio conteúdo, o frasco único vai aparecer do mesmo tamanho que o trio e o kit maior parecerá levar menos produto.
+
+**O valor cortado precisa ser um preço realmente praticado.** É o `precoDe` de cada kit. Pelo art. 37 do CDC, inflar esse número para o desconto parecer maior é propaganda enganosa — dá multa do Procon e derruba conta de anúncio, exatamente como depoimento inventado. Um `precoDe` defensável é a soma do avulso (3 frascos a R$ 109,90 = R$ 329,70), porque é o que a pessoa pagaria comprando separado. Kit que nunca teve outro preço deve ficar com `precoDe` vazio: o card simplesmente não mostra valor cortado.
+
+**Formas de pagamento ficam dentro da seção de ofertas, não em seção própria.** Essa informação é objeção de última hora: ela só trabalha no instante em que a pessoa está olhando o preço. Isolada num bloco mais abaixo, vira enfeite que ninguém lê.
+
 **Sem emoji em nenhum lugar.** Nem na tela, nem em comentário, nem aqui, nem em mensagem de commit. Este é um site que vende: emoji num aviso ou num título destoa da identidade (verde escuro, terracota, Fraunces itálico) e custa credibilidade justamente na página que foi feita para construir credibilidade. Onde é preciso chamar atenção, use rótulo em texto — `[falta preencher]` na tela, `ATENÇÃO:` em comentário. Havia um triângulo de alerta em três avisos de campo vazio que renderizavam na tela de produção; foram trocados.
 
 **O checkout é externo.** Todo botão avisa que o visitante vai para a Braip. Não tire esse aviso: ser jogado sem explicação num domínio `ev.braip.com` gera desconfiança e abandono.
@@ -212,6 +226,7 @@ Um detalhe sobre o `robots.txt`, que costuma ser mal entendido: **ele não prote
 
 ## Pendências
 
+- [ ] Preencher `ofertas` em `lib/site.ts` com os preços e os links de checkout da Braip de cada kit — enquanto estiverem vazios a seção de ofertas não aparece e o hero segue mostrando o preço avulso
 - [ ] Preencher `entrega.prazos` em `lib/site.ts` — enquanto estiverem vazios, a tabela de prazo por região fica oculta no site (ver `ShippingSection.tsx`)
 - [ ] Preencher `entrega.freteGratisAcima`, se existir frete grátis
 - [ ] Preencher `produto.registroAnvisa`, se houver número de notificação

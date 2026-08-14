@@ -1,5 +1,5 @@
 import CtaButton from '@/components/ui/CtaButton'
-import { produto } from '@/lib/site'
+import { ofertasPublicadas, produto } from '@/lib/site'
 import livit from '@/public/livit.webp'
 import { Check, Leaf } from 'lucide-react'
 import Image from 'next/image'
@@ -61,8 +61,23 @@ export default function HeroSection() {
             ))}
           </ul>
 
-          {/* Preço — só renderiza se estiver preenchido em lib/site.ts */}
-          {produto.preco && (
+          {/*
+            PREÇO NO HERO — leia antes de mexer.
+
+            Ele só aparece enquanto NÃO existe nenhuma oferta publicada. A partir
+            do momento em que os kits têm preço e link em lib/site.ts, o preço
+            sai daqui e passa a morar só na seção de ofertas, logo abaixo.
+
+            O motivo é que o preço avulso e o preço dos kits são valores
+            diferentes do mesmo produto. Mostrar os dois com dois cliques de
+            distância faz o visitante achar que foi cobrado a mais em um dos
+            caminhos — e desconfiança de preço é o tipo de dúvida que não se
+            resolve, a pessoa só fecha a aba.
+
+            Enquanto não houver kit configurado, nada muda: o hero segue
+            mostrando o preço, como sempre mostrou. A troca é automática.
+          */}
+          {ofertasPublicadas.length === 0 && produto.preco && (
             <div className="border-sand mt-8 border-t pt-6">
               <div className="flex flex-wrap items-baseline gap-x-3">
                 <span className="font-display text-forest text-4xl">
@@ -80,7 +95,20 @@ export default function HeroSection() {
             </div>
           )}
 
-          <CtaButton comAviso className="mt-8" />
+          {/*
+            Com kits no ar, o botão do hero leva para a seção de ofertas em vez
+            de jogar direto na Braip: quem acabou de chegar ainda não sabe que
+            existe kit com desconto, e mandar para o checkout do frasco avulso
+            entrega a venda menor. Sem kits, ele continua indo direto ao
+            checkout, que é o único destino que existe.
+          */}
+          {ofertasPublicadas.length > 0 ? (
+            <CtaButton href="#ofertas" className="mt-8">
+              Ver os kits e preços
+            </CtaButton>
+          ) : (
+            <CtaButton comAviso className="mt-8" />
+          )}
         </div>
 
         <div className="flex justify-center lg:justify-end">

@@ -1,0 +1,170 @@
+import CtaButton from '@/components/ui/CtaButton'
+import SectionHeading from '@/components/ui/SectionHeading'
+import { formasDePagamento, ofertasPublicadas, produto } from '@/lib/site'
+import umFrasco from '@/public/1-frasco.webp'
+import doisFrascos from '@/public/2-frascos.webp'
+import tresFrascos from '@/public/3-frascos.webp'
+import { Check, Lock, ShieldCheck, Truck } from 'lucide-react'
+import Image, { type StaticImageData } from 'next/image'
+
+/**
+ * As três fotos têm a MESMA janela vertical (700px de altura no arquivo), então
+ * os frascos estão na mesma escala. É por isso que aqui elas são renderizadas
+ * com altura fixa e largura automática: assim 1 pote aparece estreito e 3 potes
+ * largos, que é a leitura correta. Se fossem esticadas para preencher a largura
+ * do card, o frasco único ficaria gigante ao lado do trio e o kit maior pareceria
+ * levar menos produto.
+ */
+const imagens: Record<number, StaticImageData> = {
+  1: umFrasco,
+  2: doisFrascos,
+  3: tresFrascos,
+}
+
+const reforcos = [
+  { icone: ShieldCheck, texto: `${produto.categoria} com garantia de satisfação` },
+  { icone: Truck, texto: 'Frete e prazo calculados no checkout' },
+  { icone: Lock, texto: 'Pagamento processado pela Braip' },
+]
+
+export default function OffersSection() {
+  /*
+    A seção inteira some enquanto nenhuma oferta tiver preço E link de checkout
+    preenchidos em lib/site.ts.
+
+    Isso não é preciosismo: um card de promoção sem preço, ou com botão que não
+    leva a lugar nenhum, custa mais confiança do que a promoção inteira gera. E
+    enquanto esta seção estiver fora do ar o hero volta a mostrar o preço avulso
+    sozinho, então a página nunca fica sem preço nenhum.
+  */
+  if (ofertasPublicadas.length === 0) return null
+
+  return (
+    <section id="ofertas" className="bg-cream scroll-mt-24 py-20 md:py-28">
+      <div className="mx-auto max-w-6xl px-6">
+        <SectionHeading
+          eyebrow="Escolha o seu kit"
+          titulo="Quanto mais tempo de uso, melhor o preço"
+          descricao={`O ${produto.nome} funciona por constância: o próprio modo de uso pede no mínimo 30 dias seguidos. Por isso os kits maiores saem com desconto — é o que a maioria escolhe.`}
+        />
+
+        {/*
+          Sem `items-center`: os cards precisam esticar até a mesma altura para
+          os botões alinharem na base (o `mt-auto` do CtaButton depende disso).
+          Nem todo card tem preço cortado e selo de economia, então centralizar
+          deixava o card de 1 frasco flutuando mais curto que os outros dois.
+        */}
+        <div className="mt-16 grid gap-8 md:grid-cols-3 md:gap-6">
+          {ofertasPublicadas.map((oferta) => {
+            const imagem = imagens[oferta.frascos]
+
+            return (
+              <div
+                key={oferta.id}
+                className={`relative flex flex-col rounded-3xl bg-white p-7 text-center transition-transform ${
+                  oferta.destaque
+                    ? 'ring-clay z-10 shadow-2xl ring-2 md:-my-4 md:py-11'
+                    : 'border-sand/70 border shadow-sm'
+                }`}
+              >
+                {oferta.selo && (
+                  <span className="bg-clay absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full px-4 py-1.5 text-xs font-semibold tracking-wide text-white uppercase">
+                    {oferta.selo}
+                  </span>
+                )}
+
+                {imagem && (
+                  <div className="flex h-44 items-end justify-center md:h-48">
+                    <Image
+                      src={imagem}
+                      alt={`Kit com ${oferta.frascos} ${
+                        oferta.frascos === 1 ? 'frasco' : 'frascos'
+                      } de ${produto.nome}`}
+                      sizes="(max-width: 768px) 60vw, 260px"
+                      className="h-full w-auto"
+                    />
+                  </div>
+                )}
+
+                <h3 className="text-forest mt-6 text-xl font-semibold">
+                  {oferta.titulo}
+                </h3>
+                <p className="mt-1.5 text-sm text-stone-500">{oferta.subtitulo}</p>
+
+                <div className="mt-6">
+                  {/* Só aparece se o valor cortado existir de verdade — ver o
+                      aviso sobre o art. 37 do CDC em lib/site.ts. */}
+                  {oferta.precoDe && (
+                    <p className="text-sm text-stone-400 line-through">
+                      de {oferta.precoDe}
+                    </p>
+                  )}
+                  <p className="font-display text-forest mt-1 text-4xl">
+                    {oferta.precoPor}
+                  </p>
+                  {oferta.precoParcelado && (
+                    <p className="mt-1.5 text-sm text-stone-500">
+                      ou {oferta.precoParcelado}
+                    </p>
+                  )}
+                </div>
+
+                {oferta.economia && (
+                  <p className="bg-cream text-forest mt-5 self-center rounded-full px-4 py-1.5 text-sm font-semibold">
+                    Você economiza {oferta.economia}
+                  </p>
+                )}
+
+                {/* mt-auto empurra o botão para a base: os cards têm alturas de
+                    texto diferentes e sem isso os botões ficariam desalinhados. */}
+                <CtaButton
+                  href={oferta.checkoutUrl}
+                  bloco
+                  tamanho={oferta.destaque ? 'lg' : 'md'}
+                  className="mt-auto pt-7"
+                >
+                  Quero este kit
+                </CtaButton>
+              </div>
+            )
+          })}
+        </div>
+
+        {/*
+          Formas de pagamento e reforços ficam AQUI, colados nas ofertas, e não
+          numa seção própria mais abaixo. Essa informação é objeção de última
+          hora — ela só trabalha no instante em que a pessoa está olhando o
+          preço. Isolada num bloco distante, vira enfeite que ninguém lê.
+        */}
+        <div className="border-sand mt-14 rounded-3xl border border-dashed p-7">
+          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
+            <span className="text-forest text-sm font-semibold">
+              Formas de pagamento
+            </span>
+            {formasDePagamento.map((forma) => (
+              <span
+                key={forma}
+                className="flex items-center gap-1.5 text-sm text-stone-600"
+              >
+                <Check className="text-clay h-4 w-4 shrink-0" strokeWidth={3} />
+                {forma}
+              </span>
+            ))}
+          </div>
+
+          <ul className="border-sand/60 mt-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 border-t pt-6">
+            {reforcos.map((reforco) => (
+              <li
+                key={reforco.texto}
+                className="flex items-center gap-2 text-sm text-stone-500"
+              >
+                <reforco.icone className="text-clay h-4 w-4 shrink-0" />
+                {reforco.texto}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  )
+}

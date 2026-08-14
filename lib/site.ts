@@ -90,6 +90,94 @@ export const produto = {
   registroAnvisa: '', // CONFIRMAR: nº de notificação/registro, se houver
 } as const
 
+/**
+ * Kits de compra exibidos na seção de ofertas, logo abaixo do hero.
+ *
+ * NÃO use `as const` aqui. Os campos precisam ser `string` para os guards de
+ * "campo vazio" continuarem alcançáveis — com tipo literal o TypeScript conclui
+ * que um texto preenchido nunca pode ser falso, colapsa o tipo para `never` e o
+ * build quebra. É o mesmo problema descrito no topo do ShippingSection.
+ *
+ * Cada oferta só vai para a tela quando tiver `precoPor` E `checkoutUrl`
+ * preenchidos. Enquanto nenhuma estiver completa a seção inteira não renderiza,
+ * e o preço volta a aparecer no hero — ver `ofertasPublicadas` logo abaixo.
+ *
+ * ATENÇÃO ao `precoDe`, o valor que aparece cortado: pelo art. 37 do CDC, ele
+ * precisa ser um preço que a loja realmente praticou. Inventar um valor alto só
+ * para o desconto parecer maior é propaganda enganosa, dá multa do Procon e
+ * derruba conta de anúncio. Se um kit nunca foi vendido por outro preço, deixe
+ * `precoDe` vazio: o card simplesmente não mostra valor cortado.
+ */
+export const ofertas: {
+  id: string
+  frascos: number
+  titulo: string
+  subtitulo: string
+  precoDe: string
+  precoPor: string
+  precoParcelado: string
+  economia: string
+  selo: string
+  destaque: boolean
+  checkoutUrl: string
+}[] = [
+  {
+    id: '1-frasco',
+    frascos: 1,
+    titulo: 'Para experimentar',
+    subtitulo: '1 frasco · 60 cápsulas · 30 dias',
+    precoDe: '',
+    precoPor: '',
+    precoParcelado: '',
+    economia: '',
+    selo: '',
+    destaque: false,
+    checkoutUrl: '',
+  },
+  {
+    id: '3-frascos',
+    frascos: 3,
+    titulo: 'Para o resultado completo',
+    subtitulo: '3 frascos · 180 cápsulas · 90 dias',
+    precoDe: '',
+    precoPor: '',
+    precoParcelado: '',
+    economia: '',
+    // O card do meio é o que a maioria escolhe. 3 frascos também é o kit que
+    // faz sentido recomendar: o próprio modo de uso pede constância de no
+    // mínimo 30 dias e o resultado costuma aparecer a partir da 2ª semana.
+    selo: 'Mais escolhido',
+    destaque: true,
+    checkoutUrl: '',
+  },
+  {
+    id: '2-frascos',
+    frascos: 2,
+    titulo: 'Para manter a constância',
+    subtitulo: '2 frascos · 120 cápsulas · 60 dias',
+    precoDe: '',
+    precoPor: '',
+    precoParcelado: '',
+    economia: '',
+    selo: '',
+    destaque: false,
+    checkoutUrl: '',
+  },
+]
+
+/**
+ * Uma oferta só é publicável quando tem preço E link de checkout. A regra mora
+ * aqui, e não dentro dos componentes, porque duas telas dependem dela: a seção
+ * de ofertas (que só aparece se houver alguma) e o hero (que só mostra preço
+ * enquanto não houver nenhuma, para o site nunca exibir dois preços diferentes
+ * do mesmo produto).
+ */
+export const ofertasPublicadas = ofertas.filter(
+  (oferta) => oferta.precoPor && oferta.checkoutUrl,
+)
+
+export const formasDePagamento = ['Pix', 'Cartão de crédito', 'Boleto']
+
 export const entrega = {
   // CONFIRMAR TODO O BLOCO com o que a Braip/transportadora realmente pratica
   transportadora: 'Correios e transportadoras parceiras',

@@ -41,6 +41,20 @@ const securityHeaders = [
 ]
 
 const nextConfig: NextConfig = {
+  images: {
+    /*
+      Lista de qualidades que o otimizador aceita. A partir do Next 16 ela é
+      obrigatória: qualquer `quality` que não esteja aqui é ignorado em silêncio
+      e a imagem sai no padrão, que é 75. Foi o que aconteceu com a foto do
+      hero — o `quality={90}` estava escrito no componente e a URL servida
+      continuava saindo com `q=75`.
+
+      O 75 precisa continuar na lista porque é o que todas as outras imagens do
+      site usam; declarar só o 90 quebraria as demais.
+    */
+    qualities: [75, 90],
+  },
+
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }]
   },

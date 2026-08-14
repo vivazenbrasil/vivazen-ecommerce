@@ -1,6 +1,6 @@
 import CtaButton from '@/components/ui/CtaButton'
 import { ofertasPublicadas, produto } from '@/lib/site'
-import livit from '@/public/livit.webp'
+import livitHero from '@/public/livit-hero.jpeg'
 import { Check, Leaf } from 'lucide-react'
 import Image from 'next/image'
 
@@ -111,13 +111,27 @@ export default function HeroSection() {
           )}
         </div>
 
+        {/*
+          A moldura é 3/4 porque é a proporção nativa do arquivo (960x1280).
+          Antes era quadrada, o que fazia sentido com a foto anterior, do pote
+          sozinho. Com uma foto de pessoa, o quadrado cortaria a luz do alto e
+          parte do enquadramento — e a composição é metade do valor de uma foto
+          dessas. Se trocar a imagem, confira a proporção do arquivo novo.
+
+          `quality={90}` não é capricho e vale conhecer: o next/image reencoda
+          toda imagem antes de servir, e o padrão dele é 75. Sem essa linha, o
+          arquivo poderia ser perfeito que o visitante receberia uma versão
+          recomprimida a 75 mesmo assim. É o ajuste que mais muda a nitidez
+          percebida aqui, mais do que qualquer coisa feita no arquivo.
+        */}
         <div className="flex justify-center lg:justify-end">
-          <div className="relative aspect-square w-full max-w-md overflow-hidden rounded-[2rem] border-4 border-white shadow-2xl">
+          <div className="relative aspect-3/4 w-full max-w-md overflow-hidden rounded-[2rem] border-4 border-white shadow-2xl">
             <Image
-              src={livit}
-              alt={`Embalagem do suplemento ${produto.nome} da VivaZen`}
+              src={livitHero}
+              alt={`Mulher segurando a caixa do suplemento ${produto.nome} da VivaZen`}
               fill
               priority
+              quality={90}
               sizes="(max-width: 1024px) 90vw, 448px"
               className="object-cover"
             />

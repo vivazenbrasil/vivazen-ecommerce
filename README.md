@@ -55,7 +55,7 @@ lib/                    dados e configuração
 public/                 imagens
 ```
 
-O alias `@/` aponta para a raiz do projeto (`tsconfig.json`), então `@/lib/site` e `@/public/livit.webp` funcionam de qualquer arquivo.
+O alias `@/` aponta para a raiz do projeto (`tsconfig.json`), então `@/lib/site` e `@/public/livit-hero.jpeg` funcionam de qualquer arquivo.
 
 ### `app/`
 
@@ -134,7 +134,7 @@ O arquivo de configuração. Exporta:
 
 | Arquivo | Peso | Uso |
 |---|---|---|
-| `livit.webp` | 73 KB | Foto do hero da home. 1448×1086. |
+| `livit-hero.jpeg` | 96 KB | Foto do hero da home: mulher segurando a caixa. 960×1280, proporção 3/4 — a moldura do hero segue essa proporção. **Continua em JPEG de propósito**; ver o motivo em "Detalhes que parecem detalhe". |
 | `livit_box.webp` | 85 KB | Foto da seção "Por que o Livit". |
 | `nutrition_information.webp` | 154 KB | A tabela nutricional. É a imagem da lupa e do modal — **não comprima demais**, ela precisa ficar legível no zoom. 1122×1402. |
 | `capsulas-brinde.webp` | 49 KB | Foto das duas mãos brindando, usada na `/sobre`. 1492×700. |
@@ -159,7 +159,7 @@ O selo de garantia veio com 26% de cada lado em área transparente em volta do d
 
 | Arquivo | O que faz |
 |---|---|
-| `next.config.ts` | Só os headers de segurança — ver a seção "Segurança" mais abaixo. Cada header tem o comentário explicando o que ele fecha. |
+| `next.config.ts` | Os headers de segurança (ver a seção "Segurança") e a lista `images.qualities`, que precisa conter toda qualidade usada em algum `<Image quality={...}>`. |
 | `postcss.config.mjs` | Registra o plugin do Tailwind v4. Não precisa mexer. |
 | `eslint.config.mjs` | ESLint com as regras do Next (core-web-vitals + typescript). |
 | `tsconfig.json` | TypeScript em modo `strict`, com o alias `@/*` apontando para a raiz. |
@@ -190,6 +190,10 @@ Duas fontes: **Geist** no texto corrido e **Fraunces** (itálico) nos títulos, 
 **`whitespace-nowrap` no `L-Triptofano` e no `L-Teanina`.** Por padrão o navegador pode quebrar a linha depois de um hífen que já existe no texto, e o `L-` ficava pendurado sozinho na borda. Se você citar outro ativo com hífen, faça o mesmo.
 
 **O número de dias da garantia está desenhado dentro do selo.** A arte `selo-garantia.webp` é um arquivo pronto com "7 DIAS" impresso; ela não é gerada a partir de `garantia.dias`. Por isso a `GuaranteeSection` tem a constante `DIAS_NO_SELO` e só mostra a imagem quando os dois números batem — se a garantia mudar para 30 dias e ninguém trocar a arte, a seção volta sozinha para um círculo desenhado em CSS. **Se você alterar `garantia.dias`, troque a arte e atualize `DIAS_NO_SELO` junto.** Prazo de garantia errado na tela é problema com o CDC, não detalhe de design.
+
+**A qualidade real de uma imagem é decidida em dois lugares, e o segundo manda.** O `next/image` reencoda toda imagem antes de servir, e o padrão dele é `quality=75`. Um arquivo impecável em `public/` sai recomprimido a 75 assim mesmo. Para subir isso, não basta escrever `quality={90}` no componente: **a partir do Next 16 o valor precisa estar na lista `images.qualities` do `next.config.ts`**, senão é ignorado em silêncio e cai no padrão. Foi exatamente o que aconteceu com a foto do hero — o `quality={90}` estava no código e a URL servida continuava com `q=75`. Para conferir se pegou, procure o `q=` no `srcset` do HTML gerado; não confie no que está escrito no componente.
+
+**Nem toda imagem deve virar WebP, e a foto do hero é o contraexemplo.** A regra real é evitar **duas gerações de perda**. Converter um PNG (que é sem perda) para WebP custa uma geração e economiza muito — foi o caso das fotos dos kits e do selo. Mas a `livit-hero.jpeg` já chegou comprimida: transformá-la em WebP acrescentaria uma segunda geração de perda para nada, porque o `next/image` vai reencodar de novo na entrega de qualquer jeito. Por isso ela fica em JPEG. Ao adicionar imagem nova, pergunte: o arquivo de origem já é com perda? Se for, deixe como está e deixe o otimizador trabalhar.
 
 **Não escreva `width`/`height` em `<Image>` de import estático.** O Next já lê a dimensão do arquivo. A tabela nutricional estava declarada como 800×550 (proporção 1,45) sendo que o arquivo é 1122×1402 (0,80): o navegador reservava uma caixa deitada e pulava para a caixa em pé quando a imagem carregava. Escrever a dimensão na mão só cria uma cópia que envelhece sozinha na primeira vez que alguém trocar o arquivo.
 

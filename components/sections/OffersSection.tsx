@@ -59,34 +59,55 @@ export default function OffersSection() {
             const imagem = imagens[oferta.frascos]
 
             return (
+              /*
+                O grupo tem nome (`group/card`) e não é detalhe: o CtaButton lá
+                embaixo também é um grupo, e ele está DENTRO deste card. Com os
+                dois grupos anônimos, o `group-hover` do botão responderia ao
+                hover do card inteiro — passar o mouse em qualquer canto
+                dispararia o brilho do botão. Com nome, cada um responde só ao
+                seu. Se criar outro grupo aqui dentro, nomeie também.
+
+                `hover:z-20` importa por causa do card do meio, que fica por
+                cima dos vizinhos: sem isso, ao passar o mouse num card lateral
+                ele subiria por baixo do destaque e a sombra ficaria cortada.
+
+                Movimento só com `motion-safe:`; a borda e a sombra mudam sempre,
+                para o hover continuar perceptível com "reduzir movimento" ligado.
+              */
               <div
                 key={oferta.id}
-                className={`relative flex flex-col rounded-3xl bg-white p-7 text-center transition-transform ${
+                className={`group/card relative flex flex-col rounded-3xl bg-white p-7 text-center transition-all duration-300 ease-out hover:z-20 hover:shadow-2xl motion-safe:hover:-translate-y-2 ${
                   oferta.destaque
                     ? 'ring-clay z-10 shadow-2xl ring-2 md:-my-4 md:py-11'
-                    : 'border-sand/70 border shadow-sm'
+                    : 'border-sand/70 hover:border-clay/50 border shadow-sm'
                 }`}
               >
                 {oferta.selo && (
-                  <span className="bg-clay absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full px-4 py-1.5 text-xs font-semibold tracking-wide text-white uppercase">
+                  <span className="bg-clay absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full px-4 py-1.5 text-xs font-semibold tracking-wide text-white uppercase shadow-md transition-shadow duration-300 group-hover/card:shadow-lg">
                     {oferta.selo}
                   </span>
                 )}
 
                 {imagem && (
                   <div className="flex h-44 items-end justify-center md:h-48">
+                    {/*
+                      `origin-bottom` faz a foto crescer a partir da base, como
+                      se os frascos se aproximassem. Crescendo pelo centro eles
+                      pareceriam flutuar, e a linha de apoio dos três cards
+                      deixaria de bater.
+                    */}
                     <Image
                       src={imagem}
                       alt={`Kit com ${oferta.frascos} ${
                         oferta.frascos === 1 ? 'frasco' : 'frascos'
                       } de ${produto.nome}`}
                       sizes="(max-width: 768px) 60vw, 260px"
-                      className="h-full w-auto"
+                      className="h-full w-auto origin-bottom transition-transform duration-500 ease-out motion-safe:group-hover/card:scale-107"
                     />
                   </div>
                 )}
 
-                <h3 className="text-forest mt-6 text-xl font-semibold">
+                <h3 className="text-forest group-hover/card:text-clay mt-6 text-xl font-semibold transition-colors duration-300">
                   {oferta.titulo}
                 </h3>
                 <p className="mt-1.5 text-sm text-stone-500">{oferta.subtitulo}</p>

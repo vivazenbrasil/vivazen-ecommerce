@@ -205,6 +205,10 @@ Duas fontes: **Geist** no texto corrido e **Fraunces** (itálico) nos títulos, 
 
 **Formas de pagamento ficam dentro da seção de ofertas, não em seção própria.** Essa informação é objeção de última hora: ela só trabalha no instante em que a pessoa está olhando o preço. Isolada num bloco mais abaixo, vira enfeite que ninguém lê.
 
+**Todo efeito de movimento vai com `motion-safe:`.** Os cards de oferta sobem no hover, a foto dos frascos cresce e um brilho atravessa o botão. Nada disso acontece para quem liga "reduzir movimento" no sistema — quem tem enxaqueca vestibular, por exemplo, passa mal com esse tipo de animação. O que continua acontecendo em qualquer caso é a mudança de cor, de borda e de sombra, que já deixa claro o que está sob o cursor. Se acrescentar animação nova, use o mesmo prefixo. Detalhe útil: o Tailwind já embrulha `group-hover` em `@media (hover: hover)` sozinho, então no celular não fica estado de hover grudado depois do toque.
+
+**Os grupos de hover têm nome: `group/card` e `group/cta`.** O `CtaButton` é um grupo e está dentro do card, que também é. Com os dois anônimos, o `group-hover` do botão responderia ao hover do card inteiro e o brilho dispararia ao passar o mouse em qualquer canto. Se criar outro grupo dentro de um card, nomeie também.
+
 **Sem emoji em nenhum lugar.** Nem na tela, nem em comentário, nem aqui, nem em mensagem de commit. Este é um site que vende: emoji num aviso ou num título destoa da identidade (verde escuro, terracota, Fraunces itálico) e custa credibilidade justamente na página que foi feita para construir credibilidade. Onde é preciso chamar atenção, use rótulo em texto — `[falta preencher]` na tela, `ATENÇÃO:` em comentário. Havia um triângulo de alerta em três avisos de campo vazio que renderizavam na tela de produção; foram trocados.
 
 **O checkout é externo.** Todo botão avisa que o visitante vai para a Braip. Não tire esse aviso: ser jogado sem explicação num domínio `ev.braip.com` gera desconfiança e abandono.

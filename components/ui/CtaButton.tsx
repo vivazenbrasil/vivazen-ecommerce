@@ -36,6 +36,13 @@ export default function CtaButton({
       ? 'bg-cream text-forest hover:bg-white'
       : 'bg-forest text-white hover:bg-forest-soft'
 
+  /*
+    O brilho que atravessa o botão no hover. Na variante escura ele é branco;
+    na clara precisa ser escuro, senão seria branco sobre creme e não apareceria.
+  */
+  const brilho =
+    variante === 'claro' ? 'via-forest/10' : 'via-white/25'
+
   const medidas = tamanho === 'lg' ? 'px-9 py-4 text-lg' : 'px-7 py-3 text-base'
 
   /*
@@ -47,16 +54,37 @@ export default function CtaButton({
 
   return (
     <div className={className}>
+      {/*
+        Os efeitos de movimento vão todos com o prefixo `motion-safe:`. Quem
+        liga "reduzir movimento" no sistema — quem tem enxaqueca vestibular,
+        por exemplo — recebe só a mudança de cor e de sombra, que continuam
+        deixando claro que o botão está sob o cursor. O foco pelo teclado
+        (`focus-visible`) ganha o mesmo anel de sempre, então quem navega sem
+        mouse não perde nada.
+
+        `active:` é o retorno do clique: o botão afunda de volta. Sem isso, num
+        celular o toque não dá nenhuma resposta visual antes da página trocar.
+      */}
       <a
         href={href}
         target={interno ? undefined : '_blank'}
         rel={interno ? undefined : 'noopener noreferrer'}
-        className={`${
+        className={`group/cta relative overflow-hidden ${
           bloco ? 'flex w-full justify-center' : 'inline-flex'
-        } items-center gap-2.5 rounded-full font-semibold shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl focus-visible:ring-4 focus-visible:ring-clay/40 focus-visible:outline-none ${cores} ${medidas}`}
+        } items-center gap-2.5 rounded-full font-semibold shadow-lg transition-all duration-300 ease-out hover:shadow-xl motion-safe:hover:-translate-y-1 motion-safe:active:translate-y-0 motion-safe:active:scale-[0.98] focus-visible:ring-4 focus-visible:ring-clay/40 focus-visible:outline-none ${cores} ${medidas}`}
       >
-        <ShoppingBag className="h-5 w-5 shrink-0" />
-        {children}
+        {/*
+          O brilho: uma faixa em diagonal que começa fora do botão, à esquerda,
+          e atravessa até sair do outro lado quando o cursor entra. `skew-x-12`
+          é o que dá a inclinação de reflexo em vez de uma barra reta.
+        */}
+        <span
+          aria-hidden="true"
+          className={`pointer-events-none absolute inset-y-0 -left-full w-1/2 skew-x-12 bg-gradient-to-r from-transparent to-transparent ${brilho} motion-safe:transition-transform motion-safe:duration-700 motion-safe:ease-out motion-safe:group-hover/cta:translate-x-[400%]`}
+        />
+
+        <ShoppingBag className="relative h-5 w-5 shrink-0 transition-transform duration-300 motion-safe:group-hover/cta:-rotate-6 motion-safe:group-hover/cta:scale-110" />
+        <span className="relative">{children}</span>
       </a>
 
       {comAviso && !interno && (

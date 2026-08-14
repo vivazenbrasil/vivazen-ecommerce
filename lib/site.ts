@@ -128,7 +128,7 @@ export const ofertas: {
     subtitulo: '1 frasco · 60 cápsulas · 30 dias',
     precoDe: '',
     precoPor: '109,90',
-    precoParcelado: '12x de 9,16',
+    precoParcelado: '12x de 11,37',
     economia: '',
     selo: '',
     destaque: false,
@@ -141,8 +141,8 @@ export const ofertas: {
     subtitulo: '3 frascos · 180 cápsulas · 90 dias',
     precoDe: '330,00',
     precoPor: '279,90',
-    precoParcelado: '12x de 23,33',
-    economia: 'ssssss',
+    precoParcelado: '12x de 28,95',
+    economia: 'Economize R$ 50,10',
     // O card do meio é o que a maioria escolhe. 3 frascos também é o kit que
     // faz sentido recomendar: o próprio modo de uso pede constância de no
     // mínimo 30 dias e o resultado costuma aparecer a partir da 2ª semana.
@@ -157,8 +157,8 @@ export const ofertas: {
     subtitulo: '2 frascos · 120 cápsulas · 60 dias',
     precoDe: '220,00',
     precoPor: '199,90',
-    precoParcelado: '12x de 16,66',
-    economia: '',
+    precoParcelado: '12x de 20,67',
+    economia: 'Economize R$ 20,10',
     selo: '',
     destaque: false,
     checkoutUrl: 'https://buy.braip.com/checkout/plajel1o/che74r9l',

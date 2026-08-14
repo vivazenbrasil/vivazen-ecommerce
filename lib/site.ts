@@ -132,7 +132,7 @@ export const ofertas: {
     economia: '',
     selo: '',
     destaque: false,
-    checkoutUrl: 'sssss',
+    checkoutUrl: 'https://buy.braip.com/checkout/plakqv0l/che74r9l',
   },
   {
     id: '3-frascos',
@@ -148,7 +148,7 @@ export const ofertas: {
     // mínimo 30 dias e o resultado costuma aparecer a partir da 2ª semana.
     selo: 'MAIS VENDIDO',
     destaque: true,
-    checkoutUrl: 'sssss',
+    checkoutUrl: 'https://buy.braip.com/checkout/plan46qy/che74r9l',
   },
   {
     id: '2-frascos',
@@ -161,7 +161,7 @@ export const ofertas: {
     economia: '',
     selo: '',
     destaque: false,
-    checkoutUrl: 'ssssss',
+    checkoutUrl: 'https://buy.braip.com/checkout/plajel1o/che74r9l',
   },
 ]
 

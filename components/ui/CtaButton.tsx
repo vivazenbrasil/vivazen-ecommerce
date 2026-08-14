@@ -55,15 +55,21 @@ export default function CtaButton({
   return (
     <div className={className}>
       {/*
-        Os efeitos de movimento vão todos com o prefixo `motion-safe:`. Quem
-        liga "reduzir movimento" no sistema — quem tem enxaqueca vestibular,
-        por exemplo — recebe só a mudança de cor e de sombra, que continuam
-        deixando claro que o botão está sob o cursor. O foco pelo teclado
-        (`focus-visible`) ganha o mesmo anel de sempre, então quem navega sem
-        mouse não perde nada.
+        Dois pesos diferentes para "reduzir movimento", e a diferença é
+        proposital:
 
-        `active:` é o retorno do clique: o botão afunda de volta. Sem isso, num
-        celular o toque não dá nenhuma resposta visual antes da página trocar.
+        Subir no hover, afundar no clique e o ícone crescer são MUDANÇAS DE
+        ESTADO. Elas valem para todo mundo; o que o `motion-reduce:transition-none`
+        faz é tirar o percurso animado, então com a preferência ligada o botão
+        troca de estado na hora. Quem se incomoda com movimento se incomoda com
+        o trajeto, não com o resultado.
+
+        O brilho que atravessa o botão é ANIMAÇÃO — meio segundo de algo se
+        deslocando sozinho na tela. Esse fica atrás de `motion-safe:` e some
+        por completo para quem pediu menos movimento.
+
+        `active:` importa mais do que parece: no celular não existe hover, e o
+        afundar é a única resposta visual entre o toque e a página trocar.
       */}
       <a
         href={href}
@@ -71,7 +77,7 @@ export default function CtaButton({
         rel={interno ? undefined : 'noopener noreferrer'}
         className={`group/cta relative overflow-hidden ${
           bloco ? 'flex w-full justify-center' : 'inline-flex'
-        } items-center gap-2.5 rounded-full font-semibold shadow-lg transition-all duration-300 ease-out hover:shadow-xl motion-safe:hover:-translate-y-1 motion-safe:active:translate-y-0 motion-safe:active:scale-[0.98] focus-visible:ring-4 focus-visible:ring-clay/40 focus-visible:outline-none ${cores} ${medidas}`}
+        } items-center gap-2.5 rounded-full font-semibold shadow-lg transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl active:translate-y-0 active:scale-[0.98] motion-reduce:transition-none focus-visible:ring-4 focus-visible:ring-clay/40 focus-visible:outline-none ${cores} ${medidas}`}
       >
         {/*
           O brilho: uma faixa em diagonal que começa fora do botão, à esquerda,
@@ -83,7 +89,7 @@ export default function CtaButton({
           className={`pointer-events-none absolute inset-y-0 -left-full w-1/2 skew-x-12 bg-gradient-to-r from-transparent to-transparent ${brilho} motion-safe:transition-transform motion-safe:duration-700 motion-safe:ease-out motion-safe:group-hover/cta:translate-x-[400%]`}
         />
 
-        <ShoppingBag className="relative h-5 w-5 shrink-0 transition-transform duration-300 motion-safe:group-hover/cta:-rotate-6 motion-safe:group-hover/cta:scale-110" />
+        <ShoppingBag className="relative h-5 w-5 shrink-0 transition-transform duration-300 group-hover/cta:-rotate-6 group-hover/cta:scale-110 motion-reduce:transition-none" />
         <span className="relative">{children}</span>
       </a>
 

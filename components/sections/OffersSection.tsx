@@ -71,12 +71,21 @@ export default function OffersSection() {
                 cima dos vizinhos: sem isso, ao passar o mouse num card lateral
                 ele subiria por baixo do destaque e a sombra ficaria cortada.
 
-                Movimento só com `motion-safe:`; a borda e a sombra mudam sempre,
-                para o hover continuar perceptível com "reduzir movimento" ligado.
+                O card dá um zoom curto (3%) e sobe 8px. Os dois valores são
+                pequenos de propósito: o card ocupa um terço da largura, então
+                mesmo 3% já é um salto bem visível na tela — passar de 5% começa
+                a empurrar visualmente os vizinhos e a parecer defeito.
+
+                Sobre "reduzir movimento": o zoom e a subida acontecem para todo
+                mundo, e o que muda é o `motion-reduce:transition-none` — com a
+                preferência ligada, o card troca de estado na hora, sem percurso
+                animado. A distinção é essa: o que passa mal é com o movimento
+                percorrido, não com o estado final. Animação de verdade, como o
+                brilho que atravessa o botão, essa continua desligada.
               */
               <div
                 key={oferta.id}
-                className={`group/card relative flex flex-col rounded-3xl bg-white p-7 text-center transition-all duration-300 ease-out hover:z-20 hover:shadow-2xl motion-safe:hover:-translate-y-2 ${
+                className={`group/card relative flex flex-col rounded-3xl bg-white p-7 text-center transition-all duration-300 ease-out hover:z-20 hover:-translate-y-2 hover:scale-[1.03] hover:shadow-2xl motion-reduce:transition-none ${
                   oferta.destaque
                     ? 'ring-clay z-10 shadow-2xl ring-2 md:-my-4 md:py-11'
                     : 'border-sand/70 hover:border-clay/50 border shadow-sm'
@@ -95,6 +104,12 @@ export default function OffersSection() {
                       se os frascos se aproximassem. Crescendo pelo centro eles
                       pareceriam flutuar, e a linha de apoio dos três cards
                       deixaria de bater.
+
+                      Só 4% aqui porque este zoom SOMA com os 3% do card: o
+                      resultado na tela é perto de 7% na foto contra 3% no card.
+                      Essa diferença é o que dá sensação de profundidade — a
+                      foto vem um pouco mais à frente que a moldura. Subir esse
+                      número faz os frascos furarem o topo do card.
                     */}
                     <Image
                       src={imagem}
@@ -102,7 +117,7 @@ export default function OffersSection() {
                         oferta.frascos === 1 ? 'frasco' : 'frascos'
                       } de ${produto.nome}`}
                       sizes="(max-width: 768px) 60vw, 260px"
-                      className="h-full w-auto origin-bottom transition-transform duration-500 ease-out motion-safe:group-hover/card:scale-107"
+                      className="h-full w-auto origin-bottom transition-transform duration-500 ease-out group-hover/card:scale-104 motion-reduce:transition-none"
                     />
                   </div>
                 )}

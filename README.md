@@ -205,7 +205,11 @@ Duas fontes: **Geist** no texto corrido e **Fraunces** (itálico) nos títulos, 
 
 **Formas de pagamento ficam dentro da seção de ofertas, não em seção própria.** Essa informação é objeção de última hora: ela só trabalha no instante em que a pessoa está olhando o preço. Isolada num bloco mais abaixo, vira enfeite que ninguém lê.
 
-**Todo efeito de movimento vai com `motion-safe:`.** Os cards de oferta sobem no hover, a foto dos frascos cresce e um brilho atravessa o botão. Nada disso acontece para quem liga "reduzir movimento" no sistema — quem tem enxaqueca vestibular, por exemplo, passa mal com esse tipo de animação. O que continua acontecendo em qualquer caso é a mudança de cor, de borda e de sombra, que já deixa claro o que está sob o cursor. Se acrescentar animação nova, use o mesmo prefixo. Detalhe útil: o Tailwind já embrulha `group-hover` em `@media (hover: hover)` sozinho, então no celular não fica estado de hover grudado depois do toque.
+**"Reduzir movimento" tem dois pesos aqui, e a diferença é proposital.** No hover, o card de oferta dá um zoom de 3% e sobe 8px, a foto dos frascos cresce 4% e o botão sobe — são **mudanças de estado**, valem para todo mundo, e o que o `motion-reduce:transition-none` faz é tirar o percurso animado: com a preferência ligada, tudo troca de estado na hora. Quem se incomoda com movimento se incomoda com o trajeto, não com o resultado. Já o brilho que atravessa o botão é **animação** — meio segundo de algo se deslocando sozinho —, e esse fica atrás de `motion-safe:`, sumindo por completo. Ao criar efeito novo, decida em qual das duas categorias ele cai.
+
+Dois números do zoom que não são arbitrários: os 3% do card parecem pouco escrito, mas o card ocupa um terço da largura da tela, então já é um salto bem visível — acima de 5% ele começa a parecer defeito. E os 4% da foto **somam** com os 3% do card, dando perto de 7% na imagem: essa diferença é o que cria profundidade, a foto vindo um pouco à frente da moldura. Subir mais faz os frascos furarem o topo do card.
+
+Detalhe útil: o Tailwind já embrulha `group-hover` em `@media (hover: hover)` sozinho, então no celular não fica estado de hover grudado depois do toque.
 
 **Os grupos de hover têm nome: `group/card` e `group/cta`.** O `CtaButton` é um grupo e está dentro do card, que também é. Com os dois anônimos, o `group-hover` do botão responderia ao hover do card inteiro e o brilho dispararia ao passar o mouse em qualquer canto. Se criar outro grupo dentro de um card, nomeie também.
 

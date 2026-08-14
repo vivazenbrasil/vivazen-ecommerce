@@ -8,12 +8,22 @@ import { Check, Lock, ShieldCheck, Truck } from 'lucide-react'
 import Image, { type StaticImageData } from 'next/image'
 
 /**
- * As três fotos têm a MESMA janela vertical (700px de altura no arquivo), então
- * os frascos estão na mesma escala. É por isso que aqui elas são renderizadas
- * com altura fixa e largura automática: assim 1 pote aparece estreito e 3 potes
- * largos, que é a leitura correta. Se fossem esticadas para preencher a largura
- * do card, o frasco único ficaria gigante ao lado do trio e o kit maior pareceria
- * levar menos produto.
+ * As três fotos são normalizadas no arquivo, e são DUAS regras, não uma:
+ *
+ * 1. Mesma altura de moldura — 700px nas três. Renderizadas com altura fixa e
+ *    largura automática (`h-full w-auto`), isso mantém os frascos na mesma
+ *    escala: 1 pote aparece estreito, 3 potes largos. Se fossem esticadas para
+ *    preencher a largura do card, o frasco único ficaria do tamanho do trio e o
+ *    kit maior pareceria levar menos produto.
+ *
+ * 2. Mesma linha de base — a base dos frascos fica em y=675 nas três, com 24px
+ *    de branco abaixo. Sem isso o alinhamento não acontece, mesmo com as
+ *    molduras iguais: o container alinha as IMAGENS pela base, e as fotos
+ *    originais tinham 26px, 7px e 50px de branco embaixo dos frascos. O trio
+ *    flutuava uns 11px acima dos outros dois na tela.
+ *
+ * Ao trocar qualquer foto, refaça as duas medições — a segunda é invisível no
+ * arquivo e só aparece quando as três estão lado a lado.
  */
 const imagens: Record<number, StaticImageData> = {
   1: umFrasco,

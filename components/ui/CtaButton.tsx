@@ -64,9 +64,9 @@ export default function CtaButton({
         troca de estado na hora. Quem se incomoda com movimento se incomoda com
         o trajeto, não com o resultado.
 
-        O brilho que atravessa o botão é ANIMAÇÃO — meio segundo de algo se
-        deslocando sozinho na tela. Esse fica atrás de `motion-safe:` e some
-        por completo para quem pediu menos movimento.
+        O brilho que atravessa o botão é ANIMAÇÃO, e ainda por cima em loop
+        infinito — é o caso mais claro de algo que precisa sumir por completo
+        para quem pediu menos movimento. Fica atrás de `motion-safe:`.
 
         `active:` importa mais do que parece: no celular não existe hover, e o
         afundar é a única resposta visual entre o toque e a página trocar.
@@ -80,13 +80,18 @@ export default function CtaButton({
         } items-center gap-2.5 rounded-full font-semibold shadow-lg transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl active:translate-y-0 active:scale-[0.98] motion-reduce:transition-none focus-visible:ring-4 focus-visible:ring-clay/40 focus-visible:outline-none ${cores} ${medidas}`}
       >
         {/*
-          O brilho: uma faixa em diagonal que começa fora do botão, à esquerda,
-          e atravessa até sair do outro lado quando o cursor entra. `skew-x-12`
-          é o que dá a inclinação de reflexo em vez de uma barra reta.
+          O brilho, agora em loop: uma faixa inclinada que entra pela esquerda,
+          atravessa e some pela direita, a cada 4 segundos. O keyframe e a pausa
+          entre as passadas estão em `--animate-brilho-cta`, no globals.css.
+
+          `w-1/3` e não mais metade: em loop, uma faixa larga demais chapa o
+          botão inteiro de claro a cada volta em vez de parecer um reflexo
+          passando. O `overflow-hidden` no link é o que recorta a faixa dentro
+          do formato arredondado.
         */}
         <span
           aria-hidden="true"
-          className={`pointer-events-none absolute inset-y-0 -left-full w-1/2 skew-x-12 bg-gradient-to-r from-transparent to-transparent ${brilho} motion-safe:transition-transform motion-safe:duration-700 motion-safe:ease-out motion-safe:group-hover/cta:translate-x-[400%]`}
+          className={`pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent to-transparent ${brilho} motion-safe:animate-brilho-cta`}
         />
 
         <ShoppingBag className="relative h-5 w-5 shrink-0 transition-transform duration-300 group-hover/cta:-rotate-6 group-hover/cta:scale-110 motion-reduce:transition-none" />

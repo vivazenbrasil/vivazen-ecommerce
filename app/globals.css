@@ -12,6 +12,25 @@
 
   --font-display: var(--font-fraunces);
   --font-sans: var(--font-geist-sans);
+
+  /*
+    Brilho que atravessa os botões de compra em loop.
+
+    A faixa cruza o botão nos primeiros 45% do ciclo e depois fica parada fora
+    da tela no resto. Essa pausa é o que faz o efeito parecer um reflexo
+    ocasional em vez de um pisca-pisca — sem ela, com o botão tendo poucos
+    centímetros, a faixa reapareceria quase imediatamente e viraria ruído.
+
+    O skew vai dentro do keyframe, e não numa classe utilitária, porque animar
+    `transform` sobrescreveria qualquer skew declarado por fora.
+  */
+  --animate-brilho-cta: brilho-cta 4s ease-in-out infinite;
+
+  @keyframes brilho-cta {
+    0%   { transform: translateX(-160%) skewX(-14deg); }
+    45%  { transform: translateX(460%)  skewX(-14deg); }
+    100% { transform: translateX(460%)  skewX(-14deg); }
+  }
 }
 
 @layer base {

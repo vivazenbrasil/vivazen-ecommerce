@@ -50,7 +50,30 @@ export default function OffersSection() {
   if (ofertasPublicadas.length === 0) return null
 
   return (
-    <section id="ofertas" className="bg-cream scroll-mt-24 py-20 md:py-28">
+    /*
+      ALINHAMENTO DO CLIQUE "Ver os kits e preços"
+
+      Três medidas se somam quando o navegador pula para cá, e é fácil errar
+      olhando só uma: a margem de rolagem, o padding de topo da seção, e o
+      cabeçalho fixo de 73px que cobre o começo da tela.
+
+      Com `scroll-mt-24` (96px) e `py-20`, o título caía 135px abaixo do
+      cabeçalho e a grade de cards só começava a 574px — 68% da altura da tela.
+      O visitante clicava em "ver os kits" e via um vazio, com os cards
+      espiando na borda de baixo.
+
+      Agora a margem de rolagem é pequena o bastante para o cabeçalho cobrir a
+      folga, e o padding de topo foi reduzido (o hero acima já dá respiro). O
+      padding de baixo continua grande, porque ali a seção precisa se separar
+      da próxima.
+
+      Se mexer na altura do cabeçalho ou nesses paddings, meça de novo: o
+      resultado só aparece somando os três.
+    */
+    <section
+      id="ofertas"
+      className="bg-cream scroll-mt-8 pt-14 pb-20 md:scroll-mt-0 md:pt-16 md:pb-28"
+    >
       <div className="mx-auto max-w-6xl px-6">
         <SectionHeading
           eyebrow="Escolha o seu kit"
@@ -81,10 +104,16 @@ export default function OffersSection() {
                 cima dos vizinhos: sem isso, ao passar o mouse num card lateral
                 ele subiria por baixo do destaque e a sombra ficaria cortada.
 
-                O card dá um zoom curto (3%) e sobe 8px. Os dois valores são
-                pequenos de propósito: o card ocupa um terço da largura, então
-                mesmo 3% já é um salto bem visível na tela — passar de 5% começa
-                a empurrar visualmente os vizinhos e a parecer defeito.
+                O card cresce 4% e sobe 8px em 500ms, com `ease-[cubic-bezier]`
+                em vez do `ease-out` padrão. Essa curva é o que dá a sensação de
+                crescimento em vez de salto: ela arranca devagar, ganha corpo no
+                meio e desacelera no fim, então o olho acompanha o card
+                inflando. Com `ease-out` puro o movimento nasce na velocidade
+                máxima e o card parecia simplesmente aparecer maior.
+
+                4% e 8px continuam sendo valores pequenos de propósito: o card
+                ocupa um terço da largura, então passar de 5% começa a empurrar
+                visualmente os vizinhos e a parecer defeito.
 
                 Sobre "reduzir movimento": o zoom e a subida acontecem para todo
                 mundo, e o que muda é o `motion-reduce:transition-none` — com a
@@ -95,7 +124,7 @@ export default function OffersSection() {
               */
               <div
                 key={oferta.id}
-                className={`group/card relative flex flex-col rounded-3xl bg-white p-7 text-center transition-all duration-300 ease-out hover:z-20 hover:-translate-y-2 hover:scale-[1.03] hover:shadow-2xl motion-reduce:transition-none ${
+                className={`group/card relative flex flex-col rounded-3xl bg-white p-7 text-center transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:z-20 hover:-translate-y-2 hover:scale-[1.04] hover:shadow-2xl motion-reduce:transition-none ${
                   oferta.destaque
                     ? 'ring-clay z-10 shadow-2xl ring-2 md:-my-4 md:py-11'
                     : 'border-sand/70 hover:border-clay/50 border shadow-sm'
@@ -127,7 +156,7 @@ export default function OffersSection() {
                         oferta.frascos === 1 ? 'frasco' : 'frascos'
                       } de ${produto.nome}`}
                       sizes="(max-width: 768px) 60vw, 260px"
-                      className="h-full w-auto origin-bottom transition-transform duration-500 ease-out group-hover/card:scale-104 motion-reduce:transition-none"
+                      className="h-full w-auto origin-bottom transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/card:scale-104 motion-reduce:transition-none"
                     />
                   </div>
                 )}

@@ -127,41 +127,41 @@ export const ofertas: {
     titulo: 'Para experimentar',
     subtitulo: '1 frasco · 60 cápsulas · 30 dias',
     precoDe: '',
-    precoPor: '',
-    precoParcelado: '',
+    precoPor: '109,90',
+    precoParcelado: '12x de 9,16',
     economia: '',
     selo: '',
     destaque: false,
-    checkoutUrl: '',
+    checkoutUrl: 'sssss',
   },
   {
     id: '3-frascos',
     frascos: 3,
     titulo: 'Para o resultado completo',
     subtitulo: '3 frascos · 180 cápsulas · 90 dias',
-    precoDe: '',
-    precoPor: '',
-    precoParcelado: '',
-    economia: '',
+    precoDe: '330,00',
+    precoPor: '279,90',
+    precoParcelado: '12x de 23,33',
+    economia: 'ssssss',
     // O card do meio é o que a maioria escolhe. 3 frascos também é o kit que
     // faz sentido recomendar: o próprio modo de uso pede constância de no
     // mínimo 30 dias e o resultado costuma aparecer a partir da 2ª semana.
-    selo: 'Mais escolhido',
+    selo: 'MAIS VENDIDO',
     destaque: true,
-    checkoutUrl: '',
+    checkoutUrl: 'sssss',
   },
   {
     id: '2-frascos',
     frascos: 2,
     titulo: 'Para manter a constância',
     subtitulo: '2 frascos · 120 cápsulas · 60 dias',
-    precoDe: '',
-    precoPor: '',
-    precoParcelado: '',
+    precoDe: '220,00',
+    precoPor: '199,90',
+    precoParcelado: '12x de 16,66',
     economia: '',
     selo: '',
     destaque: false,
-    checkoutUrl: '',
+    checkoutUrl: 'ssssss',
   },
 ]
 
@@ -173,13 +173,18 @@ export const ofertas: {
  * do mesmo produto).
  */
 export const ofertasPublicadas = ofertas.filter(
-  (oferta) => oferta.precoPor && oferta.checkoutUrl,
+  // O link precisa começar com http, e não apenas "não estar vazio". Enquanto
+  // o teste era só de campo preenchido, um rascunho digitado no lugar da URL
+  // — "sssss", por exemplo — passava no filtro, a seção ia para a tela e o
+  // botão de comprar levava para uma página inexistente do próprio site.
+  // Botão de compra quebrado numa landing custa mais do que a seção inteira
+  // rende, então na dúvida a seção fica escondida.
+  (oferta) => oferta.precoPor && oferta.checkoutUrl.startsWith('http'),
 )
 
 export const formasDePagamento = ['Pix', 'Cartão de crédito', 'Boleto']
 
 export const entrega = {
-  // CONFIRMAR TODO O BLOCO com o que a Braip/transportadora realmente pratica
   transportadora: 'Correios e transportadoras parceiras',
   prazos: [
     { regiao: 'Sudeste', prazo: '' }, 

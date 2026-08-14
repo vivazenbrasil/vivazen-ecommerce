@@ -41,7 +41,7 @@ export default function CtaButton({
     na clara precisa ser escuro, senão seria branco sobre creme e não apareceria.
   */
   const brilho =
-    variante === 'claro' ? 'via-forest/10' : 'via-white/25'
+    variante === 'claro' ? 'via-forest/15' : 'via-white/45'
 
   const medidas = tamanho === 'lg' ? 'px-9 py-4 text-lg' : 'px-7 py-3 text-base'
 
@@ -64,9 +64,14 @@ export default function CtaButton({
         troca de estado na hora. Quem se incomoda com movimento se incomoda com
         o trajeto, não com o resultado.
 
-        O brilho que atravessa o botão é ANIMAÇÃO, e ainda por cima em loop
-        infinito — é o caso mais claro de algo que precisa sumir por completo
-        para quem pediu menos movimento. Fica atrás de `motion-safe:`.
+        O brilho em loop roda para todo mundo, SEM o prefixo `motion-safe:`, e
+        isso é uma escolha consciente e não esquecimento. A prática comum seria
+        desligá-lo para quem marcou "reduzir movimento" no sistema, já que é
+        animação infinita. Aqui ele fica ligado por decisão do dono do site: é
+        o elemento que chama atenção para o botão de compra, e a máquina de
+        quem toca o projeto roda com essa preferência ligada — na prática o
+        efeito nunca existiria. Se um dia a decisão mudar, basta devolver o
+        prefixo nesta linha.
 
         `active:` importa mais do que parece: no celular não existe hover, e o
         afundar é a única resposta visual entre o toque e a página trocar.
@@ -91,7 +96,7 @@ export default function CtaButton({
         */}
         <span
           aria-hidden="true"
-          className={`pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent to-transparent ${brilho} motion-safe:animate-brilho-cta`}
+          className={`animate-brilho-cta pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent to-transparent ${brilho}`}
         />
 
         <ShoppingBag className="relative h-5 w-5 shrink-0 transition-transform duration-300 group-hover/cta:-rotate-6 group-hover/cta:scale-110 motion-reduce:transition-none" />

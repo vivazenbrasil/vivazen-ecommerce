@@ -24,7 +24,7 @@
     O skew vai dentro do keyframe, e não numa classe utilitária, porque animar
     `transform` sobrescreveria qualquer skew declarado por fora.
   */
-  --animate-brilho-cta: brilho-cta 4s ease-in-out infinite;
+  --animate-brilho-cta: brilho-cta 3s ease-in-out infinite;
 
   @keyframes brilho-cta {
     0%   { transform: translateX(-160%) skewX(-14deg); }

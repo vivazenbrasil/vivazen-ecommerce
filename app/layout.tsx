@@ -2,6 +2,7 @@ import Footer from '@/components/layout/Footer'
 import Header from '@/components/layout/Header'
 import WhatsAppFloat from '@/components/layout/WhatsAppFloat'
 import { produto, site } from '@/lib/site'
+import { Analytics } from '@vercel/analytics/next'
 import type { Metadata } from 'next'
 import { Fraunces, Geist } from 'next/font/google'
 import './globals.css'
@@ -116,6 +117,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <WhatsAppFloat />
+        <Analytics />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

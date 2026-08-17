@@ -7,7 +7,7 @@ import Image from 'next/image'
 
 export const metadata: Metadata = {
   title: 'A Empresa',
-  description: `Conheça a história da ${site.nome}: de uma pequena horta orgânica a uma marca de produtos naturais com transparência e qualidade.`,
+  description: `A ${site.nome} foi fundada para oferecer alternativas naturais e puras para os desafios do estilo de vida atual. Percebemos a necessidade de criar produtos que entregassem resultados reais sem gerar dependência. Assim nasceu a nossa marca: um ecossistema de bem-estar pensado para devolver a leveza, a clareza e a qualidade de vida que você merece.`,
   alternates: { canonical: '/sobre' },
 }
 
@@ -43,7 +43,7 @@ const jornada = [
     marco: 'Origem',
     cor: 'clay' as const,
     texto:
-      'Nossa jornada começou com uma pequena horta orgânica, onde cultivávamos ervas e plantas com métodos sustentáveis, sem o uso de agrotóxicos. A paixão por compartilhar os benefícios desses ingredientes puros nos levou à criação da VivaZen.',
+      'A VivaZen foi fundada para oferecer alternativas naturais e puras para os desafios do estilo de vida atual. Percebemos a necessidade de criar produtos que entregassem resultados reais sem gerar dependência. Assim nasceu a nossa marca: um ecossistema de bem-estar pensado para devolver a leveza, a clareza e a qualidade de vida que você merece.',
   },
   {
     marco: 'Hoje',

@@ -7,7 +7,7 @@
  */
 
 export const site = {
-  nome: 'VivaZen',
+  nome: 'VivaZenBrasil',
   // Alimenta metadataBase, canonical, OpenGraph e JSON-LD. Se mudar de domínio,
   // é aqui — todas as URLs absolutas do SEO derivam deste valor.
   //

@@ -218,6 +218,28 @@ export const ofertasPublicadas = ofertas.filter(
   (oferta) => oferta.precoPor && oferta.checkoutUrl.startsWith('http'),
 )
 
+/**
+ * Para onde vai qualquer botão de compra que não seja o de um kit específico.
+ *
+ * Com kits no ar, todo botão leva para a seção de kits em vez de jogar direto
+ * na Braip: o visitante escolhe entre 1, 2 e 3 frascos antes de sair do site, e
+ * mandar para o checkout do frasco avulso entrega a venda menor. Sem kits
+ * configurados, cai no checkout, que passa a ser o único destino existente —
+ * assim nenhum botão aponta para uma seção invisível.
+ *
+ * A barra antes do `#` não é detalhe. `/#ofertas` resolve os dois casos do
+ * site: na home o navegador reconhece o mesmo documento e faz rolagem suave até
+ * a âncora; na `/sobre` ou numa página legal, onde a seção não existe e não há
+ * para onde rolar, ele navega para a home e cai na seção. Um `#ofertas` sozinho
+ * não faria nada nessas páginas.
+ *
+ * A regra mora aqui, e não dentro de um componente, porque o cabeçalho também
+ * depende dela — e o cabeçalho é Client Component, então não pode importar de
+ * um módulo de servidor.
+ */
+export const destinoDoCta =
+  ofertasPublicadas.length > 0 ? '/#ofertas' : produto.checkoutUrl
+
 export const formasDePagamento = ['Pix', 'Cartão de crédito', 'Boleto']
 
 export const entrega = {

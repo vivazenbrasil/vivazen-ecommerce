@@ -76,9 +76,23 @@ export default function Sobre() {
             o seu bem-estar
           </h1>
 
-          <p className="mx-auto mt-8 max-w-xl text-lg leading-8 text-stone-600">
-            A VivaZen nasceu do sonho de levar mais saúde e equilíbrio para a vida
-            das pessoas através do poder da natureza.
+          {/*
+            Texto institucional escrito pela VivaZen. Se for alterar, altere a
+            frase inteira: as três estão encadeadas — o motivo da fundação, a
+            necessidade percebida, e o que a marca virou.
+
+            `max-w-2xl` e não `max-w-xl`: o parágrafo tem umas 340 letras e é
+            centralizado. Na medida anterior ele quebrava em seis linhas, e
+            texto centralizado com muitas linhas fica cansativo de ler, porque
+            o olho perde a margem de referência a cada volta.
+          */}
+          <p className="mx-auto mt-8 max-w-2xl text-lg leading-8 text-stone-600">
+            A VivaZen foi fundada para oferecer alternativas naturais e puras
+            para os desafios do estilo de vida atual. Percebemos a necessidade
+            de criar produtos que entregassem resultados reais sem gerar
+            dependência. Assim nasceu a nossa marca: um ecossistema de
+            bem-estar pensado para devolver a leveza, a clareza e a qualidade de
+            vida que você merece.
           </p>
         </div>
       </section>

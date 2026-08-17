@@ -125,6 +125,7 @@ O arquivo de configuração. Exporta:
 - `produto` — nome, preço, quantidade, selos, modo de uso, contraindicações, aviso da ANVISA, URL do checkout
 - `ofertas` — os kits de 1, 2 e 3 frascos; `ofertasPublicadas` é o filtro dos que têm preço e link
 - `economiaDoKit(oferta)` — calcula quanto o kit economiza a partir de `precoDe` e `precoPor`; não existe campo `economia` para preencher
+- `destinoDoCta` — para onde vai todo botão de compra que não é de um kit específico
 - `formasDePagamento` — os meios aceitos, exibidos abaixo dos kits
 - `entrega` — transportadora, prazos por região, rastreio, embalagem
 - `garantia` — dias, como solicitar, aviso do CDC
@@ -241,6 +242,14 @@ Detalhe útil: o Tailwind já embrulha `group-hover` em `@media (hover: hover)` 
 **Os grupos de hover têm nome: `group/card` e `group/cta`.** O `CtaButton` é um grupo e está dentro do card, que também é. Com os dois anônimos, o `group-hover` do botão responderia ao hover do card inteiro e o brilho dispararia ao passar o mouse em qualquer canto. Se criar outro grupo dentro de um card, nomeie também.
 
 **Sem emoji em nenhum lugar.** Nem na tela, nem em comentário, nem aqui, nem em mensagem de commit. Este é um site que vende: emoji num aviso ou num título destoa da identidade (verde escuro, terracota, Fraunces itálico) e custa credibilidade justamente na página que foi feita para construir credibilidade. Onde é preciso chamar atenção, use rótulo em texto — `[falta preencher]` na tela, `ATENÇÃO:` em comentário. Havia um triângulo de alerta em três avisos de campo vazio que renderizavam na tela de produção; foram trocados.
+
+**Nenhum botão vai direto para a Braip, exceto os dos cards de kit.** Todos os outros — cabeçalho, hero, vídeo, "Por que o Livit", CTA final, e o da `/sobre` — apontam para `destinoDoCta`, que é a seção de kits. O motivo é comercial: quem clica sem passar pelos kits sai do site levando o frasco avulso, a menor das três vendas possíveis. Antes o botão do cabeçalho, o mais visível da página, fazia exatamente isso.
+
+O valor é `/#ofertas`, **com a barra na frente**, e ela resolve os dois casos do site de uma vez. Na home, o navegador reconhece que é o mesmo documento e rola suavemente até a âncora. Na `/sobre` ou numa página legal, onde a seção não existe e não há para onde rolar, ele navega para a home e cai na seção. Um `#ofertas` sozinho não faria nada nessas páginas — é o tipo de link que parece funcionar porque ninguém testa fora da home.
+
+Por isso também o teste de "é link externo?" no `CtaButton` passou a ser `href.startsWith('http')` em vez de `startsWith('#')`: agora um link interno pode começar com barra, com `#` ou com os dois, e só sai do site quem tem endereço absoluto. Desse teste dependem o `target="_blank"` e o aviso de que o pagamento acontece na Braip — que seria mentira num clique que apenas rola a página.
+
+**A rolagem suave tem um limite que o CSS não vence.** Ela vem de `scroll-behavior: smooth` no `html`. Havia um bloco `@media (prefers-reduced-motion: reduce)` desligando isso, que é a recomendação padrão, e ele foi removido pela mesma decisão que deixou o brilho sempre ligado. Mas atenção: Chrome e Firefox também respeitam essa preferência do sistema **no próprio motor**, e nesse nível o CSS não manda. Numa máquina com "reduzir movimento" ativado, o salto continua instantâneo por decisão do navegador. Garantir a animação nesse caso exigiria rolar por JavaScript com `requestAnimationFrame`, o que não está feito.
 
 **O checkout é externo.** Todo botão avisa que o visitante vai para a Braip. Não tire esse aviso: ser jogado sem explicação num domínio `ev.braip.com` gera desconfiança e abandono.
 

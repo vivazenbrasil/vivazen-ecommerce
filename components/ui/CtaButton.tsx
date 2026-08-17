@@ -1,11 +1,12 @@
-import { produto } from '@/lib/site'
+import { destinoDoCta } from '@/lib/site'
 import { Lock, ShoppingBag } from 'lucide-react'
 
 interface CtaButtonProps {
   children?: React.ReactNode
   /**
-   * Destino do clique. O padrão é o checkout do produto avulso; a seção de
-   * ofertas passa o link do kit correspondente.
+   * Destino do clique. Sem valor, usa `destinoDoCta` do lib/site.ts — a seção
+   * de kits, ou o checkout se não houver kit publicado. Os cards de kit passam
+   * o link de checkout daquele kit específico.
    *
    * Todo CTA do site continua passando por este componente de propósito — é o
    * ponto único para plugar rastreamento de conversão no dia que fizer sentido.
@@ -24,7 +25,7 @@ interface CtaButtonProps {
 
 export default function CtaButton({
   children = 'Comprar agora',
-  href = produto.checkoutUrl,
+  href = destinoDoCta,
   variante = 'escuro',
   comAviso = false,
   tamanho = 'lg',
@@ -46,11 +47,16 @@ export default function CtaButton({
   const medidas = tamanho === 'lg' ? 'px-9 py-4 text-lg' : 'px-7 py-3 text-base'
 
   /*
-    Link que começa com "#" é âncora da própria página (o hero apontando para a
-    seção de ofertas, por exemplo). Nesse caso não pode abrir em aba nova, e o
-    aviso da Braip não faz sentido porque ninguém está saindo do site ainda.
+    O teste é por "http", e não por "#". Depois que o destino padrão virou
+    `/#ofertas`, um link interno pode começar com barra, com `#` ou com os dois
+    — só sai do site quem tem endereço absoluto, que hoje é apenas o checkout
+    da Braip.
+
+    Disso dependem duas coisas: abrir em aba nova, que só faz sentido ao sair do
+    site, e mostrar o aviso de que o pagamento acontece na Braip, que seria
+    mentira num clique que apenas rola a página.
   */
-  const interno = href.startsWith('#')
+  const externo = href.startsWith('http')
 
   return (
     <div className={className}>
@@ -78,8 +84,8 @@ export default function CtaButton({
       */}
       <a
         href={href}
-        target={interno ? undefined : '_blank'}
-        rel={interno ? undefined : 'noopener noreferrer'}
+        target={externo ? '_blank' : undefined}
+        rel={externo ? 'noopener noreferrer' : undefined}
         className={`group/cta relative overflow-hidden ${
           bloco ? 'flex w-full justify-center' : 'inline-flex'
         } items-center gap-2.5 rounded-full font-semibold shadow-lg transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl active:translate-y-0 active:scale-[0.98] motion-reduce:transition-none focus-visible:ring-4 focus-visible:ring-clay/40 focus-visible:outline-none ${cores} ${medidas}`}
@@ -108,7 +114,7 @@ export default function CtaButton({
         <span className="relative">{children}</span>
       </a>
 
-      {comAviso && !interno && (
+      {comAviso && externo && (
         <p
           className={`mt-4 flex items-center gap-1.5 text-xs ${
             variante === 'claro' ? 'text-cream/70' : 'text-stone-500'

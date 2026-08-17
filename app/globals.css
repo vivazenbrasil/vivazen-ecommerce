@@ -56,14 +56,19 @@
 }
 
 @layer base {
+  /*
+    A rolagem suave é o que faz o clique em "Ver os kits" deslizar até a seção
+    em vez de teleportar. Vale para todo link com `#` no site.
+
+    Havia aqui um bloco `@media (prefers-reduced-motion: reduce)` devolvendo
+    `scroll-behavior: auto`, que é a recomendação padrão de acessibilidade.
+    Foi removido pela mesma decisão que deixou o brilho dos botões sempre
+    ligado: a máquina de quem toca o projeto roda com essa preferência
+    ativada, então na prática a rolagem suave nunca acontecia e o efeito
+    pedido não existia. Para devolver o comportamento padrão, basta recriar o
+    bloco com `html { scroll-behavior: auto; }` dentro dele.
+  */
   html {
     scroll-behavior: smooth;
-  }
-}
-
-/* Respeita quem prefere menos movimento */
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
   }
 }

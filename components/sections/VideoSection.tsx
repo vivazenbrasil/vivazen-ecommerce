@@ -1,6 +1,6 @@
 import CtaButton from '@/components/ui/CtaButton'
 import SectionHeading from '@/components/ui/SectionHeading'
-import { ofertasPublicadas, produto } from '@/lib/site'
+import { produto } from '@/lib/site'
 
 /**
  * Vídeo promocional.
@@ -30,14 +30,6 @@ import { ofertasPublicadas, produto } from '@/lib/site'
  * então esticá-lo além disso só entrega imagem borrada.
  */
 export default function VideoSection() {
-  /*
-    O vídeo termina com ela pedindo para clicar no botão. O destino segue a
-    mesma regra do hero: se existem kits publicados, o botão leva para eles;
-    senão, vai direto para o checkout, que é o único destino que existe.
-    Assim o site nunca manda a pessoa para uma seção invisível.
-  */
-  const destino = ofertasPublicadas.length > 0 ? '#ofertas' : produto.checkoutUrl
-
   return (
     <section id="video" className="bg-cream-deep py-16 md:py-20">
       {/*
@@ -73,8 +65,9 @@ export default function VideoSection() {
           </div>
 
           {/* O botão que ela pede no fim do vídeo. Fica logo abaixo do player
-              de propósito: é para onde o olho vai quando o vídeo termina. */}
-          <CtaButton href={destino} bloco className="mt-6">
+              de propósito: é para onde o olho vai quando o vídeo termina. Sem
+              `href`, ele usa o destino padrão do CtaButton — a seção de kits. */}
+          <CtaButton bloco className="mt-6">
             Quero conhecer o {produto.nome}
           </CtaButton>
         </div>

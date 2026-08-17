@@ -1,6 +1,6 @@
 'use client'
 
-import { produto, site } from '@/lib/site'
+import { destinoDoCta, site } from '@/lib/site'
 import { Leaf, Menu, X } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -55,10 +55,15 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
+          {/*
+            Este botão leva para a seção de kits, não para a Braip. Antes ia
+            direto ao checkout do frasco avulso — o botão mais visível do site
+            entregando a menor das três vendas possíveis. Sem `target="_blank"`
+            porque não sai mais do site; a regra do destino está em
+            `destinoDoCta`, no lib/site.ts.
+          */}
           <a
-            href={produto.checkoutUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={destinoDoCta}
             className="bg-forest hover:bg-forest-soft ml-3 rounded-full px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:shadow-md"
           >
             Comprar agora
@@ -94,9 +99,7 @@ export default function Header() {
               </Link>
             ))}
             <a
-              href={produto.checkoutUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={destinoDoCta}
               onClick={() => setAberto(false)}
               className="bg-forest hover:bg-forest-soft mt-4 mb-2 rounded-full px-6 py-3.5 text-center font-semibold text-white transition-colors"
             >

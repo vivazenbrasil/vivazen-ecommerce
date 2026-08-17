@@ -127,7 +127,7 @@ export const ofertas: {
     subtitulo: '1 frasco · 60 cápsulas · 30 dias',
     precoDe: '',
     precoPor: 'R$ 109,90',
-    precoParcelado: '12x de R$ 11,37',
+    precoParcelado: 'até 3x sem juros',
     selo: '',
     destaque: false,
     checkoutUrl: 'https://buy.braip.com/checkout/plakqv0l/che74r9l',
@@ -142,7 +142,7 @@ export const ofertas: {
     // cortado. Estava R$ 330,00, arredondado para cima.
     precoDe: 'R$ 329,70',
     precoPor: 'R$ 279,90',
-    precoParcelado: '12x de R$ 28,95',
+    precoParcelado: 'até 3x sem juros',
     // O card do meio é o que a maioria escolhe. 3 frascos também é o kit que
     // faz sentido recomendar: o próprio modo de uso pede constância de no
     // mínimo 30 dias e o resultado costuma aparecer a partir da 2ª semana.
@@ -157,7 +157,7 @@ export const ofertas: {
     subtitulo: '2 frascos · 120 cápsulas · 60 dias',
     precoDe: 'R$ 219,80', // 2 x R$ 109,90. Estava R$ 220,00.
     precoPor: 'R$ 199,90',
-    precoParcelado: '12x de R$ 20,67',
+    precoParcelado: 'até 3x sem juros',
     selo: '',
     destaque: false,
     checkoutUrl: 'https://buy.braip.com/checkout/plajel1o/che74r9l',

@@ -12,24 +12,46 @@
 
   --font-display: var(--font-fraunces);
   --font-sans: var(--font-geist-sans);
+}
 
-  /*
-    Brilho que atravessa os botões de compra em loop.
+/*
+  BRILHO QUE ATRAVESSA OS BOTÕES DE COMPRA
 
-    A faixa cruza o botão nos primeiros 45% do ciclo e depois fica parada fora
-    da tela no resto. Essa pausa é o que faz o efeito parecer um reflexo
-    ocasional em vez de um pisca-pisca — sem ela, com o botão tendo poucos
-    centímetros, a faixa reapareceria quase imediatamente e viraria ruído.
+  Isto é CSS escrito na mão, fora do `@theme`, e precisa continuar assim.
 
-    O skew vai dentro do keyframe, e não numa classe utilitária, porque animar
-    `transform` sobrescreveria qualquer skew declarado por fora.
-  */
-  --animate-brilho-cta: brilho-cta 3s ease-in-out infinite;
+  A primeira versão usava o mecanismo do Tailwind: um `--animate-brilho-cta`
+  dentro do `@theme` e a classe `animate-brilho-cta` gerada a partir dele. O
+  build local gerava tudo certo e o da Vercel apagava a animação inteira — o
+  CSS publicado saía 161 bytes menor, sem o `@keyframes` e sem a regra. O
+  brilho então ficava parado sobre o botão, como um borrão branco.
 
-  @keyframes brilho-cta {
-    0%   { transform: translateX(-160%) skewX(-14deg); }
-    45%  { transform: translateX(460%)  skewX(-14deg); }
-    100% { transform: translateX(460%)  skewX(-14deg); }
+  O motivo é que, naquele desenho, o único lugar onde o nome `brilho-cta`
+  aparecia era DENTRO do valor de uma variável CSS. Minificador não segue nome
+  de animação escondido em variável: ele conclui que o `@keyframes` não é usado
+  por ninguém e remove. Aqui a classe cita o nome direto na propriedade
+  `animation`, que é uma ligação que qualquer ferramenta enxerga.
+
+  Regra para animação nova neste projeto: declare o `@keyframes` e a classe que
+  o usa lado a lado, em CSS puro. Não passe o nome por variável.
+
+  Sobre o desenho do efeito: a faixa cruza o botão nos primeiros 45% do ciclo e
+  fica parada fora da tela no resto. Essa pausa é o que faz parecer um reflexo
+  ocasional em vez de pisca-pisca. O skew vai dentro do keyframe porque animar
+  `transform` sobrescreveria qualquer inclinação declarada por fora.
+*/
+.brilho-cta {
+  animation: brilho-cta 3s ease-in-out infinite;
+}
+
+@keyframes brilho-cta {
+  0% {
+    transform: translateX(-160%) skewX(-14deg);
+  }
+  45% {
+    transform: translateX(460%) skewX(-14deg);
+  }
+  100% {
+    transform: translateX(460%) skewX(-14deg);
   }
 }
 

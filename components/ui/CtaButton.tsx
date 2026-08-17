@@ -85,9 +85,14 @@ export default function CtaButton({
         } items-center gap-2.5 rounded-full font-semibold shadow-lg transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl active:translate-y-0 active:scale-[0.98] motion-reduce:transition-none focus-visible:ring-4 focus-visible:ring-clay/40 focus-visible:outline-none ${cores} ${medidas}`}
       >
         {/*
-          O brilho, agora em loop: uma faixa inclinada que entra pela esquerda,
-          atravessa e some pela direita, a cada 4 segundos. O keyframe e a pausa
-          entre as passadas estão em `--animate-brilho-cta`, no globals.css.
+          O brilho em loop: uma faixa inclinada que entra pela esquerda,
+          atravessa e some pela direita, a cada 3 segundos.
+
+          A classe `brilho-cta` é CSS escrito na mão no globals.css, e NÃO uma
+          utilitária do Tailwind. Isso não é preferência de estilo: na versão
+          anterior, feita com `--animate-*` dentro do `@theme`, o build da
+          Vercel apagava a animação e o brilho aparecia parado sobre o botão em
+          produção. O comentário no globals.css explica o porquê.
 
           `w-1/3` e não mais metade: em loop, uma faixa larga demais chapa o
           botão inteiro de claro a cada volta em vez de parecer um reflexo
@@ -96,7 +101,7 @@ export default function CtaButton({
         */}
         <span
           aria-hidden="true"
-          className={`animate-brilho-cta pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent to-transparent ${brilho}`}
+          className={`brilho-cta pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent to-transparent ${brilho}`}
         />
 
         <ShoppingBag className="relative h-5 w-5 shrink-0 transition-transform duration-300 group-hover/cta:-rotate-6 group-hover/cta:scale-110 motion-reduce:transition-none" />

@@ -124,6 +124,7 @@ O arquivo de configuração. Exporta:
 - `site` — nome, domínio, contatos, razão social, CNPJ
 - `produto` — nome, preço, quantidade, selos, modo de uso, contraindicações, aviso da ANVISA, URL do checkout
 - `ofertas` — os kits de 1, 2 e 3 frascos; `ofertasPublicadas` é o filtro dos que têm preço e link
+- `economiaDoKit(oferta)` — calcula quanto o kit economiza a partir de `precoDe` e `precoPor`; não existe campo `economia` para preencher
 - `formasDePagamento` — os meios aceitos, exibidos abaixo dos kits
 - `entrega` — transportadora, prazos por região, rastreio, embalagem
 - `garantia` — dias, como solicitar, aviso do CDC
@@ -214,6 +215,12 @@ Duas fontes: **Geist** no texto corrido e **Fraunces** (itálico) nos títulos, 
 **As três fotos dos kits são normalizadas de duas maneiras, e as duas são necessárias.** A primeira é a **altura da moldura**: 700px nas três. É isso que mantém os frascos na mesma escala, já que a `OffersSection` as renderiza com altura fixa e largura automática — se você recortar cada foto só no próprio conteúdo, o frasco único vai aparecer do tamanho do trio e o kit maior parecerá levar menos produto.
 
 A segunda é a **linha de base**: a base dos frascos tem que ficar na mesma altura dentro do arquivo (hoje em y=675, com 24px de branco abaixo). Essa é a que passa despercebida, porque cada foto isolada parece certa. As originais tinham 26px, 7px e 50px de branco embaixo dos frascos; como o container alinha as *imagens* pela base, o trio flutuava uns 11px acima dos outros dois quando os três cards ficavam lado a lado. Ao trocar qualquer foto, meça as duas coisas.
+
+**Todo valor em dinheiro carrega o `R$` dentro do próprio dado.** Os campos de preço vão crus para a tela — nenhum componente formata nada. Se você escrever `279,90` em vez de `R$ 279,90`, é exatamente `279,90` que o cliente vê, ao lado de um hero que mostra `R$ 109,90`. Já aconteceu e ficou no ar. A regra vale para `preco`, `precoParcelado`, `precoDe` e `precoPor`.
+
+**Número que sai de uma conta entre outros dois números não vira campo — vira função.** A economia de cada kit é `precoDe` menos `precoPor`, e por um tempo existiu um campo `economia` digitado à mão. Ele produziu dois defeitos de uma vez, os dois em produção. O texto duplicou, porque o card já escreve "Você economiza" e o campo trazia "Economize R$ 50,10" — lia-se *"Você economiza Economize R$ 50,10"*. E o número podia contradizer os outros dois: basta ajustar um preço e esquecer de refazer a subtração para a página exibir uma economia que não bate com os valores logo acima dela. Hoje quem calcula é `economiaDoKit()`, então os três números não têm como divergir. Sempre que for acrescentar um dado, pergunte se ele pode ser deduzido do que já existe; se puder, deduza.
+
+Duas decisões dentro dessa função que valem entender. A formatação é feita na mão — `` `R$ ${valor.toFixed(2).replace('.', ',')}` `` — e não com `Intl.NumberFormat`, porque o `Intl` depende da tabela de idiomas de quem executa: servidor e navegador podem produzir espaços diferentes entre o `R$` e o número, e o React acusa erro de hidratação ao comparar o HTML que veio do servidor com o que ele desenharia. E a conversão de texto para número (`"R$ 329,70"` → `329.7`) precisa trocar a vírgula por ponto, porque `parseFloat` só entende o ponto decimal do inglês.
 
 **O valor cortado precisa ser um preço realmente praticado.** É o `precoDe` de cada kit. Pelo art. 37 do CDC, inflar esse número para o desconto parecer maior é propaganda enganosa — dá multa do Procon e derruba conta de anúncio, exatamente como depoimento inventado. Um `precoDe` defensável é a soma do avulso (3 frascos a R$ 109,90 = R$ 329,70), porque é o que a pessoa pagaria comprando separado. Kit que nunca teve outro preço deve ficar com `precoDe` vazio: o card simplesmente não mostra valor cortado.
 

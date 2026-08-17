@@ -1,6 +1,11 @@
 import CtaButton from '@/components/ui/CtaButton'
 import SectionHeading from '@/components/ui/SectionHeading'
-import { formasDePagamento, ofertasPublicadas, produto } from '@/lib/site'
+import {
+  economiaDoKit,
+  formasDePagamento,
+  ofertasPublicadas,
+  produto,
+} from '@/lib/site'
 import umFrasco from '@/public/1-frasco.webp'
 import doisFrascos from '@/public/2-frascos.webp'
 import tresFrascos from '@/public/3-frascos.webp'
@@ -90,6 +95,7 @@ export default function OffersSection() {
         <div className="mt-16 grid gap-8 md:grid-cols-3 md:gap-6">
           {ofertasPublicadas.map((oferta) => {
             const imagem = imagens[oferta.frascos]
+            const economia = economiaDoKit(oferta)
 
             return (
               /*
@@ -184,9 +190,12 @@ export default function OffersSection() {
                   )}
                 </div>
 
-                {oferta.economia && (
+                {/* O valor vem calculado de precoDe menos precoPor. O rótulo
+                    "Você economiza" mora aqui, no componente; o dado é só o
+                    número. Ver economiaDoKit em lib/site.ts. */}
+                {economia && (
                   <p className="bg-cream text-forest mt-5 self-center rounded-full px-4 py-1.5 text-sm font-semibold">
-                    Você economiza {oferta.economia}
+                    Você economiza {economia}
                   </p>
                 )}
 

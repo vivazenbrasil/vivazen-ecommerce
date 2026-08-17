@@ -116,7 +116,6 @@ export const ofertas: {
   precoDe: string
   precoPor: string
   precoParcelado: string
-  economia: string
   selo: string
   destaque: boolean
   checkoutUrl: string
@@ -127,9 +126,8 @@ export const ofertas: {
     titulo: 'Para experimentar',
     subtitulo: '1 frasco · 60 cápsulas · 30 dias',
     precoDe: '',
-    precoPor: '109,90',
-    precoParcelado: '12x de 11,37',
-    economia: '',
+    precoPor: 'R$ 109,90',
+    precoParcelado: '12x de R$ 11,37',
     selo: '',
     destaque: false,
     checkoutUrl: 'https://buy.braip.com/checkout/plakqv0l/che74r9l',
@@ -139,10 +137,12 @@ export const ofertas: {
     frascos: 3,
     titulo: 'Para o resultado completo',
     subtitulo: '3 frascos · 180 cápsulas · 90 dias',
-    precoDe: '330,00',
-    precoPor: '279,90',
-    precoParcelado: '12x de 28,95',
-    economia: 'Economize R$ 50,10',
+    // 3 x R$ 109,90 = R$ 329,70. É o que a pessoa pagaria comprando três
+    // frascos avulsos, e é por isso que este valor é defensável como preço
+    // cortado. Estava R$ 330,00, arredondado para cima.
+    precoDe: 'R$ 329,70',
+    precoPor: 'R$ 279,90',
+    precoParcelado: '12x de R$ 28,95',
     // O card do meio é o que a maioria escolhe. 3 frascos também é o kit que
     // faz sentido recomendar: o próprio modo de uso pede constância de no
     // mínimo 30 dias e o resultado costuma aparecer a partir da 2ª semana.
@@ -155,15 +155,51 @@ export const ofertas: {
     frascos: 2,
     titulo: 'Para manter a constância',
     subtitulo: '2 frascos · 120 cápsulas · 60 dias',
-    precoDe: '220,00',
-    precoPor: '199,90',
-    precoParcelado: '12x de 20,67',
-    economia: 'Economize R$ 20,10',
+    precoDe: 'R$ 219,80', // 2 x R$ 109,90. Estava R$ 220,00.
+    precoPor: 'R$ 199,90',
+    precoParcelado: '12x de R$ 20,67',
     selo: '',
     destaque: false,
     checkoutUrl: 'https://buy.braip.com/checkout/plajel1o/che74r9l',
   },
 ]
+
+/**
+ * Quanto o kit economiza em relação ao preço cortado.
+ *
+ * Isto é CALCULADO, e não digitado, de propósito. Existia um campo `economia`
+ * preenchido à mão e ele produziu dois erros ao mesmo tempo em produção:
+ *
+ * O texto saía duplicado. O card já escreve "Você economiza" antes do valor, e
+ * o campo trazia "Economize R$ 50,10" — na tela lia-se "Você economiza
+ * Economize R$ 50,10".
+ *
+ * E o número podia contradizer os outros dois. Um campo que repete uma conta
+ * feita a partir de outros dois campos sempre acaba desatualizado: basta mexer
+ * no preço e esquecer de refazer a subtração, e a página passa a exibir uma
+ * economia que não bate com os valores logo acima dela.
+ *
+ * Derivando, os três números não têm como divergir. Kit sem `precoDe` — como o
+ * de 1 frasco — simplesmente não tem economia, e o card omite a faixa.
+ */
+function valorEmReais(texto: string): number | null {
+  // "R$ 329,70" -> 329.7. Tira tudo que não for dígito ou vírgula e troca a
+  // vírgula decimal brasileira pelo ponto que o JavaScript entende.
+  const numero = Number.parseFloat(texto.replace(/[^\d,]/g, '').replace(',', '.'))
+  return Number.isFinite(numero) ? numero : null
+}
+
+export function economiaDoKit(oferta: { precoDe: string; precoPor: string }): string {
+  const de = valorEmReais(oferta.precoDe)
+  const por = valorEmReais(oferta.precoPor)
+  if (de === null || por === null || de <= por) return ''
+
+  // Formatação na mão em vez de Intl.NumberFormat: o Intl depende da tabela de
+  // idiomas de quem executa, e servidor e navegador podem entregar espaços
+  // diferentes entre "R$" e o número. Isso gera erro de hidratação no React,
+  // que compara o HTML do servidor com o que o navegador desenharia.
+  return `R$ ${(de - por).toFixed(2).replace('.', ',')}`
+}
 
 /**
  * Uma oferta só é publicável quando tem preço E link de checkout. A regra mora

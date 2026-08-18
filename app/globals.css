@@ -55,6 +55,33 @@
   }
 }
 
+/*
+  PULSO SUAVE DA BARRA DE FRETE GRÁTIS
+
+  Mesma regra do brilho dos botões, poucos parágrafos acima: `@keyframes` e a
+  classe que o usa ficam lado a lado, em CSS puro, e o nome vai direto na
+  propriedade `animation`. Um `--animate-*` dentro do `@theme` some no build da
+  Vercel pelo mesmo motivo já explicado ali.
+
+  1.03 e não mais: a barra é uma faixa fina de texto, e um scale maior faz as
+  letras tremerem em vez de "respirar". Sem `motion-reduce:`, pela mesma
+  decisão do brilho — é a máquina de quem toca o projeto que roda com a
+  preferência ligada, então na prática o efeito nunca existiria.
+*/
+.pulso-suave {
+  animation: pulso-suave 2.5s ease-in-out infinite;
+}
+
+@keyframes pulso-suave {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
 @layer base {
   /*
     A rolagem suave é o que faz o clique em "Ver os kits" deslizar até a seção

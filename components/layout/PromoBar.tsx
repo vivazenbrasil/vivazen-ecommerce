@@ -15,11 +15,11 @@ export default function PromoBar() {
   return (
     <a
       href="/#ofertas"
-      className="bg-clay hover:bg-clay-soft flex items-center justify-center gap-2 px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors"
+      className="pulso-suave bg-clay hover:bg-clay-soft flex items-center justify-center gap-2 px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors"
     >
       <Truck className="h-4 w-4 shrink-0" strokeWidth={2.5} />
       Frete grátis na compra do kit com {ofertaComFreteGratis.frascos} frascos
-      — aproveite
+      — Aproveite!
     </a>
   )
 }

@@ -190,28 +190,34 @@ export default function OffersSection() {
                   )}
                 </div>
 
-                {/* O valor vem calculado de precoDe menos precoPor. O rótulo
-                    "Você economiza" mora aqui, no componente; o dado é só o
-                    número. Ver economiaDoKit em lib/site.ts. */}
-                {economia && (
-                  <p className="bg-cream text-forest mt-5 self-center rounded-full px-4 py-1.5 text-sm font-semibold">
-                    Você economiza {economia}
-                  </p>
-                )}
+                {/*
+                  "Você economiza" e "Frete grátis" (este último decidido em
+                  lib/site.ts, campo `freteGratis` de cada kit — precisa
+                  também estar configurado no checkout da Braip, senão o site
+                  promete o que o checkout não cumpre) dividem a MESMA linha.
 
-                {/* Frete grátis é decidido em lib/site.ts, campo `freteGratis`
-                    de cada kit — precisa estar configurado no checkout da
-                    Braip também, senão o site promete o que o checkout não
-                    cumpre. */}
-                {oferta.freteGratis && (
-                  <p
-                    className={`text-forest flex items-center justify-center gap-1.5 self-center rounded-full bg-cream px-4 py-1.5 text-sm font-semibold ${
-                      economia ? 'mt-2' : 'mt-5'
-                    }`}
-                  >
-                    <Truck className="h-4 w-4 shrink-0" strokeWidth={2.5} />
-                    Frete grátis
-                  </p>
+                  Empilhados em dois parágrafos, os dois juntos só apareciam
+                  no card de 3 frascos e engordavam ele bem mais que os outros
+                  dois — que já ficam maiores por design (`md:-my-4 md:py-11`
+                  logo acima). Lado a lado, a altura extra some quando cabem
+                  numa linha só, e nos raros casos em que quebram, quebram
+                  como um bloco (`flex-wrap`), sem depender de qual dos dois
+                  veio primeiro.
+                */}
+                {(economia || oferta.freteGratis) && (
+                  <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+                    {economia && (
+                      <p className="bg-cream text-forest rounded-full px-4 py-1.5 text-sm font-semibold">
+                        Você economiza {economia}
+                      </p>
+                    )}
+                    {oferta.freteGratis && (
+                      <p className="bg-cream text-forest flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-semibold">
+                        <Truck className="h-4 w-4 shrink-0" strokeWidth={2.5} />
+                        Frete grátis
+                      </p>
+                    )}
+                  </div>
                 )}
 
                 {/* mt-auto empurra o botão para a base: os cards têm alturas de

@@ -199,6 +199,21 @@ export default function OffersSection() {
                   </p>
                 )}
 
+                {/* Frete grátis é decidido em lib/site.ts, campo `freteGratis`
+                    de cada kit — precisa estar configurado no checkout da
+                    Braip também, senão o site promete o que o checkout não
+                    cumpre. */}
+                {oferta.freteGratis && (
+                  <p
+                    className={`text-forest flex items-center justify-center gap-1.5 self-center rounded-full bg-cream px-4 py-1.5 text-sm font-semibold ${
+                      economia ? 'mt-2' : 'mt-5'
+                    }`}
+                  >
+                    <Truck className="h-4 w-4 shrink-0" strokeWidth={2.5} />
+                    Frete grátis
+                  </p>
+                )}
+
                 {/* mt-auto empurra o botão para a base: os cards têm alturas de
                     texto diferentes e sem isso os botões ficariam desalinhados. */}
                 <CtaButton

@@ -1,5 +1,6 @@
 import Footer from '@/components/layout/Footer'
 import Header from '@/components/layout/Header'
+import PromoBar from '@/components/layout/PromoBar'
 import WhatsAppFloat from '@/components/layout/WhatsAppFloat'
 import { produto, site } from '@/lib/site'
 import type { Metadata } from 'next'
@@ -110,6 +111,7 @@ export default function RootLayout({
         >
           Ir para o conteúdo
         </a>
+        <PromoBar />
         <Header />
         <main id="conteudo" className="flex-1">
           {children}

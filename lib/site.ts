@@ -27,7 +27,7 @@ export const site = {
   },
 
   empresa: {
-    razaoSocial: 'Fernando da Silva menezes Ltda',
+    razaoSocial: 'VivaZen Brasil Ltda.',
     cnpj: '66.600.884/0001-23', 
     endereco: 'Alphaville Centro Industrial e Empresarial, 503.',
   },
@@ -118,6 +118,7 @@ export const ofertas: {
   precoParcelado: string
   selo: string
   destaque: boolean
+  freteGratis: boolean
   checkoutUrl: string
 }[] = [
   {
@@ -130,6 +131,7 @@ export const ofertas: {
     precoParcelado: 'até 3x sem juros',
     selo: '',
     destaque: false,
+    freteGratis: false,
     checkoutUrl: 'https://buy.braip.com/checkout/plakqv0l/che74r9l',
   },
   {
@@ -148,6 +150,11 @@ export const ofertas: {
     // mínimo 30 dias e o resultado costuma aparecer a partir da 2ª semana.
     selo: 'MAIS VENDIDO',
     destaque: true,
+    // ATENÇÃO: isto só decide o que aparece NA TELA. O frete grátis em si
+    // precisa estar configurado no checkout deste kit lá na Braip — senão o
+    // site promete uma coisa e o checkout cobra outra, o que é o mesmo tipo
+    // de problema descrito no aviso do `precoDe` acima.
+    freteGratis: true,
     checkoutUrl: 'https://buy.braip.com/checkout/plan46qy/che74r9l',
   },
   {
@@ -160,6 +167,7 @@ export const ofertas: {
     precoParcelado: 'até 3x sem juros',
     selo: '',
     destaque: false,
+    freteGratis: false,
     checkoutUrl: 'https://buy.braip.com/checkout/plajel1o/che74r9l',
   },
 ]
@@ -216,6 +224,17 @@ export const ofertasPublicadas = ofertas.filter(
   // Botão de compra quebrado numa landing custa mais do que a seção inteira
   // rende, então na dúvida a seção fica escondida.
   (oferta) => oferta.precoPor && oferta.checkoutUrl.startsWith('http'),
+)
+
+/**
+ * O kit com frete grátis, para a barra de aviso no topo do site — ver
+ * `components/layout/PromoBar.tsx`. Deriva de `ofertasPublicadas`, e não de
+ * `ofertas` direto, pelo mesmo motivo do `destinoDoCta` logo abaixo: a barra
+ * não pode anunciar frete grátis num kit que ainda nem tem preço ou link de
+ * checkout publicado.
+ */
+export const ofertaComFreteGratis = ofertasPublicadas.find(
+  (oferta) => oferta.freteGratis,
 )
 
 /**

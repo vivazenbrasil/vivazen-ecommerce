@@ -100,15 +100,19 @@ Um arquivo por bloco da home, na ordem em que aparecem na página. Todos são Se
 | `WarningsSection.tsx` | Advertências, contraindicações e o aviso da ANVISA. Obrigatório por lei para suplemento. |
 | `ShippingSection.tsx` | Entrega: postagem, rastreio, embalagem e a tabela de prazo por região — essa tabela só aparece se houver prazo preenchido em `entrega.prazos`. |
 | `GuaranteeSection.tsx` | Selo de garantia, como pedir reembolso e o aviso dos 7 dias do CDC. O selo é a arte `selo-garantia.webp`, e o número de dias está desenhado dentro dela — ver "Detalhes que parecem detalhe" no fim deste arquivo antes de mexer em `garantia.dias`. |
-| `TestimonialsSection.tsx` | Depoimentos. **Não renderiza nada enquanto `depoimentos` estiver vazio em `lib/site.ts`** — ver o aviso abaixo. |
+| `TestimonialsSection.tsx` | Depoimentos, em vídeo e em texto. **Não renderiza nada enquanto `depoimentosEmVideo` e `depoimentos` estiverem os dois vazios** em `lib/site.ts` — ver o aviso abaixo. |
 | `FaqSection.tsx` | **Client.** Acordeão com as dúvidas frequentes. As perguntas vêm do array `faq`. |
 | `FinalCtaSection.tsx` | Último CTA, com os reforços de garantia, rastreio e pagamento seguro. |
 
 #### Sobre os depoimentos
 
-O array `depoimentos` em `lib/site.ts` está vazio de propósito, e a seção some quando ele está vazio.
+São duas listas em `lib/site.ts`: `depoimentosEmVideo`, para gravações de clientes, e `depoimentos`, para texto com nota. A seção só some quando as duas estão vazias.
+
+Os vídeos usam `flex flex-wrap justify-center` em vez de grade de colunas fixas. Com um depoimento só, uma grade de três colunas deixaria o vídeo encostado na esquerda com dois buracos ao lado; assim um centraliza, dois ficam lado a lado e três preenchem a linha, sem ninguém precisar mexer no código.
 
 **Só entre depoimento real, de cliente real, com autorização de uso.** Inventar avaliação é propaganda enganosa pelo art. 37 do CDC, e é motivo de derrubada de conta de anúncio na Meta. O risco é grande e o ganho é zero.
+
+Com vídeo o cuidado é maior, porque aparece o rosto de uma pessoa. Além da veracidade, é preciso **autorização de uso de imagem**, exigida pelo art. 20 do Código Civil — e ela não some porque a pessoa mandou o vídeo espontaneamente no WhatsApp. Guarde o aceite por escrito.
 
 ### `components/ui/`
 
@@ -126,6 +130,7 @@ O arquivo de configuração. Exporta:
 - `ofertas` — os kits de 1, 2 e 3 frascos; `ofertasPublicadas` é o filtro dos que têm preço e link
 - `economiaDoKit(oferta)` — calcula quanto o kit economiza a partir de `precoDe` e `precoPor`; não existe campo `economia` para preencher
 - `destinoDoCta` — para onde vai todo botão de compra que não é de um kit específico
+- `depoimentosEmVideo` — depoimentos gravados; `depoimentos` guarda os de texto com nota
 - `formasDePagamento` — os meios aceitos, exibidos abaixo dos kits
 - `entrega` — transportadora, prazos por região, rastreio, embalagem
 - `garantia` — dias, como solicitar, aviso do CDC
@@ -145,6 +150,8 @@ O arquivo de configuração. Exporta:
 | `livit_video_promocional.mp4` | 16,5 MB | O vídeo da `VideoSection`. Vertical, 478×850, 76s, com fala. É o maior arquivo do projeto — ver a regra do `preload` abaixo. |
 | `livit-video-capa.webp` | 21 KB | A capa do vídeo (`poster`). É um quadro real extraído do próprio vídeo. **Trocou o vídeo, gere capa nova** — sem ela o player vira um retângulo preto. |
 | `livit-caixa.webp` | 100 KB | Caixa e pote na `ProductHighlightSection`. Fundo transparente de verdade, por isso é usada sem moldura. |
+| `depoimento_beatriz.mp4` | 9,5 MB | Depoimento em vídeo. Vertical, 576×1024, 58s, com fala. |
+| `depoimento-beatriz-capa.webp` | 22 KB | Capa do depoimento. Quadro real extraído do vídeo. |
 | `1-frasco.webp` | 22 KB | Kit de 1 frasco na seção de ofertas. |
 | `2-frascos.webp` | 37 KB | Kit de 2 frascos. |
 | `3-frascos.webp` | 42 KB | Kit de 3 frascos. |

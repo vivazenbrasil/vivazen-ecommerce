@@ -338,6 +338,37 @@ export const depoimentos: {
   texto: string
   nota: number
 }[] = []
+/**
+ * Depoimentos gravados em vídeo.
+ *
+ * Vale a mesma regra do array acima, e com peso maior: aqui aparece o rosto de
+ * uma pessoa real. Só entra vídeo de cliente de verdade e com autorização de
+ * uso de imagem — no Brasil ela é exigida pelo art. 20 do Código Civil, e não
+ * some porque a pessoa mandou o vídeo espontaneamente no WhatsApp. Guarde o
+ * aceite por escrito.
+ *
+ * `capa` é um quadro extraído do próprio vídeo. Sem ela o player aparece como
+ * um retângulo preto — o mesmo problema descrito na VideoSection. Ao adicionar
+ * um depoimento novo, gere a capa junto.
+ */
+export const depoimentosEmVideo: {
+  nome: string
+  local: string
+  video: string
+  capa: string
+}[] = [
+  {
+    // CONFIRMAR o nome e a cidade: o nome veio do arquivo que você enviou
+    // (depoimento_beatriz.mp4) e a cidade não foi informada. Depoimento sem
+    // procedência convence menos, e nome de pessoa real na tela merece
+    // conferência.
+    nome: 'Beatriz',
+    local: '',
+    video: '/depoimento_beatriz.mp4',
+    capa: '/depoimento-beatriz-capa.webp',
+  },
+]
+
 
 export const faq = [
   {

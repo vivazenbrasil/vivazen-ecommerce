@@ -1,6 +1,6 @@
 import CtaButton from '@/components/ui/CtaButton'
 import { produto } from '@/lib/site'
-import livitCaixa from '@/public/livit-caixa.webp'
+import livitCaixa from '@/public/produto-caixa.webp'
 import Image from 'next/image'
 
 const motivos = [

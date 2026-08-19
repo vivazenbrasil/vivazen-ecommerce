@@ -20,7 +20,7 @@ import { produto } from '@/lib/site'
  * mídia `#t=0.1` na URL, que em tese faz o navegador buscar e pintar o quadro
  * de 0,1s. Não funcionou: com `preload="metadata"` o Chrome nem chegou a pedir
  * o arquivo, e o vídeo ficou um retângulo preto no meio de uma página de venda.
- * A capa em `livit-video-capa.webp` é um quadro real extraído do próprio vídeo.
+ * A capa em `video-promocional-capa.webp` é um quadro real extraído do próprio vídeo.
  * Se trocar o vídeo, gere uma capa nova junto — sem ela volta o retângulo preto.
  *
  * `playsInline` mantém o vídeo dentro da página no iPhone, em vez de abrir o
@@ -52,15 +52,15 @@ export default function VideoSection() {
         <div className="mx-auto w-full max-w-xs sm:max-w-sm">
           <div className="overflow-hidden rounded-[2rem] border-4 border-white shadow-2xl">
             <video
-              src="/livit_video_promocional.mp4"
-              poster="/livit-video-capa.webp"
+              src="/video-promocional.mp4"
+              poster="/video-promocional-capa.webp"
               controls
               preload="metadata"
               playsInline
               className="bg-forest aspect-478/850 h-auto w-full"
             >
               Seu navegador não consegue exibir vídeo.{' '}
-              <a href="/livit_video_promocional.mp4">Baixe o arquivo aqui.</a>
+              <a href="/video-promocional.mp4">Baixe o arquivo aqui.</a>
             </video>
           </div>
 

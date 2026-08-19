@@ -16,7 +16,7 @@ export default function TestimonialsSection() {
           titulo="Quem já usa, conta"
           descricao={
             depoimentosEmVideo.length > 0
-              ? 'Sem roteiro e sem edição: quem comprou falando do próprio jeito.'
+              ? 'Um pouco sobre como o livit fez diferença na vida de uma das nossas clientes.'
               : undefined
           }
         />
@@ -32,14 +32,6 @@ export default function TestimonialsSection() {
             {depoimentosEmVideo.map((dep) => (
               <figure key={dep.video} className="w-full max-w-xs">
                 <div className="overflow-hidden rounded-[2rem] border-4 border-white shadow-2xl">
-                  {/*
-                    Mesmas escolhas da VideoSection, e pelos mesmos motivos:
-                    `controls` porque tem fala e ninguém pode ser surpreendido
-                    por áudio; `preload="metadata"` para os 9,5 MB só descerem
-                    quando alguém apertar o play; `poster` porque sem ele o
-                    player é um retângulo preto; e `playsInline` para o iPhone
-                    não abrir em tela cheia e tirar a pessoa da página.
-                  */}
                   <video
                     src={dep.video}
                     poster={dep.capa}

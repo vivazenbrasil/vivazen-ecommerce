@@ -6,9 +6,9 @@ import {
   ofertasPublicadas,
   produto,
 } from '@/lib/site'
-import umFrasco from '@/public/1-frasco.webp'
-import doisFrascos from '@/public/2-frascos.webp'
-import tresFrascos from '@/public/3-frascos.webp'
+import umFrasco from '@/public/kit-1-frasco.webp'
+import doisFrascos from '@/public/kit-2-frascos.webp'
+import tresFrascos from '@/public/kit-3-frascos.webp'
 import { Check, Lock, ShieldCheck, Truck } from 'lucide-react'
 import Image, { type StaticImageData } from 'next/image'
 

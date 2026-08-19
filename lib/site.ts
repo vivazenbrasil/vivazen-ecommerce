@@ -34,7 +34,7 @@ export const site = {
 } as const
 
 export const produto = {
-  nome: 'Livit', // confirmado pelo rótulo em public/capsulas-brinde.png
+  nome: 'Livit', // confirmado pelo rótulo em public/sobre-capsulas-brinde.webp
   categoria: 'Suplemento Alimentar',
   promessa: 'Equilíbrio, sono tranquilo e mais foco — de forma 100% natural',
 
@@ -359,12 +359,12 @@ export const depoimentosEmVideo: {
 }[] = [
   {
     // CONFIRMAR o nome e a cidade: o nome veio do arquivo que você enviou
-    // (depoimento_beatriz.mp4) e a cidade não foi informada. Depoimento sem
+    // (depoimento-beatriz.mp4) e a cidade não foi informada. Depoimento sem
     // procedência convence menos, e nome de pessoa real na tela merece
     // conferência.
     nome: 'Beatriz',
     local: '',
-    video: '/depoimento_beatriz.mp4',
+    video: '/depoimento-beatriz.mp4',
     capa: '/depoimento-beatriz-capa.webp',
   },
 ]

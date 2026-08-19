@@ -55,7 +55,7 @@ lib/                    dados e configuração
 public/                 imagens
 ```
 
-O alias `@/` aponta para a raiz do projeto (`tsconfig.json`), então `@/lib/site` e `@/public/livit-hero.jpeg` funcionam de qualquer arquivo.
+O alias `@/` aponta para a raiz do projeto (`tsconfig.json`), então `@/lib/site` e `@/public/hero-livit.jpg` funcionam de qualquer arquivo.
 
 ### `app/`
 
@@ -140,29 +140,32 @@ O arquivo de configuração. Exporta:
 
 ### `public/`
 
-| Arquivo | Peso | Uso |
-|---|---|---|
-| `livit-hero.jpeg` | 96 KB | Foto do hero da home: mulher segurando a caixa. 960×1280, proporção 3/4 — a moldura do hero segue essa proporção. **Continua em JPEG de propósito**; ver o motivo em "Detalhes que parecem detalhe". |
-| `livit_box.webp` | 85 KB | Foto da seção "Por que o Livit". |
-| `nutrition_information.webp` | 154 KB | A tabela nutricional. É a imagem da lupa e do modal — **não comprima demais**, ela precisa ficar legível no zoom. 1122×1402. |
-| `capsulas-brinde.webp` | 49 KB | Foto das duas mãos brindando, usada na `/sobre`. 1492×700. |
-| `selo-garantia.webp` | 53 KB | O selo de "7 dias de garantia" da `GuaranteeSection`. Tem fundo transparente. |
-| `livit_video_promocional.mp4` | 16,5 MB | O vídeo da `VideoSection`. Vertical, 478×850, 76s, com fala. É o maior arquivo do projeto — ver a regra do `preload` abaixo. |
-| `livit-video-capa.webp` | 21 KB | A capa do vídeo (`poster`). É um quadro real extraído do próprio vídeo. **Trocou o vídeo, gere capa nova** — sem ela o player vira um retângulo preto. |
-| `livit-caixa.webp` | 100 KB | Caixa e pote na `ProductHighlightSection`. Fundo transparente de verdade, por isso é usada sem moldura. |
-| `depoimento_beatriz.mp4` | 9,5 MB | Depoimento em vídeo. Vertical, 576×1024, 58s, com fala. |
-| `depoimento-beatriz-capa.webp` | 22 KB | Capa do depoimento. Quadro real extraído do vídeo. |
-| `1-frasco.webp` | 22 KB | Kit de 1 frasco na seção de ofertas. |
-| `2-frascos.webp` | 37 KB | Kit de 2 frascos. |
-| `3-frascos.webp` | 42 KB | Kit de 3 frascos. |
-| `og-image.jpg` | 72 KB | **Só para preview de link.** Nenhuma página mostra essa imagem — ela existe para o WhatsApp, o Instagram e o Facebook. Ver a regra dela em "Detalhes que parecem detalhe". |
-| `logo.webp` | 28 KB | **Não usada em nenhum componente hoje.** O cabeçalho usa o ícone de folha do lucide mais o nome em texto. Se for aproveitar essa arte, repare que ela tem fundo branco opaco e o cabeçalho é creme. |
+**O nome do arquivo diz onde ele aparece.** O prefixo é a seção, e a listagem da pasta vira um índice: tudo que começa com `kit-` vive na seção de kits, `video-` no vídeo promocional, `depoimento-` nos depoimentos, e assim por diante. A convenção é kebab-case, em português, sem underscore — nome novo segue o mesmo padrão.
 
-Tudo em WebP menos a `og-image.jpg`, e por um motivo: os originais pesavam demais para uma landing. A arte original do selo, em PNG, tinha 2,9 MB e virou 53 KB; a `capsulas-brinde` tinha sido salva em modo lossless e caiu de 652 KB para 49 KB. Ao trocar qualquer imagem, gere WebP — **exceto** a de preview de link.
+| Arquivo | Peso | Onde aparece |
+|---|---|---|
+| `hero-livit.jpg` | 96 KB | **Hero.** Mulher segurando a caixa. 960×1280, proporção 3/4 — a moldura do hero segue essa proporção. **Continua em JPEG de propósito**; ver o motivo em "Detalhes que parecem detalhe". |
+| `kit-1-frasco.webp` | 22 KB | **Kits.** Card de 1 frasco. |
+| `kit-2-frascos.webp` | 37 KB | **Kits.** Card de 2 frascos. |
+| `kit-3-frascos.webp` | 42 KB | **Kits.** Card de 3 frascos. |
+| `video-promocional.mp4` | 16,5 MB | **Vídeo.** Vertical, 478×850, 76s, com fala. É o maior arquivo do projeto — ver a regra do `preload` abaixo. |
+| `video-promocional-capa.webp` | 21 KB | **Vídeo.** A capa (`poster`), um quadro real extraído do próprio vídeo. **Trocou o vídeo, gere capa nova** — sem ela o player vira um retângulo preto. |
+| `depoimento-beatriz.mp4` | 9,5 MB | **Depoimentos.** Vertical, 576×1024, 58s, com fala. |
+| `depoimento-beatriz-capa.webp` | 22 KB | **Depoimentos.** Capa do vídeo acima, também extraída dele. |
+| `produto-caixa.webp` | 100 KB | **Por que o Livit.** Caixa e pote. Fundo transparente de verdade, por isso é usada sem moldura. |
+| `produto-tabela-nutricional.webp` | 154 KB | **Composição.** É a imagem da lupa e do modal — **não comprima demais**, ela precisa ficar legível no zoom. 1122×1402. |
+| `selo-garantia.webp` | 53 KB | **Garantia.** O selo de "7 dias". Tem fundo transparente. |
+| `sobre-capsulas-brinde.webp` | 49 KB | **Página `/sobre`.** Duas mãos brindando. 1492×700. |
+| `og-image.jpg` | 72 KB | **Nenhuma página.** Existe só para o preview de link no WhatsApp, Instagram e Facebook. O nome é convenção universal e por isso não leva prefixo. Ver a regra dela em "Detalhes que parecem detalhe". |
+| `logo.webp` | 28 KB | **Sem uso hoje.** O cabeçalho usa o ícone de folha do lucide mais o nome em texto. Se for aproveitar essa arte, repare que ela tem fundo branco opaco e o cabeçalho é creme. |
+
+Dois arquivos são **fontes**, não são servidos pelo site e mesmo assim ficam versionados: `png-livit-2.png` (o original de onde saiu a `produto-caixa.webp`) e `video-vivazen.mp4`. A intenção era deixá-los de fora, mas arquivos já sumiram sozinhos do disco desta máquina três vezes durante o desenvolvimento — a `og-image.jpg` duas vezes e a capa do depoimento uma. Enquanto isso não for resolvido, o repositório é a única cópia confiável, e 4,3 MB é barato perto de perder o original de uma arte.
+
+Tudo em WebP menos a `og-image.jpg`, e por um motivo: os originais pesavam demais para uma landing. A arte original do selo, em PNG, tinha 2,9 MB e virou 53 KB; a `sobre-capsulas-brinde` tinha sido salva em modo lossless e caiu de 652 KB para 49 KB. Ao trocar qualquer imagem, gere WebP — **exceto** a de preview de link.
 
 Vale saber por que a economia é tão grande: WebP tem dois modos, lossless e lossy. Lossless é o certo para logo, ícone e desenho de traço; para foto ele guarda pixel por pixel e o arquivo fica maior que um JPEG. Se você gerar um WebP de foto e ele vier com centenas de KB, é quase certo que saiu em lossless.
 
-Sobre a `capsulas-brinde.webp`: a foto original tinha 41% da altura em branco vazio (225px acima e 209px abaixo do conteúdo), o que fazia a imagem parecer solta no meio da página. O recorte tirou esse vazio, e é dessa proporção de 1492×700 que sai a classe `md:aspect-1492/700` na `/sobre`. Se trocar o arquivo, confira a proporção junto.
+Sobre a `sobre-capsulas-brinde.webp`: a foto original tinha 41% da altura em branco vazio (225px acima e 209px abaixo do conteúdo), o que fazia a imagem parecer solta no meio da página. O recorte tirou esse vazio, e é dessa proporção de 1492×700 que sai a classe `md:aspect-1492/700` na `/sobre`. Se trocar o arquivo, confira a proporção junto.
 
 Essa foto tem **fundo branco opaco**, sem transparência. É por isso que na `/sobre` ela fica numa faixa de fundo branco em vez de sobre o creme da página — assim o branco dela deixa de ser uma emenda visível e passa a ser o fundo da seção. Se você trocar essa foto, ou mantenha o fundo branco, ou ajuste a cor da faixa junto.
 
@@ -210,7 +213,7 @@ Duas fontes: **Geist** no texto corrido e **Fraunces** (itálico) nos títulos, 
 
 **A qualidade real de uma imagem é decidida em dois lugares, e o segundo manda.** O `next/image` reencoda toda imagem antes de servir, e o padrão dele é `quality=75`. Um arquivo impecável em `public/` sai recomprimido a 75 assim mesmo. Para subir isso, não basta escrever `quality={90}` no componente: **a partir do Next 16 o valor precisa estar na lista `images.qualities` do `next.config.ts`**, senão é ignorado em silêncio e cai no padrão. Foi exatamente o que aconteceu com a foto do hero — o `quality={90}` estava no código e a URL servida continuava com `q=75`. Para conferir se pegou, procure o `q=` no `srcset` do HTML gerado; não confie no que está escrito no componente.
 
-**Nem toda imagem deve virar WebP, e a foto do hero é o contraexemplo.** A regra real é evitar **duas gerações de perda**. Converter um PNG (que é sem perda) para WebP custa uma geração e economiza muito — foi o caso das fotos dos kits e do selo. Mas a `livit-hero.jpeg` já chegou comprimida: transformá-la em WebP acrescentaria uma segunda geração de perda para nada, porque o `next/image` vai reencodar de novo na entrega de qualquer jeito. Por isso ela fica em JPEG. Ao adicionar imagem nova, pergunte: o arquivo de origem já é com perda? Se for, deixe como está e deixe o otimizador trabalhar.
+**Nem toda imagem deve virar WebP, e a foto do hero é o contraexemplo.** A regra real é evitar **duas gerações de perda**. Converter um PNG (que é sem perda) para WebP custa uma geração e economiza muito — foi o caso das fotos dos kits e do selo. Mas a `hero-livit.jpg` já chegou comprimida: transformá-la em WebP acrescentaria uma segunda geração de perda para nada, porque o `next/image` vai reencodar de novo na entrega de qualquer jeito. Por isso ela fica em JPEG. Ao adicionar imagem nova, pergunte: o arquivo de origem já é com perda? Se for, deixe como está e deixe o otimizador trabalhar.
 
 **Não escreva `width`/`height` em `<Image>` de import estático.** O Next já lê a dimensão do arquivo. A tabela nutricional estava declarada como 800×550 (proporção 1,45) sendo que o arquivo é 1122×1402 (0,80): o navegador reservava uma caixa deitada e pulava para a caixa em pé quando a imagem carregava. Escrever a dimensão na mão só cria uma cópia que envelhece sozinha na primeira vez que alguém trocar o arquivo.
 

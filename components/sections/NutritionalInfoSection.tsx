@@ -2,7 +2,7 @@
 
 import SectionHeading from '@/components/ui/SectionHeading'
 import { nutrientes, produto } from '@/lib/site'
-import tabelaNutricional from '@/public/nutrition_information.webp'
+import tabelaNutricional from '@/public/produto-tabela-nutricional.webp'
 import { ChevronDown, X, ZoomIn, ZoomOut } from 'lucide-react'
 import Image from 'next/image'
 import { MouseEvent, RefObject, useEffect, useRef, useState } from 'react'

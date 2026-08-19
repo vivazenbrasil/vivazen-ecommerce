@@ -1,6 +1,6 @@
 import CtaButton from '@/components/ui/CtaButton'
 import { ofertasPublicadas, produto } from '@/lib/site'
-import livitHero from '@/public/livit-hero.jpeg'
+import livitHero from '@/public/hero-livit.jpg'
 import { Check, Leaf } from 'lucide-react'
 import Image from 'next/image'
 

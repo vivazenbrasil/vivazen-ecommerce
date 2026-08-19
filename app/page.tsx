@@ -27,6 +27,11 @@ export default function Home() {
           levar o visitante para frente, que é uma leitura ainda melhor. */}
       <VideoSection />
       <AboutSection />
+      {/* Logo depois do "Quem somos": a pessoa acabou de ler quem é a marca e
+         a próxima voz que ela ouve é a de outra cliente, não a da empresa. É
+         o ponto em que prova social pesa mais. Some sozinha se não houver
+         depoimento cadastrado. */}
+      <TestimonialsSection />
       <ProblemSection />
       <ProductHighlightSection />
       <NutritionalInfoSection />
@@ -34,7 +39,6 @@ export default function Home() {
       <WarningsSection />
       <ShippingSection />
       <GuaranteeSection />
-      <TestimonialsSection />
       <FaqSection />
       <FinalCtaSection />
     </>

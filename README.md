@@ -93,6 +93,7 @@ Um arquivo por bloco da home, na ordem em que aparecem na página. Todos são Se
 | `OffersSection.tsx` | Os kits de 1, 2 e 3 frascos, com preço cortado, economia e um card em destaque. **Não renderiza nada enquanto nenhum kit tiver preço e link de checkout** em `ofertas`. Traz junto as formas de pagamento — ver abaixo por que elas não são uma seção separada. |
 | `VideoSection.tsx` | O vídeo promocional com o botão logo abaixo — ela pede esse clique no fim do vídeo. Duas colunas a partir de `lg` para o vídeo vertical não empurrar o botão para fora da tela. |
 | `AboutSection.tsx` | Faixa verde escura apresentando a VivaZen, com três pilares e link para `/sobre`. |
+| `TestimonialsSection.tsx` | Depoimentos, em vídeo e em texto. **Não renderiza nada enquanto `depoimentosEmVideo` e `depoimentos` estiverem os dois vazios** em `lib/site.ts` — ver o aviso abaixo. |
 | `ProblemSection.tsx` | Os quatro problemas que o produto endereça (sono, ansiedade, energia, foco). Existe para o visitante se reconhecer antes de ouvir a solução. |
 | `ProductHighlightSection.tsx` | Quatro motivos para escolher o Livit, ao lado da foto da caixa. |
 | `NutritionalInfoSection.tsx` | **Client.** A tabela nutricional com lupa no hover e modal com zoom e arraste, mais o acordeão explicando cada nutriente. É o arquivo mais complexo do projeto — se for mexer, mexa com calma. As duas `<Image>` daqui não têm `width`/`height` escritos na mão de propósito: o import é estático e o Next lê a dimensão do próprio arquivo. |
@@ -100,7 +101,6 @@ Um arquivo por bloco da home, na ordem em que aparecem na página. Todos são Se
 | `WarningsSection.tsx` | Advertências, contraindicações e o aviso da ANVISA. Obrigatório por lei para suplemento. |
 | `ShippingSection.tsx` | Entrega: postagem, rastreio, embalagem e a tabela de prazo por região — essa tabela só aparece se houver prazo preenchido em `entrega.prazos`. |
 | `GuaranteeSection.tsx` | Selo de garantia, como pedir reembolso e o aviso dos 7 dias do CDC. O selo é a arte `selo-garantia.webp`, e o número de dias está desenhado dentro dela — ver "Detalhes que parecem detalhe" no fim deste arquivo antes de mexer em `garantia.dias`. |
-| `TestimonialsSection.tsx` | Depoimentos, em vídeo e em texto. **Não renderiza nada enquanto `depoimentosEmVideo` e `depoimentos` estiverem os dois vazios** em `lib/site.ts` — ver o aviso abaixo. |
 | `FaqSection.tsx` | **Client.** Acordeão com as dúvidas frequentes. As perguntas vêm do array `faq`. |
 | `FinalCtaSection.tsx` | Último CTA, com os reforços de garantia, rastreio e pagamento seguro. |
 
@@ -247,6 +247,10 @@ Dois números do zoom que não são arbitrários: os 3% do card parecem pouco es
 Detalhe útil: o Tailwind já embrulha `group-hover` em `@media (hover: hover)` sozinho, então no celular não fica estado de hover grudado depois do toque.
 
 **Os grupos de hover têm nome: `group/card` e `group/cta`.** O `CtaButton` é um grupo e está dentro do card, que também é. Com os dois anônimos, o `group-hover` do botão responderia ao hover do card inteiro e o brilho dispararia ao passar o mouse em qualquer canto. Se criar outro grupo dentro de um card, nomeie também.
+
+**Acordeão começa fechado, sempre.** Tanto a FAQ quanto a tabela de nutrientes guardam o índice aberto em `useState<number | null>(null)`. A FAQ já esteve em `0`, o que abria a primeira resposta ao carregar a página. Além de parecer defeito, isso atrapalha a leitura: um acordeão existe para a pessoa bater o olho na lista inteira e escolher a dúvida dela; com uma resposta aberta, as perguntas seguintes são empurradas para baixo e a lista deixa de ser escaneável.
+
+**Nunca aplique `scale` num elemento de largura total.** A barra de frete grátis levava o `pulso-suave` na própria faixa, que ocupa 100% da tela. Um `scale(1.03)` ali deixa o elemento 3% mais largo que a janela — uns 57px num monitor comum — e o navegador responde com uma barra de rolagem horizontal que aparece e some a cada volta da animação. O conserto é pulsar o conteúdo interno, que é estreito e centralizado; de quebra o efeito fica melhor, porque o texto respira de verdade em vez de a faixa toda esticar de um jeito quase imperceptível. Para conferir se a página estoura: compare `document.documentElement.scrollWidth` com `clientWidth`, amostrando ao longo de um ciclo inteiro da animação.
 
 **Sem emoji em nenhum lugar.** Nem na tela, nem em comentário, nem aqui, nem em mensagem de commit. Este é um site que vende: emoji num aviso ou num título destoa da identidade (verde escuro, terracota, Fraunces itálico) e custa credibilidade justamente na página que foi feita para construir credibilidade. Onde é preciso chamar atenção, use rótulo em texto — `[falta preencher]` na tela, `ATENÇÃO:` em comentário. Havia um triângulo de alerta em três avisos de campo vazio que renderizavam na tela de produção; foram trocados.
 

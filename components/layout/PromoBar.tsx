@@ -29,11 +29,26 @@ export default function PromoBar() {
     // eslint-disable-next-line @next/next/no-html-link-for-pages
     <a
       href="/#ofertas"
-      className="pulso-suave bg-clay hover:bg-clay-soft flex items-center justify-center gap-2 px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors"
+      className="bg-clay hover:bg-clay-soft block px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors"
     >
-      <Truck className="h-4 w-4 shrink-0" strokeWidth={2.5} />
-      Frete grátis na compra do kit com {ofertaComFreteGratis.frascos} frascos
-      — Aproveite!
+      {/*
+        O pulso fica NESTE span, e não na barra.
+
+        A barra ocupa a largura toda da tela. Um `scale(1.03)` nela deixa o
+        elemento 3% mais largo que a janela — uns 57px num monitor comum — e o
+        navegador responde com uma barra de rolagem horizontal que aparece e
+        some a cada volta da animação. A página inteira ficava 2px mais larga
+        que a janela por causa disso.
+
+        Aplicando no conteúdo, que é estreito e centralizado, o efeito melhora
+        de quebra: o texto respira de verdade em vez de a faixa toda esticar,
+        movimento que quase não se percebe numa faixa dessa largura.
+      */}
+      <span className="pulso-suave inline-flex items-center justify-center gap-2">
+        <Truck className="h-4 w-4 shrink-0" strokeWidth={2.5} />
+        Frete grátis na compra do kit com {ofertaComFreteGratis.frascos}{' '}
+        frascos — Aproveite!
+      </span>
     </a>
   )
 }

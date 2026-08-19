@@ -95,7 +95,7 @@ Um arquivo por bloco da home, na ordem em que aparecem na página. Todos são Se
 | `AboutSection.tsx` | Faixa verde escura apresentando a VivaZen, com três pilares e link para `/sobre`. |
 | `TestimonialsSection.tsx` | Depoimentos, em vídeo e em texto. **Não renderiza nada enquanto `depoimentosEmVideo` e `depoimentos` estiverem os dois vazios** em `lib/site.ts` — ver o aviso abaixo. |
 | `ProblemSection.tsx` | Os quatro problemas que o produto endereça (sono, ansiedade, energia, foco). Existe para o visitante se reconhecer antes de ouvir a solução. |
-| `ProductHighlightSection.tsx` | Quatro motivos para escolher o Livit, ao lado da foto da caixa. |
+| `ProductHighlightSection.tsx` | Quatro motivos para escolher o Livit, ao lado de um vídeo curto em loop que roda sozinho e não pode ser pausado. |
 | `NutritionalInfoSection.tsx` | **Client.** A tabela nutricional com lupa no hover e modal com zoom e arraste, mais o acordeão explicando cada nutriente. É o arquivo mais complexo do projeto — se for mexer, mexa com calma. As duas `<Image>` daqui não têm `width`/`height` escritos na mão de propósito: o import é estático e o Next lê a dimensão do próprio arquivo. |
 | `HowToUseSection.tsx` | Modo de uso em três passos, prazo de resultado e como armazenar. Os textos vêm de `produto.modoDeUso` e **precisam bater com o rótulo aprovado**. |
 | `WarningsSection.tsx` | Advertências, contraindicações e o aviso da ANVISA. Obrigatório por lei para suplemento. |
@@ -152,14 +152,15 @@ O arquivo de configuração. Exporta:
 | `video-promocional-capa.webp` | 21 KB | **Vídeo.** A capa (`poster`), um quadro real extraído do próprio vídeo. **Trocou o vídeo, gere capa nova** — sem ela o player vira um retângulo preto. |
 | `depoimento-beatriz.mp4` | 9,5 MB | **Depoimentos.** Vertical, 576×1024, 58s, com fala. |
 | `depoimento-beatriz-capa.webp` | 22 KB | **Depoimentos.** Capa do vídeo acima, também extraída dele. |
-| `produto-caixa.webp` | 100 KB | **Por que o Livit.** Caixa e pote. Fundo transparente de verdade, por isso é usada sem moldura. |
+| `video-vivazen.mp4` | 710 KB | **Por que o Livit.** Vídeo de 3,7s em loop, 848×534, sem controles. Ver a regra do autoplay abaixo. |
+| `produto-caixa.webp` | 100 KB | **Sem uso desde que o vídeo entrou** na seção "Por que o Livit". Mantida porque é a arte de origem e serve de volta rápida se o vídeo sair. |
 | `produto-tabela-nutricional.webp` | 154 KB | **Composição.** É a imagem da lupa e do modal — **não comprima demais**, ela precisa ficar legível no zoom. 1122×1402. |
 | `selo-garantia.webp` | 53 KB | **Garantia.** O selo de "7 dias". Tem fundo transparente. |
 | `sobre-capsulas-brinde.webp` | 49 KB | **Página `/sobre`.** Duas mãos brindando. 1492×700. |
 | `og-image.jpg` | 72 KB | **Nenhuma página.** Existe só para o preview de link no WhatsApp, Instagram e Facebook. O nome é convenção universal e por isso não leva prefixo. Ver a regra dela em "Detalhes que parecem detalhe". |
 | `logo.webp` | 28 KB | **Sem uso hoje.** O cabeçalho usa o ícone de folha do lucide mais o nome em texto. Se for aproveitar essa arte, repare que ela tem fundo branco opaco e o cabeçalho é creme. |
 
-Dois arquivos são **fontes**, não são servidos pelo site e mesmo assim ficam versionados: `png-livit-2.png` (o original de onde saiu a `produto-caixa.webp`) e `video-vivazen.mp4`. A intenção era deixá-los de fora, mas arquivos já sumiram sozinhos do disco desta máquina três vezes durante o desenvolvimento — a `og-image.jpg` duas vezes e a capa do depoimento uma. Enquanto isso não for resolvido, o repositório é a única cópia confiável, e 4,3 MB é barato perto de perder o original de uma arte.
+O `png-livit-2.png` é **fonte** — o original de onde saiu a `produto-caixa.webp` — e não é servido pelo site, mas fica versionado assim mesmo. A intenção era deixá-los de fora, mas arquivos já sumiram sozinhos do disco desta máquina três vezes durante o desenvolvimento — a `og-image.jpg` duas vezes e a capa do depoimento uma. Enquanto isso não for resolvido, o repositório é a única cópia confiável, e 4,3 MB é barato perto de perder o original de uma arte.
 
 Tudo em WebP menos a `og-image.jpg`, e por um motivo: os originais pesavam demais para uma landing. A arte original do selo, em PNG, tinha 2,9 MB e virou 53 KB; a `sobre-capsulas-brinde` tinha sido salva em modo lossless e caiu de 652 KB para 49 KB. Ao trocar qualquer imagem, gere WebP — **exceto** a de preview de link.
 
@@ -207,7 +208,13 @@ Duas fontes: **Geist** no texto corrido e **Fraunces** (itálico) nos títulos, 
 
 **O número de dias da garantia está desenhado dentro do selo.** A arte `selo-garantia.webp` é um arquivo pronto com "7 DIAS" impresso; ela não é gerada a partir de `garantia.dias`. Por isso a `GuaranteeSection` tem a constante `DIAS_NO_SELO` e só mostra a imagem quando os dois números batem — se a garantia mudar para 30 dias e ninguém trocar a arte, a seção volta sozinha para um círculo desenhado em CSS. **Se você alterar `garantia.dias`, troque a arte e atualize `DIAS_NO_SELO` junto.** Prazo de garantia errado na tela é problema com o CDC, não detalhe de design.
 
-**O vídeo tem 16,5 MB e mesmo assim não pesa na página — por causa de uma palavra.** É o `preload="metadata"` no `<video>`. Com ele, só o cabeçalho do arquivo desce junto com a página; os megabytes só saem do servidor quando alguém aperta o play. Se alguém trocar isso por `preload="auto"`, ou pior, colocar `autoplay`, todo visitante passa a baixar 16 MB para ver uma landing — no 4G isso é a página inteira travando. Pelo mesmo motivo não existe `autoplay`: o vídeo tem fala, e navegador nenhum deixa áudio começar sozinho.
+**Autoplay só funciona com `muted`, e isso não é opcional.** O vídeo da seção "Por que o Livit" roda sozinho, em loop e sem controles, para se comportar como imagem. Nenhum navegador deixa vídeo começar sozinho com áudio: sem o atributo `muted`, o `autoPlay` é simplesmente ignorado e a peça fica parada no primeiro quadro. Esse arquivo tem faixa de áudio, então o `muted` é justamente o que faz ele rodar.
+
+**Reserve a proporção de todo `<video>` no CSS.** Um `<video>` sem metadados carregados ocupa 300×150, que é o padrão do HTML — não o tamanho do seu arquivo. Na seção "Por que o Livit" isso dava 150px de altura, que viravam 282px quando o arquivo chegava, e o texto ao lado dava um salto a cada carregamento de página. A classe `aspect-848/534` reserva a caixa certa desde o primeiro instante. Vale para `<img>` também, mas ali o `next/image` já resolve sozinho a partir do import estático.
+
+**Sombra e moldura não combinam com vídeo.** A arte anterior era um PNG recortado e o `drop-shadow` seguia o contorno da embalagem. Vídeo é sempre um retângulo cheio, então qualquer sombra ou borda desenha exatamente a moldura que o efeito deveria esconder. E como o H.264 não carrega canal alpha, o fundo do arquivo aparece como cor sólida — transparência de verdade em vídeo exige WebM (VP9 com alpha) para Chrome e Firefox, mais HEVC com alpha para o Safari, servidos em `<source>` separados.
+
+**O vídeo promocional tem 16,5 MB e mesmo assim não pesa na página — por causa de uma palavra.** É o `preload="metadata"` no `<video>`. Com ele, só o cabeçalho do arquivo desce junto com a página; os megabytes só saem do servidor quando alguém aperta o play. Se alguém trocar isso por `preload="auto"`, ou pior, colocar `autoplay`, todo visitante passa a baixar 16 MB para ver uma landing — no 4G isso é a página inteira travando. Pelo mesmo motivo não existe `autoplay`: o vídeo tem fala, e navegador nenhum deixa áudio começar sozinho.
 
 **Vídeo sem `poster` é um retângulo preto.** A primeira tentativa aqui foi o fragmento de mídia `#t=0.1` na URL, que em tese faz o navegador pintar o quadro de 0,1s como capa. Não funcionou: com `preload="metadata"` o Chrome nem chegou a pedir o arquivo. A capa é um quadro real exportado do vídeo. Se não tiver ffmpeg à mão, dá para extrair pelo próprio navegador: carregue o vídeo num `<video>` fora da tela, dê `currentTime`, desenhe num `<canvas>` e salve o `toDataURL`.
 

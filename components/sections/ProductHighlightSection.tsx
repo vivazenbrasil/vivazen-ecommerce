@@ -1,7 +1,5 @@
 import CtaButton from '@/components/ui/CtaButton'
 import { produto } from '@/lib/site'
-import livitCaixa from '@/public/produto-caixa.webp'
-import Image from 'next/image'
 
 const motivos = [
   {
@@ -42,11 +40,45 @@ export default function ProductHighlightSection() {
           mal aplicado.
         */}
         <div className="flex justify-center lg:order-2">
-          <Image
-            src={livitCaixa}
-            alt={`Caixa e pote do suplemento ${produto.nome}`}
-            sizes="(max-width: 1024px) 90vw, 480px"
-            className="h-auto w-full max-w-md drop-shadow-2xl"
+          {/*
+            VÍDEO NO LUGAR DA FOTO — quatro atributos e cada um resolve uma coisa:
+
+            `autoPlay` + `muted` andam juntos e não são opcionais. Nenhum
+            navegador deixa vídeo começar sozinho com áudio; sem o `muted` o
+            autoplay é simplesmente ignorado e a peça fica parada na primeira
+            imagem. Este vídeo tem faixa de áudio, então o `muted` é o que faz
+            ele rodar.
+
+            `loop` reinicia sem corte — são 3,7 segundos, então a volta
+            acontece o tempo todo.
+
+            Sem `controls`: a peça se comporta como imagem, não como player.
+            Ninguém pausa, e nenhuma barra de botões aparece por cima da arte.
+
+            `playsInline` impede o iPhone de abrir o vídeo em tela cheia por
+            cima do site.
+
+            Nada de borda, moldura ou sombra aqui, de propósito. `drop-shadow`
+            funcionava na arte anterior porque era um PNG recortado e a sombra
+            seguia o contorno da embalagem. Vídeo é sempre um retângulo cheio,
+            então qualquer sombra desenharia a moldura que o efeito deveria
+            esconder.
+          */}
+          <video
+            src="/video-vivazen.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            aria-label={`Animação da caixa e do pote do suplemento ${produto.nome}`}
+            /*
+              `aspect-848/534` é a proporção real do arquivo, e reserva a caixa
+              antes do vídeo carregar. Sem ela o elemento nasce com os 300x150
+              que é o tamanho padrão de um <video> sem metadados: aqui isso dava
+              150px de altura, que viravam 282px quando o arquivo chegava. O
+              texto ao lado dava um salto a cada carregamento de página.
+            */
+            className="aspect-848/534 h-auto w-full max-w-md"
           />
         </div>
 

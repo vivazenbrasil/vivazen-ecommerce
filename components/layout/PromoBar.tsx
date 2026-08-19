@@ -13,6 +13,20 @@ export default function PromoBar() {
   if (!ofertaComFreteGratis) return null
 
   return (
+    /*
+      Âncora nativa de propósito, e não <Link> do Next — por isso a regra do
+      ESLint está silenciada abaixo em vez de "corrigida".
+
+      É <a> que faz o navegador tratar /#ofertas como o mesmo documento quando
+      já estamos na home, e aí vale o `scroll-behavior: smooth` do
+      globals.css: a página desliza até a seção. O <Link> faz a rolagem por conta própria e
+      chega lá seco. Fora da home, o <a> navega para a home e cai na seção do
+      mesmo jeito.
+
+      A regra não reclama do CtaButton porque lá o href é variável, e ela só
+      enxerga literal. O comportamento é o mesmo nos dois.
+    */
+    // eslint-disable-next-line @next/next/no-html-link-for-pages
     <a
       href="/#ofertas"
       className="pulso-suave bg-clay hover:bg-clay-soft flex items-center justify-center gap-2 px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors"

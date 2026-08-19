@@ -45,7 +45,7 @@ export const produto = {
   quantidade: '60 cápsulas de 500mg', // 500mg lido no rótulo
   duracao: '30 dias de uso',
   preco: 'R$ 109,90', // manter o "R$" e a vírgula — o valor vai cru para a tela
-  precoParcelado: '12x de R$ 11,37', // ex.: "ou 12x de R$ 10,90" — confira as condições na Braip
+  precoParcelado: 'até 3x sem juros', // ex.: "ou 12x de R$ 10,90" — confira as condições na Braip
 
   selos: [
     '100% Natural',

@@ -118,7 +118,7 @@ Com vídeo o cuidado é maior, porque aparece o rosto de uma pessoa. Além da ve
 
 | Arquivo | O que faz |
 |---|---|
-| `CtaButton.tsx` | O botão de compra, usado em toda parte. Duas variantes de cor (fundo claro e escuro), `bloco` para ocupar a largura toda nos cards de oferta, `href` para apontar para o checkout de um kit específico, e `comAviso`, que mostra embaixo o texto explicando que o checkout acontece na Braip. Se o `href` começar com `#`, ele entende que é âncora interna: não abre aba nova e omite o aviso da Braip. **Como todo CTA passa por aqui, este é o ponto único para plugar rastreamento de conversão depois — não escreva `<a href={checkout}>` solto numa seção nova.** |
+| `CtaButton.tsx` | O botão de compra, usado em toda parte. **Client Component** por causa da medição: dispara o evento `cta_clique` no clique, com a propriedade `origem`. Duas variantes de cor (fundo claro e escuro), `bloco` para ocupar a largura toda nos cards de oferta, `href` para apontar para o checkout de um kit específico, e `comAviso`, que mostra embaixo o texto explicando que o checkout acontece na Braip. Se o `href` começar com `#`, ele entende que é âncora interna: não abre aba nova e omite o aviso da Braip. **Como todo CTA passa por aqui, este é o ponto único para plugar rastreamento de conversão depois — não escreva `<a href={checkout}>` solto numa seção nova.** |
 | `SectionHeading.tsx` | O cabeçalho padrão de seção: o texto pequeno em maiúsculas, o título em Fraunces itálico e a descrição. Serve para as seções não divergirem de espaçamento e tamanho ao longo do tempo. |
 
 ### `lib/site.ts`
@@ -269,6 +269,21 @@ Por isso também o teste de "é link externo?" no `CtaButton` passou a ser `href
 
 **O checkout é externo.** Todo botão avisa que o visitante vai para a Braip. Não tire esse aviso: ser jogado sem explicação num domínio `ev.braip.com` gera desconfiança e abandono.
 
+## Medição de audiência
+
+O site usa **Vercel Analytics**, ligado no `app/layout.tsx`. Ele **não usa cookie**, então o site continua sem gravar nada no navegador de quem visita — e é por isso que não existe banner de consentimento por aqui.
+
+Além das páginas vistas, existe um evento próprio: **`cta_clique`**, disparado por todo botão de compra do site. Ele carrega duas propriedades:
+
+- **`origem`** — de onde partiu o clique: `hero`, `kit-1-frasco`, `kit-2-frascos`, `kit-3-frascos`, `video`, `produto`, `cta-final`, `sobre`, `cabecalho`, `cabecalho-mobile`. Sem isso o painel mostraria um número somado, e não daria para saber qual seção gera clique e qual é só decoração.
+- **`saiu`** — `true` quando o clique leva para a Braip, `false` quando só rola a página até os kits. São intenções bem diferentes e misturá-las inflaria a métrica que importa.
+
+Quase todos os botões passam pelo `CtaButton`, que foi construído desde o início como ponto único justamente para isso. As duas exceções são os botões do cabeçalho, que são âncoras soltas no `Header.tsx` e recebem o `track()` na mão — se mexer neles, mantenha o evento.
+
+**O que essa medição não alcança:** a venda acontece na Braip, fora do domínio. O painel mostra quantos clicaram para o checkout, não quantos compraram. Para fechar esse ciclo seria preciso propagar UTM na URL de checkout e cruzar com o relatório da Braip.
+
+Detalhe de desenvolvimento: o script vive em `/_vercel/insights/script.js`, que só existe quando o site roda na Vercel. Em `next start` local ele dá 404 e nenhum evento é enviado — isso é esperado, não é defeito.
+
 ## Segurança
 
 O site é estático: não tem rota de API, server action, middleware, banco, login nem formulário. Isso não é pouco — é o que faz a superfície de ataque ser praticamente nula. Não existe injeção de SQL onde não há SQL, nem vazamento de cadastro onde não há cadastro. **Ao adicionar qualquer uma dessas coisas, essa garantia cai por terra e a conta precisa ser refeita** — em particular o CSP, que hoje é frouxo de propósito (só `frame-ancestors`) porque não há entrada de dado nesta origem.
@@ -280,7 +295,7 @@ Duas coisas que nenhum header resolve, e que valem mais que todas elas juntas:
 - **O acesso ao GitHub e à Vercel.** Quem entra numa dessas duas contas muda o site no ar. 2FA nas duas.
 - **Clone da página.** O HTML é público por definição; qualquer um copia a landing, troca o link do checkout e roda anúncio em cima. É o golpe comum com produto de plataforma de afiliado. A defesa é vigilância e denúncia, não código.
 
-Não há rastreamento instalado — nem GA4, nem Pixel, nem cookie de terceiro. Como consequência, o site **não coleta dado nenhum de visitante**, e a exposição à LGPD é praticamente zero. Se um dia entrar analytics, passa a precisar de banner de consentimento.
+O único rastreamento é o Vercel Analytics, que não usa cookie e agrega os dados — ver a seção acima. Não há GA4, Pixel nem cookie de terceiro, e por isso o site não precisa de banner de consentimento. Se um dia entrar GA4 ou Pixel, passa a precisar.
 
 Um detalhe sobre o `robots.txt`, que costuma ser mal entendido: **ele não protege nada.** É um índice público, e é o primeiro arquivo que scanner automatizado abre. Escrever `Disallow: /qualquer-coisa` ali não esconde a página — anuncia que ela existe, e só os robôs honestos obedecem. Nunca liste caminho privado no `app/robots.ts`. O que não pode ser visto precisa de senha.
 
@@ -297,4 +312,4 @@ Um detalhe sobre o `robots.txt`, que costuma ser mal entendido: **ele não prote
 
 Não são esquecimento, foram descartados de propósito:
 
-- **GA4 e Meta Pixel** — não há campanha paga rodando. Enquanto não houver, medir não muda decisão nenhuma, e instalar criaria obrigação de consentimento de cookie. O `CtaButton` é o ponto único por onde todo CTA passa, então é lá que o evento entra no dia que fizer sentido.
+- **GA4 e Meta Pixel** — não há campanha paga rodando. A medição de audiência é feita pelo Vercel Analytics, que resolve o essencial sem cookie. GA4 e Pixel só valem quando houver anúncio pago, porque o que eles trazem de diferente é a integração com Google Ads e Meta e o público de remarketing — em troca de um banner de consentimento obrigatório. Nesse dia, o caminho é instalar o **Google Tag Manager** como base, para o marketing gerenciar tags sem depender de deploy.

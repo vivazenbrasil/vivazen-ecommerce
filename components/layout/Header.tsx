@@ -1,6 +1,7 @@
 'use client'
 
 import { destinoDoCta, site } from '@/lib/site'
+import { track } from '@vercel/analytics'
 import { Leaf, Menu, X } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -64,6 +65,7 @@ export default function Header() {
           */}
           <a
             href={destinoDoCta}
+            onClick={() => track('cta_clique', { origem: 'cabecalho', saiu: false })}
             className="bg-forest hover:bg-forest-soft ml-3 rounded-full px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:shadow-md"
           >
             Comprar agora
@@ -100,7 +102,10 @@ export default function Header() {
             ))}
             <a
               href={destinoDoCta}
-              onClick={() => setAberto(false)}
+              onClick={() => {
+                track('cta_clique', { origem: 'cabecalho-mobile', saiu: false })
+                setAberto(false)
+              }}
               className="bg-forest hover:bg-forest-soft mt-4 mb-2 rounded-full px-6 py-3.5 text-center font-semibold text-white transition-colors"
             >
               Comprar agora

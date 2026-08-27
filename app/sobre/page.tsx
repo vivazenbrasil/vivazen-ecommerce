@@ -1,63 +1,62 @@
-import CtaButton from '@/components/ui/CtaButton'
-import { produto, site } from '@/lib/site'
-import capsulasBrinde from '@/public/sobre-capsulas-brinde.webp'
-import { FlaskConical, Leaf, Recycle, Sprout, Users } from 'lucide-react'
-import type { Metadata } from 'next'
-import Image from 'next/image'
+import CtaButton from "@/components/ui/CtaButton";
+import { produto, site } from "@/lib/site";
+import capsulasBrinde from "@/public/sobre-capsulas-brinde.webp";
+import { FlaskConical, Leaf, Recycle, Sprout, Users } from "lucide-react";
+import type { Metadata } from "next";
+import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: 'A Empresa',
+  title: "A Empresa",
   description: `A ${site.nome} foi fundada para oferecer alternativas naturais e puras para os desafios do estilo de vida atual. Percebemos a necessidade de criar produtos que entregassem resultados reais sem gerar dependência. Assim nasceu a nossa marca: um ecossistema de bem-estar pensado para devolver a leveza, a clareza e a qualidade de vida que você merece.`,
-  alternates: { canonical: '/sobre' },
-}
+  alternates: { canonical: "/sobre" },
+};
 
 const compromissos = [
   {
     icone: Sprout,
-    titulo: 'Cultivo responsável',
+    titulo: "Cultivo responsável",
     texto:
-      'Priorizamos fornecedores que trabalham sem agrotóxicos e que conseguem provar a origem do que vendem. Se não dá para rastrear, não entra na nossa fórmula.',
+      "Priorizamos fornecedores que trabalham sem agrotóxicos e que conseguem provar a origem do que vendem. Se não dá para rastrear, não entra na nossa fórmula.",
   },
   {
     icone: FlaskConical,
-    titulo: 'Formulação com propósito',
+    titulo: "Formulação com propósito",
     texto:
-      'Cada ativo entra porque tem uma função clara e uma dose que faz sentido. Não usamos ingrediente de vitrine, aquele que aparece no rótulo em quantidade simbólica.',
+      "Cada ativo entra porque tem uma função clara e uma dose que faz sentido. Não usamos ingrediente de vitrine, aquele que aparece no rótulo em quantidade simbólica.",
   },
   {
     icone: Recycle,
-    titulo: 'Menos rastro',
+    titulo: "Menos rastro",
     texto:
-      'Embalagens recicláveis e envios sem plástico desnecessário. Bem-estar que custa o mínimo possível ao planeta.',
+      "Embalagens recicláveis e envios sem plástico desnecessário. Bem-estar que custa o mínimo possível ao planeta.",
   },
   {
     icone: Users,
-    titulo: 'Perto de quem compra',
+    titulo: "Perto de quem compra",
     texto:
-      'Quem responde o nosso WhatsApp é a nossa equipe. Antes, durante e depois da compra — sem robô e sem ficar na fila.',
+      "Quem responde o nosso WhatsApp é a nossa equipe. Antes, durante e depois da compra — sem robô e sem ficar na fila.",
   },
-]
+];
 
 const jornada = [
   {
-    marco: 'Origem',
-    cor: 'clay' as const,
+    marco: "Origem",
+    cor: "clay" as const,
     texto:
-      'A VivaZen foi fundada para oferecer alternativas naturais e puras para os desafios do estilo de vida atual. Percebemos a necessidade de criar produtos que entregassem resultados reais sem gerar dependência. Assim nasceu a nossa marca: um ecossistema de bem-estar pensado para devolver a leveza, a clareza e a qualidade de vida que você merece.',
+      "A VivaZen foi fundada para oferecer alternativas naturais e puras para os desafios do estilo de vida atual. Percebemos a necessidade de criar produtos que entregassem resultados reais sem gerar dependência. Assim nasceu a nossa marca: um ecossistema de bem-estar pensado para devolver a leveza, a clareza e a qualidade de vida que você merece.",
   },
   {
-    marco: 'Hoje',
-    cor: 'forest' as const,
+    marco: "Hoje",
+    cor: "forest" as const,
     texto:
-      'Selecionamos cuidadosamente cada produto, garantindo que venham de fontes responsáveis e mantenham a pureza de seus ingredientes. Nossa missão é oferecer produtos naturais de alta qualidade que promovam o bem-estar de forma acessível e transparente.',
+      "Selecionamos cuidadosamente cada produto, garantindo que venham de fontes responsáveis e mantenham a pureza de seus ingredientes. Nossa missão é oferecer produtos naturais de alta qualidade que promovam o bem-estar de forma acessível e transparente.",
   },
   {
-    marco: 'O próximo passo',
-    cor: 'forest' as const,
-    texto:
-      `O ${produto.nome} é o nosso primeiro produto, e ele carrega tudo o que aprendemos até aqui. A partir dele, queremos construir uma linha completa de suplementos naturais — cada um com a mesma exigência de origem, dose e transparência.`,
+    marco: "O próximo passo",
+    cor: "forest" as const,
+    texto: `O ${produto.nome} é o nosso primeiro produto, e ele carrega tudo o que aprendemos até aqui. A partir dele, queremos construir uma linha completa de suplementos naturais — cada um com a mesma exigência de origem, dose e transparência.`,
   },
-]
+];
 
 export default function Sobre() {
   return (
@@ -72,8 +71,7 @@ export default function Sobre() {
 
           <h1 className="font-display text-forest mt-6 text-5xl leading-[1.05] italic md:text-6xl xl:text-7xl">
             Da terra para
-            <br />
-            o seu bem-estar
+            <br />o seu bem-estar
           </h1>
 
           {/*
@@ -90,9 +88,9 @@ export default function Sobre() {
             A VivaZen foi fundada para oferecer alternativas naturais e puras
             para os desafios do estilo de vida atual. Percebemos a necessidade
             de criar produtos que entregassem resultados reais sem gerar
-            dependência. Assim nasceu a nossa marca: um ecossistema de
-            bem-estar pensado para devolver a leveza, a clareza e a qualidade de
-            vida que você merece.
+            dependência. Assim nasceu a nossa marca: um ecossistema de bem-estar
+            pensado para devolver a leveza, a clareza e a qualidade de vida que
+            você merece.
           </p>
         </div>
       </section>
@@ -184,17 +182,17 @@ export default function Sobre() {
             {jornada.map((item, i) => (
               <li
                 key={item.marco}
-                className={`relative pl-12 ${i < jornada.length - 1 ? 'pb-16' : ''}`}
+                className={`relative pl-12 ${i < jornada.length - 1 ? "pb-16" : ""}`}
               >
                 <span
                   aria-hidden="true"
                   className={`absolute top-1.5 left-0 h-4 w-4 rounded-full ring-4 ring-white ${
-                    item.cor === 'clay' ? 'bg-clay' : 'bg-forest'
+                    item.cor === "clay" ? "bg-clay" : "bg-forest"
                   }`}
                 />
                 <h3
                   className={`text-sm font-semibold tracking-widest uppercase ${
-                    item.cor === 'clay' ? 'text-clay' : 'text-forest'
+                    item.cor === "clay" ? "text-clay" : "text-forest"
                   }`}
                 >
                   {item.marco}
@@ -219,10 +217,11 @@ export default function Sobre() {
             Pronto para sentir a diferença?
           </h2>
           <p className="text-cream/80 mt-5 leading-relaxed">
-            O {produto.nome} reúne tudo o que a VivaZen acredita sobre bem-estar em{' '}
-            {produto.quantidade.toLowerCase()}.
+            O {produto.nome} reúne tudo o que a VivaZen acredita sobre bem-estar
+            em {produto.quantidade.toLowerCase()}.
           </p>
           <CtaButton
+            origem="sobre"
             variante="claro"
             comAviso
             className="mt-9 flex flex-col items-center"
@@ -232,5 +231,5 @@ export default function Sobre() {
         </div>
       </section>
     </>
-  )
+  );
 }

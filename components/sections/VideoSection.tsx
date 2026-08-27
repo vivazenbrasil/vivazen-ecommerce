@@ -67,7 +67,7 @@ export default function VideoSection() {
           {/* O botão que ela pede no fim do vídeo. Fica logo abaixo do player
               de propósito: é para onde o olho vai quando o vídeo termina. Sem
               `href`, ele usa o destino padrão do CtaButton — a seção de kits. */}
-          <CtaButton bloco className="mt-6">
+          <CtaButton origem="video" bloco className="mt-6">
             Quero conhecer o {produto.nome}
           </CtaButton>
         </div>

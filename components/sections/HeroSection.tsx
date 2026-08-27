@@ -103,9 +103,11 @@ export default function HeroSection() {
             checkout, que é o único destino que existe.
           */}
           {ofertasPublicadas.length > 0 ? (
-            <CtaButton className="mt-8">Ver os kits e preços</CtaButton>
+            <CtaButton origem="hero" className="mt-8">
+              Ver os kits e preços
+            </CtaButton>
           ) : (
-            <CtaButton comAviso className="mt-8" />
+            <CtaButton origem="hero" comAviso className="mt-8" />
           )}
         </div>
 

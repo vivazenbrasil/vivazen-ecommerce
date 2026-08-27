@@ -46,7 +46,7 @@ export default function FinalCtaSection() {
           </p>
         )}
 
-        <CtaButton variante="claro" comAviso className="mt-9 flex flex-col items-center">
+        <CtaButton origem="cta-final" variante="claro" comAviso className="mt-9 flex flex-col items-center">
           Comprar o {produto.nome}
         </CtaButton>
 

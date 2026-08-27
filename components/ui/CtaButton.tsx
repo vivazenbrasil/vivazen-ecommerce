@@ -1,4 +1,18 @@
+'use client'
+
+/*
+  Este arquivo virou Client Component só por causa da medição: `track` do
+  Vercel Analytics roda no navegador e precisa de um onClick. O custo é o
+  componente ir para o pacote JavaScript, o que aqui é pequeno — ele não tem
+  estado, efeito nem dependência de servidor.
+
+  Valeu a pena porque TODO botão de compra do site passa por aqui. Um lugar
+  só instrumenta o hero, os kits, o vídeo, a seção do produto, o CTA final e
+  a página /sobre de uma vez.
+*/
+
 import { destinoDoCta } from '@/lib/site'
+import { track } from '@vercel/analytics'
 import { Lock, ShoppingBag } from 'lucide-react'
 
 interface CtaButtonProps {
@@ -18,6 +32,14 @@ interface CtaButtonProps {
   /** Mostra o aviso de que o checkout acontece na Braip */
   comAviso?: boolean
   tamanho?: 'md' | 'lg'
+  /**
+   * De onde partiu o clique, para separar os eventos no painel: `hero`,
+   * `kit-3-frascos`, `video`, `produto`, `final`, `sobre`, `cabecalho`.
+   *
+   * Sem isso o painel mostra só um número somado e não dá para saber qual
+   * seção gera clique e qual é decoração.
+   */
+  origem?: string
   /** Ocupa a largura toda do container — usado nos cards de oferta. */
   bloco?: boolean
   className?: string
@@ -29,6 +51,7 @@ export default function CtaButton({
   variante = 'escuro',
   comAviso = false,
   tamanho = 'lg',
+  origem,
   bloco = false,
   className = '',
 }: CtaButtonProps) {
@@ -84,6 +107,14 @@ export default function CtaButton({
       */}
       <a
         href={href}
+        onClick={() =>
+          track('cta_clique', {
+            origem: origem ?? 'nao-informada',
+            // "saiu" separa quem foi para a Braip de quem só rolou a página
+            // até os kits. São intenções bem diferentes.
+            saiu: externo,
+          })
+        }
         target={externo ? '_blank' : undefined}
         rel={externo ? 'noopener noreferrer' : undefined}
         className={`group/cta relative overflow-hidden ${

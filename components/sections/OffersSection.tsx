@@ -224,6 +224,7 @@ export default function OffersSection() {
                     texto diferentes e sem isso os botões ficariam desalinhados. */}
                 <CtaButton
                   href={oferta.checkoutUrl}
+                  origem={`kit-${oferta.id}`}
                   bloco
                   tamanho={oferta.destaque ? 'lg' : 'md'}
                   className="mt-auto pt-7"

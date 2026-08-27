@@ -2,6 +2,7 @@ import Footer from '@/components/layout/Footer'
 import Header from '@/components/layout/Header'
 import PromoBar from '@/components/layout/PromoBar'
 import WhatsAppFloat from '@/components/layout/WhatsAppFloat'
+import { Analytics } from '@vercel/analytics/next'
 import { produto, site } from '@/lib/site'
 import type { Metadata } from 'next'
 import { Fraunces, Geist } from 'next/font/google'
@@ -118,6 +119,21 @@ export default function RootLayout({
         </main>
         <Footer />
         <WhatsAppFloat />
+
+        {/*
+          Medição de audiência da Vercel.
+
+          Escolhido no lugar do GA4 por ser sem cookie: o site continua não
+          gravando nada no navegador de quem visita, então segue sem precisar
+          de banner de consentimento e com exposição mínima à LGPD. Em troca,
+          ele não conversa com Google Ads nem com a Meta e não monta público
+          de remarketing — no dia que houver campanha paga, é aqui que o GTM
+          entra ao lado, não no lugar.
+
+          Fica por último no body de propósito: é script de terceiro e não
+          deve competir com o conteúdo pelo carregamento.
+        */}
+        <Analytics />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

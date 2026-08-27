@@ -77,7 +77,7 @@ export default function ProductHighlightSection() {
             ))}
           </ol>
 
-          <CtaButton className="mt-10" tamanho="md">
+          <CtaButton origem="produto" className="mt-10" tamanho="md">
             Quero o meu {produto.nome}
           </CtaButton>
         </div>

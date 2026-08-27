@@ -9,7 +9,7 @@ export default function TestimonialsSection() {
   if (depoimentos.length === 0 && depoimentosEmVideo.length === 0) return null
 
   return (
-    <section id="depoimentos" className="py-20 md:py-28">
+    <section id="depoimentos" className="py-15 md:py-28">
       <div className="mx-auto max-w-6xl px-6">
         <SectionHeading
           eyebrow="Depoimentos"

@@ -82,7 +82,7 @@ export const produto = {
 
   contraindicacoes: [
     'ALÉRGICOS: PODE CONTER DERIVADOS DE CRUSTÁCEOS(CARANGUEJO), SOJA E PINOLI(PINUS SPP.).',
-    'Gestantes, lactantes e crianças devem consultar um médico ou nutricionista antes de consumir.',
+    'Este produto não deve ser consumido por gestantes, lactantes e crianças.',
     'Pessoas em uso de antidepressivos ou medicamentos para o sono devem consultar um médico.',
     'Não recomendado para quem tem alergia a qualquer um dos componentes da fórmula.',
   ],
@@ -296,32 +296,32 @@ export const nutrientes = [
   {
     nome: 'L-Triptofano',
     descricao:
-      'Aminoácido essencial que auxilia na produção de serotonina, um neurotransmissor que regula o humor, o sono e o apetite. Ajuda a combater o estresse e a ansiedade.',
+      'Aminoácido essencial: o organismo humano não é capaz de produzi-lo, e por isso ele precisa vir da alimentação. Está presente em alimentos como ovos, castanhas, leite e sementes. No Livit, aparece na forma de L-Triptofano de grau alimentício, com lote rastreável.',
   },
   {
     nome: 'L-Teanina',
     descricao:
-      'Encontrada no chá verde, a L-Teanina promove relaxamento sem causar sonolência. Melhora o foco, a concentração e reduz a sensação de estresse.',
+      'Componente naturalmente presente nas folhas do chá verde (Camellia sinensis), de onde é extraída. Compõe a fórmula do Livit junto aos demais ativos.',
   },
   {
     nome: 'Magnésio',
     descricao:
-      'Mineral crucial para mais de 300 reações bioquímicas no corpo. Auxilia na função muscular e nervosa, regula a pressão arterial e contribui para a saúde óssea.',
+      'Mineral presente em centenas de processos do organismo. O magnésio auxilia no funcionamento muscular e no funcionamento neuromuscular, auxilia no metabolismo energético e no metabolismo de proteínas, carboidratos e gorduras, e auxilia no equilíbrio dos eletrólitos.',
   },
   {
     nome: 'Vitamina B3 (Niacina)',
     descricao:
-      'Essencial para o metabolismo energético, ajuda a converter alimentos em energia. Contribui para a saúde da pele, do sistema nervoso e para a regulação do colesterol.',
+      'A niacina auxilia no metabolismo energético e no metabolismo de proteínas, carboidratos e gorduras — é ela que participa da conversão do que você come em energia. Também contribui para a manutenção da pele e auxilia na manutenção das mucosas.',
   },
   {
     nome: 'Inositol',
     descricao:
-      'Componente do complexo B, o Inositol desempenha um papel na comunicação celular e na resposta à insulina, auxiliando no equilíbrio hormonal e no bem-estar mental.',
+      'Substância presente naturalmente em alimentos como frutas cítricas e leguminosas, e também produzida pelo próprio organismo. Integra a composição do Livit.',
   },
   {
     nome: 'Vitamina D3 (Colecalciferol)',
     descricao:
-      'Fundamental para a absorção de cálcio e fósforo, fortalecendo ossos e dentes. Também desempenha um papel vital no funcionamento do sistema imunológico e muscular.',
+      'A vitamina D auxilia na absorção de cálcio e fósforo e na formação de ossos e dentes. Além disso, auxilia no funcionamento muscular e no funcionamento do sistema imune.',
   },
 ] as const
 

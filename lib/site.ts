@@ -26,6 +26,22 @@ export const site = {
     whatsappExibicao: '(19) 98997-3349',
   },
 
+  /**
+   * Perfis oficiais da marca. Vão para o `sameAs` do JSON-LD, que é o sinal
+   * que o Google usa para entender que o site, o Instagram e a página do
+   * Facebook são a MESMA entidade.
+   *
+   * Isso importa mais aqui do que na maioria dos projetos: existem pelo menos
+   * quatro negócios usando "VivaZen" no Brasil, um deles com o nome quase
+   * idêntico (vivazenbr.com, "VivaZen Brasil", CNPJ 60.322.870/0001-09).
+   * Sem sinais de desambiguação, o Google não tem como saber qual VivaZen é
+   * qual — e a busca pelo nome da marca fica indefinida.
+   *
+   * Preencha com as URLs completas dos perfis. Enquanto o array estiver
+   * vazio, o campo simplesmente não é emitido.
+   */
+  redesSociais: [] as string[],
+
   empresa: {
     razaoSocial: 'VivaZen Brasil Ltda.',
     cnpj: '66.600.884/0001-23', 
@@ -266,6 +282,21 @@ export const ofertaComFreteGratis = ofertasPublicadas.find(
  */
 export const destinoDoCta =
   ofertasPublicadas.length > 0 ? '/#ofertas' : produto.checkoutUrl
+
+/**
+ * Menor e maior preço entre os kits publicados, já como número.
+ *
+ * Serve ao JSON-LD, que precisa de valor numérico e não do texto "R$ 279,90".
+ * Sai dos mesmos dados que a tela usa, então o preço que o Google lê e o preço
+ * que o visitante vê não têm como divergir.
+ */
+export function faixaDePrecoDosKits(): { min: number; max: number } | null {
+  const valores = ofertasPublicadas
+    .map((oferta) => valorEmReais(oferta.precoPor))
+    .filter((v): v is number => v !== null)
+  if (valores.length === 0) return null
+  return { min: Math.min(...valores), max: Math.max(...valores) }
+}
 
 export const formasDePagamento = ['Pix', 'Cartão de crédito', 'Boleto']
 

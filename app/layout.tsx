@@ -3,7 +3,7 @@ import Header from '@/components/layout/Header'
 import PromoBar from '@/components/layout/PromoBar'
 import WhatsAppFloat from '@/components/layout/WhatsAppFloat'
 import { Analytics } from '@vercel/analytics/next'
-import { produto, site } from '@/lib/site'
+import { faixaDePrecoDosKits, produto, site } from '@/lib/site'
 import type { Metadata } from 'next'
 import { Fraunces, Geist } from 'next/font/google'
 import './globals.css'
@@ -35,7 +35,8 @@ export const metadata: Metadata = {
     'l-triptofano',
     'l-teanina',
     'magnésio',
-    'sono e ansiedade',
+    'magnésio',
+    'inositol',
     produto.nome,
     site.nome,
   ],
@@ -75,6 +76,23 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 }
 
+/*
+  JSON-LD: é como o Google entende QUEM é esta empresa, e não só o que a
+  página diz.
+
+  Os campos de identificação abaixo não são enfeite. Existem vários negócios
+  usando "VivaZen" no Brasil, incluindo um "VivaZen Brasil" com domínio quase
+  igual. `legalName`, `taxID` e `address` são o que distingue esta empresa das
+  outras: o CNPJ é único e não há como confundir.
+
+  `sameAs` sai do array `site.redesSociais`. Enquanto ele estiver vazio o campo
+  não é emitido — schema com campo vazio é pior que schema sem o campo.
+
+  As ofertas saem de `ofertasPublicadas`, então preço no schema e preço na tela
+  não têm como divergir. Se os kits saírem do ar, o bloco de ofertas some junto.
+*/
+const faixa = faixaDePrecoDosKits()
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -82,10 +100,19 @@ const jsonLd = {
       '@type': 'Organization',
       '@id': `${site.url}/#organization`,
       name: site.nome,
+      legalName: site.empresa.razaoSocial,
+      taxID: site.empresa.cnpj,
       url: site.url,
+      logo: `${site.url}/logo.webp`,
       description: site.descricao,
       email: site.contato.email,
       telephone: `+${site.contato.whatsapp}`,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: site.empresa.endereco,
+        addressCountry: 'BR',
+      },
+      ...(site.redesSociais.length > 0 && { sameAs: site.redesSociais }),
     },
     {
       '@type': 'Product',
@@ -94,6 +121,14 @@ const jsonLd = {
       description: site.descricao,
       image: `${site.url}/og-image.jpg`,
       brand: { '@type': 'Brand', name: site.nome },
+      ...(faixa && {
+        offers: {
+          '@type': 'AggregateOffer',
+          priceCurrency: 'BRL',
+          lowPrice: faixa.min,
+          highPrice: faixa.max,
+        },
+      }),
     },
   ],
 }

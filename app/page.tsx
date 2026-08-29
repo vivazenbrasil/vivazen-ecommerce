@@ -6,7 +6,6 @@ import HeroSection from '@/components/sections/HeroSection'
 import HowToUseSection from '@/components/sections/HowToUseSection'
 import NutritionalInfoSection from '@/components/sections/NutritionalInfoSection'
 import OffersSection from '@/components/sections/OffersSection'
-import ProblemSection from '@/components/sections/ProblemSection'
 import ProductHighlightSection from '@/components/sections/ProductHighlightSection'
 import ShippingSection from '@/components/sections/ShippingSection'
 import TestimonialsSection from '@/components/sections/TestimonialsSection'
@@ -32,7 +31,24 @@ export default function Home() {
          o ponto em que prova social pesa mais. Some sozinha se não houver
          depoimento cadastrado. */}
       <TestimonialsSection />
-      <ProblemSection />
+      {/*
+        SEÇÃO DE PROBLEMAS — fora do ar, e não por engano.
+
+        Ela descrevia sintomas para o visitante se reconhecer: "Vira e mexe na
+        cama", "Ansiedade de fundo", "Acorda já sem energia". Essa é a parte do
+        site com maior exposição regulatória, e não existe versão dela que passe:
+        a premissa da seção é justamente afirmar que a pessoa tem uma condição,
+        que é o que a IN 28/2018 não permite para suplemento e o que o Meta
+        reprova como atributo pessoal de saúde. Reprovação repetida leva a
+        restrição permanente da conta de anúncios.
+
+        O arquivo continua em components/sections/ — nada foi apagado. Para
+        devolver a seção, descomente a linha abaixo; para reescrevê-la em torno
+        de rotina e hábito em vez de sintoma, o conteúdo está lá intacto.
+
+        Ver livit-copy-conforme-in28.md, seção 5.
+      */}
+      {/* <ProblemSection /> */}
       <ProductHighlightSection />
       <NutritionalInfoSection />
       <HowToUseSection />

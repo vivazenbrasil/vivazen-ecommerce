@@ -18,7 +18,7 @@ export const site = {
   url: 'https://www.vivazenbrasil.com.br',
   tagline: 'A natureza em sua forma mais pura',
   descricao:
-    'Suplemento natural para quem busca equilíbrio, sono de qualidade e menos estresse no dia a dia. Fórmula com L-Triptofano, L-Teanina, Magnésio e vitaminas.',
+    'Suplemento alimentar em cápsulas com magnésio, vitaminas D3 e B3, L-Triptofano, L-Teanina e Inositol. Tabela nutricional aberta, 60 cápsulas para 30 dias de uso.',
 
   contato: {
     email: 'vivazenbrasil@gmail.com',
@@ -36,7 +36,11 @@ export const site = {
 export const produto = {
   nome: 'Livit', // confirmado pelo rótulo em public/sobre-capsulas-brinde.webp
   categoria: 'Suplemento Alimentar',
-  promessa: 'Equilíbrio, sono tranquilo e mais foco — de forma 100% natural',
+  // Aparece como subtítulo do hero e dentro do <title> de toda página.
+  // Fala de transparência, não de efeito: é uma característica que a própria
+  // página comprova (tabela nutricional aberta, alérgenos e contraindicações
+  // publicados), e não uma promessa de resultado.
+  promessa: 'Fórmula aberta: seis ativos e nenhuma letra miúda',
 
   checkoutUrl:
     'https://ev.braip.com/checkout/plakqv0l/che74r9l?currency=BRL',
@@ -70,7 +74,11 @@ export const produto = {
         texto: 'Use diariamente por no mínimo 30 dias.'
       },
     ],
-    prazoResultado: 'A maioria dos clientes relata diferença já na 2ª semana.',
+    // Vazio de propósito. Havia aqui "a maioria relata diferença já na 2ª
+    // semana", que é alegação de resultado com prazo e sem estudo que
+    // sustente. Só volta se o fabricante apresentar a base. O bloco some
+    // sozinho da tela enquanto estiver vazio.
+    prazoResultado: '',
     armazenamento:
       'Conservar ao abrigo da luz, do calor e da umidade. Após aberto, manter em local seco e arejado e consumir em até 60 dias. Após o consumo, manter a embalagem bem fechada',
   },

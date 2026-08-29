@@ -27,12 +27,12 @@ export default function FinalCtaSection() {
           Comece hoje
         </span>
         <h2 className="font-display text-cream mt-4 text-4xl leading-tight italic md:text-5xl">
-          Seu equilíbrio começa
-          <br className="hidden sm:block" /> com uma decisão
+          Leve o {produto.nome}
+          <br className="hidden sm:block" /> para a sua rotina
         </h2>
         <p className="text-cream/80 mx-auto mt-6 max-w-xl text-lg leading-relaxed">
-          Leve o {produto.nome} para a sua rotina e sinta a diferença de um sono
-          melhor e dias mais leves.
+          Duas cápsulas por dia, fórmula aberta e {garantia.dias} dias de garantia
+            para decidir com calma.
         </p>
 
         {produto.preco && (

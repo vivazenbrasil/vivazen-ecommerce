@@ -10,9 +10,9 @@ const motivos = [
       'Seis ativos que trabalham juntos: L-Triptofano, L-Teanina, Magnésio, Inositol e vitaminas B3 e D3. Sem corantes artificiais e sem açúcar.',
   },
   {
-    titulo: 'Relaxa sem derrubar',
+    titulo: 'A dose está declarada',
     texto:
-      'A L-Teanina promove calma mantendo você lúcido. É apoio ao equilíbrio, não um sedativo — você não acorda com sensação de ressaca.',
+      'A quantidade de cada ativo aparece na tabela nutricional publicada nesta página. Você vê exatamente quanto está levando, sem "composto exclusivo" escondendo quantidade.',
   },
   {
     titulo: 'Feito para o uso diário',

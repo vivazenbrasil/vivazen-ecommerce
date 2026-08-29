@@ -174,27 +174,51 @@ proíbem. Ou vira uma seção sobre rotina e hábito, ou sai da página.
 
 ---
 
-## 6. Ordem de execução
+## 6. O que já foi aplicado
 
-**Aplicável sem depender de ninguém.** Troca texto de risco por texto descritivo,
-então só reduz exposição — não há cenário em que piore:
+Os 14 itens do inventário saíram do site. Conferido no HTML gerado: nenhuma das
+frases listadas na seção 1 aparece mais.
 
-- itens 4 a 8 (as seis descrições de ativos)
-- a advertência da seção 4
+**Descrições de ativos (itens 4 a 8).** Magnésio, niacina e vitamina D3 passaram
+a usar as alegações do Anexo V. L-Triptofano, L-Teanina e Inositol ficaram só com
+descrição de origem, porque para eles não há alegação autorizada.
 
-**Depende de decisão de marca.** São quatro caminhos possíveis e a escolha é do
-dono do produto, não de quem escreve o código:
+**Advertência (seção 4).** Deixou de recomendar consulta e passou a proibir o
+consumo por gestantes, lactantes e crianças, como determina o Anexo VI.
 
-- itens 1, 2, 3, 9, 10, 11 — posicionamento, H1, meta description, seção de
-  problemas e as promessas de resultado
+**Posicionamento (itens 1, 2, 9, 10, 11).** Das quatro direções da seção 5, foi
+escolhida a da **fórmula aberta** — é a única que afirma algo que a própria
+página comprova, e não uma promessa. "Antes de dormir" foi descartada porque,
+apesar de descrever só o modo de uso, ainda evoca sono como finalidade.
+
+| Onde | Agora |
+|---|---|
+| `produto.promessa` | "Fórmula aberta: seis ativos e nenhuma letra miúda" |
+| `site.descricao` | Composição e apresentação, sem adjetivo de efeito |
+| Parágrafo do hero | Termina em "quantidade de cada ativo declarada na tabela nutricional" |
+| "Por que o Livit" | "Relaxa sem derrubar" virou "A dose está declarada" |
+| CTA final | "sinta a diferença de um sono melhor" virou duração, fórmula e garantia |
+
+**Prazo de resultado (item 12).** O campo `prazoResultado` está vazio e o bloco
+some sozinho da tela. Só volta se o fabricante apresentar base para o prazo.
+
+**Seção de problemas (item 3).** Fora do ar. Não existe versão dela que passe: a
+premissa é afirmar que o visitante tem uma condição. O arquivo foi preservado e a
+linha está comentada em `app/page.tsx` — uma linha devolve a seção, se um dia ela
+for reescrita em torno de rotina em vez de sintoma.
+
+### O que continua pendente
 
 **Depende do fabricante:**
 
-- itens 12 e 14 — prazo de resultado e depoimento em vídeo
-- L-Teanina e Inositol constam hoje na lista de constituintes autorizados? Se não
-  constarem, o problema deixa de ser de copy e passa a ser de formulação
-- as margens de magnésio e vitamina D3 apontadas na seção 2
+- L-Teanina e Inositol constam hoje na lista de constituintes autorizados? Se não,
+  o problema deixa de ser de copy e passa a ser de formulação
+- as margens de magnésio (no piso) e vitamina D3 (no teto) apontadas na seção 2
+- o depoimento em vídeo (item 14), que relata resultado
 
+**Depende de revisão regulatória:** todo o texto novo. O que foi feito reduz
+exposição de forma clara, mas quem assina que está conforme é o responsável
+técnico, não quem escreveu o código.
 ---
 
 *Este material organiza o que consta no texto da IN 28/2018 e não substitui a

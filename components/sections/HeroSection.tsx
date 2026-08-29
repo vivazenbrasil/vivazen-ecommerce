@@ -44,8 +44,9 @@ export default function HeroSection() {
           */}
           <p className="mt-6 max-w-md text-lg leading-relaxed text-balance text-stone-600 md:max-w-lg">
             Fórmula com <span className="whitespace-nowrap">L-Triptofano</span>,{' '}
-            <span className="whitespace-nowrap">L-Teanina</span>, Magnésio e
-            vitaminas B3 e D3 — para relaxar sem sedação e sem dependência.
+            <span className="whitespace-nowrap">L-Teanina</span>, Magnésio,
+            Inositol e vitaminas B3 e D3 — com a quantidade de cada ativo declarada
+            na tabela nutricional.
           </p>
 
           {/* Selos */}

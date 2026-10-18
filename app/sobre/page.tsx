@@ -61,7 +61,6 @@ const jornada = [
 export default function Sobre() {
   return (
     <>
-      {/* HERO */}
       <section className="px-6 pt-20 pb-16 md:pt-28">
         <div className="mx-auto max-w-3xl text-center">
           <span className="text-clay inline-flex items-center gap-2 text-xs font-semibold tracking-[0.25em] uppercase">
@@ -75,39 +74,28 @@ export default function Sobre() {
           </h1>
 
           {/*
-            Texto institucional escrito pela VivaZen. Se for alterar, altere a
-            frase inteira: as três estão encadeadas — o motivo da fundação, a
-            necessidade percebida, e o que a marca virou.
+            Texto institucional da VivaZen. Alterando, altere a frase inteira —
+            as três estão encadeadas: motivo da fundação, necessidade percebida,
+            o que a marca virou.
 
-            `max-w-2xl` e não `max-w-xl`: o parágrafo tem umas 340 letras e é
-            centralizado. Na medida anterior ele quebrava em seis linhas, e
-            texto centralizado com muitas linhas fica cansativo de ler, porque
-            o olho perde a margem de referência a cada volta.
+            `max-w-2xl` e não `max-w-xl` porque o parágrafo tem umas 340 letras e
+            é centralizado: na medida anterior quebrava em seis linhas, e texto
+            centralizado longo cansa, o olho perde a margem a cada volta.
           */}
-          <p className="mx-auto mt-8 max-w-2xl text-lg leading-8 text-stone-600">
-            A VivaZen foi fundada para oferecer alternativas naturais e puras
-            para os desafios do estilo de vida atual. Percebemos a necessidade
-            de criar produtos que entregassem resultados reais sem gerar
-            dependência. Assim nasceu a nossa marca: um ecossistema de bem-estar
-            pensado para devolver a leveza, a clareza e a qualidade de vida que
-            você merece.
-          </p>
         </div>
       </section>
 
       {/*
-        FAIXA DA IMAGEM
-        A foto tem fundo branco opaco (sem canal alpha), então ela vive numa
-        faixa branca de largura total: o branco deixa de ser uma emenda visível
-        sobre o creme e passa a ser o fundo da seção.
+        A foto tem fundo branco opaco (sem alpha), então vive numa faixa branca de
+        largura total — assim o branco vira o fundo da seção em vez de uma emenda
+        visível sobre o creme.
 
-        sobre-capsulas-brinde.webp é o recorte de image_capsules.png — a original tinha
-        41% da altura em branco morto (225px acima, 209px abaixo do conteúdo).
-        Proporção nativa do recorte: 1492/700 ≈ 2.131 — é dela que sai a classe
-        `md:aspect-1492/700` abaixo. Se trocar o arquivo, confira a proporção.
+        sobre-capsulas-brinde.webp é recorte de image_capsules.png, que tinha 41%
+        da altura em branco morto. Proporção do recorte: 1492/700 ≈ 2.131, de onde
+        sai a classe `md:aspect-1492/700`. Trocou o arquivo, confira a proporção.
 
-        No mobile usamos uma caixa mais alta (3/2) com object-cover, o que corta
-        as laterais e aproxima nos potes — senão os braços ficariam minúsculos.
+        No mobile a caixa é mais alta (3/2) com object-cover: corta as laterais e
+        aproxima dos potes, senão os braços ficam minúsculos.
       */}
       <section className="bg-white py-14 md:py-20">
         <div className="mx-auto max-w-5xl px-6">
@@ -129,7 +117,6 @@ export default function Sobre() {
         </div>
       </section>
 
-      {/* COMPROMISSOS */}
       <section className="px-6 py-20 md:py-28">
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-2xl text-center">
@@ -160,7 +147,6 @@ export default function Sobre() {
         </div>
       </section>
 
-      {/* JORNADA */}
       <section className="bg-white px-6 py-20 md:py-28">
         <div className="mx-auto max-w-5xl">
           <div className="mb-16 text-center">
@@ -173,7 +159,6 @@ export default function Sobre() {
           </div>
 
           <ol className="relative mx-auto max-w-3xl">
-            {/* Linha vertical ligando os marcos */}
             <div
               aria-hidden="true"
               className="bg-sand absolute top-3 bottom-3 left-1.75 w-0.5"
@@ -206,7 +191,6 @@ export default function Sobre() {
         </div>
       </section>
 
-      {/* CTA */}
       <section className="bg-forest text-cream relative overflow-hidden px-6 py-20 md:py-28">
         <div
           aria-hidden="true"

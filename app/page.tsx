@@ -17,36 +17,28 @@ export default function Home() {
     <>
       <HeroSection />
       {/* Logo abaixo do hero de propósito: quem chega por anúncio ou link de
-          WhatsApp já vem com intenção de compra, e a oferta é o que ele veio
-          ver. Some sozinha enquanto não houver kit configurado em lib/site.ts. */}
+          WhatsApp já vem com intenção, e a oferta é o que veio ver. */}
       <OffersSection />
-      {/* Depois das ofertas, com o botão apontando de volta para elas. Se você
-          preferir que o vídeo apresente o produto ANTES do preço, basta mover
-          esta linha para cima de <OffersSection /> — aí o botão dele passa a
-          levar o visitante para frente, que é uma leitura ainda melhor. */}
+      {/* Depois das ofertas, com o botão apontando de volta para elas. Para o
+          vídeo apresentar o produto ANTES do preço, é só subir esta linha acima
+          de <OffersSection /> — aí o botão passa a levar para frente. */}
       <VideoSection />
       <AboutSection />
-      {/* Logo depois do "Quem somos": a pessoa acabou de ler quem é a marca e
-         a próxima voz que ela ouve é a de outra cliente, não a da empresa. É
-         o ponto em que prova social pesa mais. Some sozinha se não houver
-         depoimento cadastrado. */}
+      {/* Logo depois do "Quem somos": a próxima voz que a pessoa ouve é a de
+         outra cliente, não a da empresa.*/}
       <TestimonialsSection />
       {/*
         SEÇÃO DE PROBLEMAS — fora do ar, e não por engano.
 
-        Ela descrevia sintomas para o visitante se reconhecer: "Vira e mexe na
-        cama", "Ansiedade de fundo", "Acorda já sem energia". Essa é a parte do
-        site com maior exposição regulatória, e não existe versão dela que passe:
-        a premissa da seção é justamente afirmar que a pessoa tem uma condição,
-        que é o que a IN 28/2018 não permite para suplemento e o que o Meta
-        reprova como atributo pessoal de saúde. Reprovação repetida leva a
-        restrição permanente da conta de anúncios.
+        Ela descrevia sintomas para o visitante se reconhecer ("Vira e mexe na
+        cama", "Acorda já sem energia"). É a parte do site com maior exposição
+        regulatória e não existe versão que passe: a premissa é afirmar que a
+        pessoa tem uma condição, o que a IN 28/2018 não permite para suplemento e
+        o Meta reprova como atributo pessoal de saúde — e reprovação repetida
+        leva a restrição permanente da conta de anúncios.
 
-        O arquivo continua em components/sections/ — nada foi apagado. Para
-        devolver a seção, descomente a linha abaixo; para reescrevê-la em torno
-        de rotina e hábito em vez de sintoma, o conteúdo está lá intacto.
-
-        Ver livit-copy-conforme-in28.md, seção 5.
+        O arquivo segue em components/sections/, nada foi apagado. Descomente
+        para devolver. Ver livit-copy-conforme-in28.md, seção 5.
       */}
       {/* <ProblemSection /> */}
       <ProductHighlightSection />

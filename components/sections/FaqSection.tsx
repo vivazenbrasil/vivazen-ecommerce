@@ -6,15 +6,7 @@ import { ChevronDown } from 'lucide-react'
 import { useState } from 'react'
 
 export default function FaqSection() {
-  /*
-    Começa em `null`, ou seja, com tudo fechado. Estava em `0`, o que deixava
-    a primeira resposta aberta ao carregar a página.
 
-    Além de parecer defeito, isso atrapalha a leitura: um acordeão existe para
-    a pessoa bater o olho na lista de perguntas e escolher a sua. Com uma
-    resposta já aberta, ela empurra as perguntas seguintes para baixo e a
-    lista deixa de ser escaneável.
-  */
   const [aberta, setAberta] = useState<number | null>(null)
 
   return (

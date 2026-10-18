@@ -7,6 +7,8 @@ import { faixaDePrecoDosKits, produto, site } from '@/lib/site'
 import type { Metadata } from 'next'
 import { Fraunces, Geist } from 'next/font/google'
 import './globals.css'
+import MetaPixelConsent from "@/components/MetaPixelConsent";
+import { Suspense } from "react";
 
 const geist = Geist({
   subsets: ['latin'],
@@ -35,7 +37,6 @@ export const metadata: Metadata = {
     'l-triptofano',
     'l-teanina',
     'magnésio',
-    'magnésio',
     'inositol',
     produto.nome,
     site.nome,
@@ -49,14 +50,14 @@ export const metadata: Metadata = {
     title: `${site.nome} — ${produto.promessa}`,
     description: site.descricao,
     /*
-      og-image.jpg existe só para isso: é a imagem do preview quando alguém
-      compartilha o link no WhatsApp, no Instagram ou no Facebook.
+      og-image.jpg existe só para o preview de quando compartilham o link no
+      WhatsApp/Instagram/Facebook, e é 1200x630 de verdade. Antes estava a
+      livit.jpeg, 1448x1086 declarada como 1200x630, e o WhatsApp cortava o
+      produto pela metade.
 
-      Ela é 1200x630 de verdade. Antes aqui estava a livit.jpeg, que é 1448x1086
-      (quase quadrada) declarada como 1200x630 — o WhatsApp cortava o produto
-      pela metade. Se trocar a arte, mantenha as três coisas: 1200x630, JPEG (o
-      robô do WhatsApp não é confiável com WebP) e abaixo de 300 KB, que é o
-      limite acima do qual ele simplesmente não mostra preview nenhum.
+      Trocou a arte, mantenha as três: 1200x630, JPEG (o robô do WhatsApp não é
+      confiável com WebP) e abaixo de 300 KB — acima disso ele não mostra
+      preview nenhum.
     */
     images: [
       {
@@ -77,19 +78,13 @@ export const metadata: Metadata = {
 }
 
 /*
-  JSON-LD: é como o Google entende QUEM é esta empresa, e não só o que a
-  página diz.
+  JSON-LD: é como o Google entende QUEM é esta empresa, e não só o que a página
+  diz. `legalName`, `taxID` e `address` são o que distingue esta VivaZen das
+  outras que existem no Brasil — o CNPJ é único e não há como confundir.
 
-  Os campos de identificação abaixo não são enfeite. Existem vários negócios
-  usando "VivaZen" no Brasil, incluindo um "VivaZen Brasil" com domínio quase
-  igual. `legalName`, `taxID` e `address` são o que distingue esta empresa das
-  outras: o CNPJ é único e não há como confundir.
-
-  `sameAs` sai do array `site.redesSociais`. Enquanto ele estiver vazio o campo
-  não é emitido — schema com campo vazio é pior que schema sem o campo.
-
-  As ofertas saem de `ofertasPublicadas`, então preço no schema e preço na tela
-  não têm como divergir. Se os kits saírem do ar, o bloco de ofertas some junto.
+  `sameAs` sai de `site.redesSociais`; array vazio, campo não emitido, porque
+  schema com campo vazio é pior que schema sem o campo. As ofertas saem de
+  `ofertasPublicadas`, então preço no schema e preço na tela não divergem.
 */
 const faixa = faixaDePrecoDosKits()
 
@@ -156,19 +151,19 @@ export default function RootLayout({
         <WhatsAppFloat />
 
         {/*
-          Medição de audiência da Vercel.
+          Vercel Analytics no lugar do GA4 porque é sem cookie: o site não grava
+          nada no navegador de quem visita, então segue sem banner de
+          consentimento e com exposição mínima à LGPD. Em troca não conversa com
+          Google Ads nem com a Meta e não monta público de remarketing — no dia
+          que houver campanha paga o GTM entra AO LADO deste, não no lugar.
 
-          Escolhido no lugar do GA4 por ser sem cookie: o site continua não
-          gravando nada no navegador de quem visita, então segue sem precisar
-          de banner de consentimento e com exposição mínima à LGPD. Em troca,
-          ele não conversa com Google Ads nem com a Meta e não monta público
-          de remarketing — no dia que houver campanha paga, é aqui que o GTM
-          entra ao lado, não no lugar.
-
-          Fica por último no body de propósito: é script de terceiro e não
-          deve competir com o conteúdo pelo carregamento.
+          Por último no body de propósito: script de terceiro não deve competir
+          com o conteúdo pelo carregamento.
         */}
         <Analytics />
+        <Suspense fallback={null}>
+          <MetaPixelConsent />
+        </Suspense>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

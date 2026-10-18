@@ -19,24 +19,12 @@
 
   Isto é CSS escrito na mão, fora do `@theme`, e precisa continuar assim.
 
-  A primeira versão usava o mecanismo do Tailwind: um `--animate-brilho-cta`
-  dentro do `@theme` e a classe `animate-brilho-cta` gerada a partir dele. O
-  build local gerava tudo certo e o da Vercel apagava a animação inteira — o
-  CSS publicado saía 161 bytes menor, sem o `@keyframes` e sem a regra. O
-  brilho então ficava parado sobre o botão, como um borrão branco.
-
-  O motivo é que, naquele desenho, o único lugar onde o nome `brilho-cta`
-  aparecia era DENTRO do valor de uma variável CSS. Minificador não segue nome
-  de animação escondido em variável: ele conclui que o `@keyframes` não é usado
-  por ninguém e remove. Aqui a classe cita o nome direto na propriedade
-  `animation`, que é uma ligação que qualquer ferramenta enxerga.
-
   Regra para animação nova neste projeto: declare o `@keyframes` e a classe que
   o usa lado a lado, em CSS puro. Não passe o nome por variável.
 
   Sobre o desenho do efeito: a faixa cruza o botão nos primeiros 45% do ciclo e
   fica parada fora da tela no resto. Essa pausa é o que faz parecer um reflexo
-  ocasional em vez de pisca-pisca. O skew vai dentro do keyframe porque animar
+  em vez de pisca-pisca. O skew vai dentro do keyframe porque animar
   `transform` sobrescreveria qualquer inclinação declarada por fora.
 */
 .brilho-cta {
@@ -56,8 +44,6 @@
 }
 
 /*
-  PULSO SUAVE DA BARRA DE FRETE GRÁTIS
-
   Mesma regra do brilho dos botões, poucos parágrafos acima: `@keyframes` e a
   classe que o usa ficam lado a lado, em CSS puro, e o nome vai direto na
   propriedade `animation`. Um `--animate-*` dentro do `@theme` some no build da

@@ -1,20 +1,15 @@
 /**
- * Fonte única de verdade dos dados da VivaZen.
- * Tudo que aparece no site vem daqui — altere só neste arquivo.
+ * Fonte única de verdade dos dados da VivaZen — tudo que vai para a tela sai daqui.
  *
- * ATENÇÃO: os campos marcados com CONFIRMAR são obrigatórios por lei (ANVISA / CDC / LGPD)
- * ou impactam diretamente a conversão. Preencha antes de publicar.
+ * Campos marcados com CONFIRMAR são exigência legal (ANVISA / CDC / LGPD) ou
+ * mexem direto na conversão. Preencher antes de publicar.
  */
 
 export const site = {
   nome: 'VivaZenBrasil',
-  // Alimenta metadataBase, canonical, OpenGraph e JSON-LD. Se mudar de domínio,
-  // é aqui — todas as URLs absolutas do SEO derivam deste valor.
-  //
-  // O `www` não é enfeite: na Vercel o domínio principal é o com www, e o sem
-  // www responde 308 redirecionando para ele. O canonical tem que apontar para a
-  // URL final, que não redireciona. Se algum dia inverter o principal na Vercel,
-  // inverta aqui também.
+  // Toda URL absoluta do SEO (metadataBase, canonical, OG, JSON-LD) deriva daqui.
+  // O `www` importa: na Vercel o principal é o com www e o sem www devolve 308.
+  // Canonical tem que apontar para a URL final. Se inverter lá, inverta aqui.
   url: 'https://www.vivazenbrasil.com.br',
   tagline: 'A natureza em sua forma mais pura',
   descricao:
@@ -26,20 +21,12 @@ export const site = {
     whatsappExibicao: '(19) 98997-3349',
   },
 
-  /**
-   * Perfis oficiais da marca. Vão para o `sameAs` do JSON-LD, que é o sinal
-   * que o Google usa para entender que o site, o Instagram e a página do
-   * Facebook são a MESMA entidade.
-   *
-   * Isso importa mais aqui do que na maioria dos projetos: existem pelo menos
-   * quatro negócios usando "VivaZen" no Brasil, um deles com o nome quase
-   * idêntico (vivazenbr.com, "VivaZen Brasil", CNPJ 60.322.870/0001-09).
-   * Sem sinais de desambiguação, o Google não tem como saber qual VivaZen é
-   * qual — e a busca pelo nome da marca fica indefinida.
-   *
-   * Preencha com as URLs completas dos perfis. Enquanto o array estiver
-   * vazio, o campo simplesmente não é emitido.
-   */
+  // Vai para o `sameAs` do JSON-LD: é o que diz ao Google que site, Instagram e
+  // Facebook são a mesma entidade. Pesa mais aqui do que no projeto médio —
+  // existem pelo menos quatro "VivaZen" no Brasil, um com domínio quase igual
+  // (vivazenbr.com, CNPJ 60.322.870/0001-09). Array vazio = campo não emitido.
+  // TODO: pegar as URLs dos perfis com o Felipe e preencher — sem isso a busca
+  // pelo nome da marca continua disputada com as outras VivaZen.
   redesSociais: [] as string[],
 
   empresa: {
@@ -52,10 +39,9 @@ export const site = {
 export const produto = {
   nome: 'Livit', // confirmado pelo rótulo em public/sobre-capsulas-brinde.webp
   categoria: 'Suplemento Alimentar',
-  // Aparece como subtítulo do hero e dentro do <title> de toda página.
-  // Fala de transparência, não de efeito: é uma característica que a própria
-  // página comprova (tabela nutricional aberta, alérgenos e contraindicações
-  // publicados), e não uma promessa de resultado.
+  // Subtítulo do hero e parte do <title> de toda página. Fala de transparência e
+  // não de efeito — é característica que a página comprova, não promessa de
+  // resultado (que é o que a IN 28/2018 não deixa passar).
   promessa: 'Fórmula aberta: seis ativos e nenhuma letra miúda',
 
   checkoutUrl:
@@ -90,10 +76,9 @@ export const produto = {
         texto: 'Use diariamente por no mínimo 30 dias.'
       },
     ],
-    // Vazio de propósito. Havia aqui "a maioria relata diferença já na 2ª
-    // semana", que é alegação de resultado com prazo e sem estudo que
-    // sustente. Só volta se o fabricante apresentar a base. O bloco some
-    // sozinho da tela enquanto estiver vazio.
+    // Vazio de propósito: aqui havia "a maioria relata diferença já na 2ª semana",
+    // que é alegação de resultado com prazo e sem estudo que sustente. Só volta
+    // se o fabricante mandar a base. Vazio, o bloco some da tela sozinho.
     prazoResultado: '',
     armazenamento:
       'Conservar ao abrigo da luz, do calor e da umidade. Após aberto, manter em local seco e arejado e consumir em até 60 dias. Após o consumo, manter a embalagem bem fechada',
@@ -111,26 +96,22 @@ export const produto = {
     'Não recomendado para quem tem alergia a qualquer um dos componentes da fórmula.',
   ],
 
-  registroAnvisa: '', // CONFIRMAR: nº de notificação/registro, se houver
+  // TODO: conferir no rótulo aprovado se existe nº de notificação/registro e
+  // preencher. Enquanto vazio, a WarningsSection não exibe a linha.
+  registroAnvisa: '',
 } as const
 
 /**
- * Kits de compra exibidos na seção de ofertas, logo abaixo do hero.
+ * Kits exibidos na seção de ofertas, logo abaixo do hero.
  *
- * NÃO use `as const` aqui. Os campos precisam ser `string` para os guards de
- * "campo vazio" continuarem alcançáveis — com tipo literal o TypeScript conclui
- * que um texto preenchido nunca pode ser falso, colapsa o tipo para `never` e o
- * build quebra. É o mesmo problema descrito no topo do ShippingSection.
+ * Nada de `as const` aqui: com tipo literal o TS conclui que um texto preenchido
+ * nunca é falso, colapsa para `never` nos guards de campo vazio e o build quebra
+ * (mesma pegadinha descrita no topo do ShippingSection).
  *
- * Cada oferta só vai para a tela quando tiver `precoPor` E `checkoutUrl`
- * preenchidos. Enquanto nenhuma estiver completa a seção inteira não renderiza,
- * e o preço volta a aparecer no hero — ver `ofertasPublicadas` logo abaixo.
- *
- * ATENÇÃO ao `precoDe`, o valor que aparece cortado: pelo art. 37 do CDC, ele
- * precisa ser um preço que a loja realmente praticou. Inventar um valor alto só
- * para o desconto parecer maior é propaganda enganosa, dá multa do Procon e
- * derruba conta de anúncio. Se um kit nunca foi vendido por outro preço, deixe
- * `precoDe` vazio: o card simplesmente não mostra valor cortado.
+ * ATENÇÃO ao `precoDe`: pelo art. 37 do CDC o valor cortado tem que ser preço
+ * que a loja praticou de verdade. Inflar para o desconto parecer maior é
+ * propaganda enganosa — multa do Procon e conta de anúncio derrubada. Kit que
+ * nunca teve outro preço fica com `precoDe` vazio e o card omite o corte.
  */
 export const ofertas: {
   id: string
@@ -163,21 +144,18 @@ export const ofertas: {
     frascos: 3,
     titulo: 'Para o resultado completo',
     subtitulo: '3 frascos · 180 cápsulas · 90 dias',
-    // 3 x R$ 109,90 = R$ 329,70. É o que a pessoa pagaria comprando três
-    // frascos avulsos, e é por isso que este valor é defensável como preço
-    // cortado. Estava R$ 330,00, arredondado para cima.
+    // 3 x R$ 109,90 = R$ 329,70, que é o que sairia comprando avulso — por isso
+    // este corte é defensável. Estava R$ 330,00, arredondado para cima.
     precoDe: 'R$ 329,70',
     precoPor: 'R$ 279,90',
     precoParcelado: 'até 3x sem juros',
-    // O card do meio é o que a maioria escolhe. 3 frascos também é o kit que
-    // faz sentido recomendar: o próprio modo de uso pede constância de no
-    // mínimo 30 dias e o resultado costuma aparecer a partir da 2ª semana.
+    // O card do meio é o que a maioria escolhe, e 3 frascos é o kit que faz
+    // sentido recomendar: o modo de uso pede no mínimo 30 dias de constância.
     selo: 'MAIS VENDIDO',
     destaque: true,
-    // ATENÇÃO: isto só decide o que aparece NA TELA. O frete grátis em si
-    // precisa estar configurado no checkout deste kit lá na Braip — senão o
-    // site promete uma coisa e o checkout cobra outra, o que é o mesmo tipo
-    // de problema descrito no aviso do `precoDe` acima.
+    // Isto só decide o que aparece NA TELA. O frete grátis em si tem que estar
+    // configurado no checkout deste kit lá na Braip, senão o site promete e o
+    // checkout cobra — mesmo problema do aviso do `precoDe` acima.
     freteGratis: true,
     checkoutUrl: 'https://buy.braip.com/checkout/plan46qy/che74r9l',
   },
@@ -196,100 +174,68 @@ export const ofertas: {
   },
 ]
 
-/**
- * Quanto o kit economiza em relação ao preço cortado.
- *
- * Isto é CALCULADO, e não digitado, de propósito. Existia um campo `economia`
- * preenchido à mão e ele produziu dois erros ao mesmo tempo em produção:
- *
- * O texto saía duplicado. O card já escreve "Você economiza" antes do valor, e
- * o campo trazia "Economize R$ 50,10" — na tela lia-se "Você economiza
- * Economize R$ 50,10".
- *
- * E o número podia contradizer os outros dois. Um campo que repete uma conta
- * feita a partir de outros dois campos sempre acaba desatualizado: basta mexer
- * no preço e esquecer de refazer a subtração, e a página passa a exibir uma
- * economia que não bate com os valores logo acima dela.
- *
- * Derivando, os três números não têm como divergir. Kit sem `precoDe` — como o
- * de 1 frasco — simplesmente não tem economia, e o card omite a faixa.
- */
+// "R$ 329,70" -> 329.7. Tira o que não for dígito ou vírgula e troca a vírgula
+// decimal pelo ponto que o JS entende.
 function valorEmReais(texto: string): number | null {
-  // "R$ 329,70" -> 329.7. Tira tudo que não for dígito ou vírgula e troca a
-  // vírgula decimal brasileira pelo ponto que o JavaScript entende.
   const numero = Number.parseFloat(texto.replace(/[^\d,]/g, '').replace(',', '.'))
   return Number.isFinite(numero) ? numero : null
 }
 
+/**
+ * Quanto o kit economiza. Calculado, e não digitado: havia um campo `economia`
+ * preenchido na mão que saía duplicado na tela ("Você economiza Economize R$
+ * 50,10") e ainda desatualizava sempre que alguém mexia no preço e esquecia de
+ * refazer a subtração. Derivando, os três números não têm como divergir.
+ */
 export function economiaDoKit(oferta: { precoDe: string; precoPor: string }): string {
   const de = valorEmReais(oferta.precoDe)
   const por = valorEmReais(oferta.precoPor)
   if (de === null || por === null || de <= por) return ''
 
-  // Formatação na mão em vez de Intl.NumberFormat: o Intl depende da tabela de
-  // idiomas de quem executa, e servidor e navegador podem entregar espaços
-  // diferentes entre "R$" e o número. Isso gera erro de hidratação no React,
-  // que compara o HTML do servidor com o que o navegador desenharia.
+  // Na mão em vez de Intl.NumberFormat de propósito: o Intl depende da tabela de
+  // idiomas de quem executa, e servidor e cliente podem devolver espaços
+  // diferentes entre "R$" e o número — o que dá erro de hidratação no React.
   return `R$ ${(de - por).toFixed(2).replace('.', ',')}`
 }
 
 /**
- * Uma oferta só é publicável quando tem preço E link de checkout. A regra mora
- * aqui, e não dentro dos componentes, porque duas telas dependem dela: a seção
- * de ofertas (que só aparece se houver alguma) e o hero (que só mostra preço
- * enquanto não houver nenhuma, para o site nunca exibir dois preços diferentes
- * do mesmo produto).
+ * Oferta só é publicável com preço E link de checkout. A regra mora aqui, e não
+ * nos componentes, porque duas telas dependem dela: a seção de ofertas e o hero
+ * (que só mostra preço enquanto não houver kit, para o site nunca exibir dois
+ * preços diferentes do mesmo produto).
+ *
+ * O teste do link é `startsWith('http')`, não "campo preenchido": um rascunho
+ * digitado no lugar da URL ("sssss") passava no filtro e o botão de comprar
+ * levava para uma página inexistente. Na dúvida a seção fica escondida.
  */
 export const ofertasPublicadas = ofertas.filter(
-  // O link precisa começar com http, e não apenas "não estar vazio". Enquanto
-  // o teste era só de campo preenchido, um rascunho digitado no lugar da URL
-  // — "sssss", por exemplo — passava no filtro, a seção ia para a tela e o
-  // botão de comprar levava para uma página inexistente do próprio site.
-  // Botão de compra quebrado numa landing custa mais do que a seção inteira
-  // rende, então na dúvida a seção fica escondida.
   (oferta) => oferta.precoPor && oferta.checkoutUrl.startsWith('http'),
 )
 
-/**
- * O kit com frete grátis, para a barra de aviso no topo do site — ver
- * `components/layout/PromoBar.tsx`. Deriva de `ofertasPublicadas`, e não de
- * `ofertas` direto, pelo mesmo motivo do `destinoDoCta` logo abaixo: a barra
- * não pode anunciar frete grátis num kit que ainda nem tem preço ou link de
- * checkout publicado.
- */
+// Alimenta a PromoBar. Deriva de `ofertasPublicadas` e não de `ofertas` direto:
+// a barra não pode anunciar frete grátis de um kit que ainda não está no ar.
 export const ofertaComFreteGratis = ofertasPublicadas.find(
   (oferta) => oferta.freteGratis,
 )
 
 /**
- * Para onde vai qualquer botão de compra que não seja o de um kit específico.
+ * Destino de qualquer botão de compra que não seja o de um kit específico.
  *
- * Com kits no ar, todo botão leva para a seção de kits em vez de jogar direto
- * na Braip: o visitante escolhe entre 1, 2 e 3 frascos antes de sair do site, e
- * mandar para o checkout do frasco avulso entrega a venda menor. Sem kits
- * configurados, cai no checkout, que passa a ser o único destino existente —
- * assim nenhum botão aponta para uma seção invisível.
+ * Com kits no ar todos levam para a seção de kits: mandar direto para a Braip
+ * entrega o frasco avulso, que é a menor das três vendas. Sem kits, cai no
+ * checkout — assim nenhum botão aponta para uma seção invisível.
  *
- * A barra antes do `#` não é detalhe. `/#ofertas` resolve os dois casos do
- * site: na home o navegador reconhece o mesmo documento e faz rolagem suave até
- * a âncora; na `/sobre` ou numa página legal, onde a seção não existe e não há
- * para onde rolar, ele navega para a home e cai na seção. Um `#ofertas` sozinho
- * não faria nada nessas páginas.
- *
- * A regra mora aqui, e não dentro de um componente, porque o cabeçalho também
- * depende dela — e o cabeçalho é Client Component, então não pode importar de
- * um módulo de servidor.
+ * A barra antes do `#` não é detalhe. `/#ofertas` funciona nos dois casos: na
+ * home o navegador reconhece o mesmo documento e rola suave até a âncora; em
+ * /sobre ou numa página legal ele navega para a home e cai na seção. Um
+ * `#ofertas` sozinho não faria nada fora da home.
  */
 export const destinoDoCta =
   ofertasPublicadas.length > 0 ? '/#ofertas' : produto.checkoutUrl
 
-/**
- * Menor e maior preço entre os kits publicados, já como número.
- *
- * Serve ao JSON-LD, que precisa de valor numérico e não do texto "R$ 279,90".
- * Sai dos mesmos dados que a tela usa, então o preço que o Google lê e o preço
- * que o visitante vê não têm como divergir.
- */
+// Menor e maior preço dos kits, como número, para o JSON-LD — que quer valor
+// numérico e não o texto "R$ 279,90". Sai dos mesmos dados da tela, então o
+// preço que o Google lê não tem como divergir do que o visitante vê.
 export function faixaDePrecoDosKits(): { min: number; max: number } | null {
   const valores = ofertasPublicadas
     .map((oferta) => valorEmReais(oferta.precoPor))
@@ -303,7 +249,9 @@ export const formasDePagamento = ['Pix', 'Cartão de crédito', 'Boleto']
 export const entrega = {
   transportadora: 'Correios e transportadoras parceiras',
   prazos: [
-    { regiao: 'Sudeste', prazo: '' }, 
+    // TODO: prazos por região ainda com a transportadora. Enquanto os três
+    // estiverem vazios a tabela não renderiza — ver ShippingSection.
+    { regiao: 'Sudeste', prazo: '' },
     { regiao: 'Sul e Centro-Oeste', prazo: '' },
     { regiao: 'Nordeste e Norte', prazo: '' },
   ],
@@ -316,9 +264,9 @@ export const entrega = {
 } as const
 
 export const garantia = {
-  // ATENÇÃO: este número também está desenhado dentro de public/selo-garantia.webp.
-  // Se mudar aqui, troque a arte — senão a seção esconde o selo e volta para o
-  // círculo em CSS (a trava está em components/sections/GuaranteeSection.tsx).
+  // Este número também está desenhado dentro de public/selo-garantia.webp. Se
+  // mudar aqui, troque a arte junto — senão a seção esconde o selo e cai no
+  // círculo em CSS (a trava está na GuaranteeSection).
   dias: 7,
   titulo: 'Satisfação garantida ou seu dinheiro de volta',
   comoSolicitar: [
@@ -364,32 +312,14 @@ export const nutrientes = [
   },
 ] as const
 
-/**
- * ATENÇÃO: SOMENTE DEPOIMENTOS REAIS.
- * Inventar avaliação de cliente é propaganda enganosa (art. 37 do CDC) e a Meta
- * derruba anúncio por isso. Preencha com prints/mensagens que você realmente
- * recebeu e tenha autorização de uso. Enquanto o array estiver vazio, a seção
- * não aparece no site.
- */
+
 export const depoimentos: {
   nome: string
   local: string
   texto: string
   nota: number
 }[] = []
-/**
- * Depoimentos gravados em vídeo.
- *
- * Vale a mesma regra do array acima, e com peso maior: aqui aparece o rosto de
- * uma pessoa real. Só entra vídeo de cliente de verdade e com autorização de
- * uso de imagem — no Brasil ela é exigida pelo art. 20 do Código Civil, e não
- * some porque a pessoa mandou o vídeo espontaneamente no WhatsApp. Guarde o
- * aceite por escrito.
- *
- * `capa` é um quadro extraído do próprio vídeo. Sem ela o player aparece como
- * um retângulo preto — o mesmo problema descrito na VideoSection. Ao adicionar
- * um depoimento novo, gere a capa junto.
- */
+
 export const depoimentosEmVideo: {
   nome: string
   local: string
@@ -397,17 +327,13 @@ export const depoimentosEmVideo: {
   capa: string
 }[] = [
   {
-    // CONFIRMAR o nome e a cidade: o nome veio do arquivo que você enviou
-    // (depoimento-beatriz.mp4) e a cidade não foi informada. Depoimento sem
-    // procedência convence menos, e nome de pessoa real na tela merece
-    // conferência.
+    // TODO: confirmar nome e cidade com a cliente. O nome saiu do arquivo
     nome: 'Beatriz',
     local: '',
     video: '/depoimento-beatriz.mp4',
     capa: '/depoimento-beatriz-capa.webp',
   },
 ]
-
 
 export const faq = [
   {

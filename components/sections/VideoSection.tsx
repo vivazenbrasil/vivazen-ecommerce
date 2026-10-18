@@ -2,43 +2,10 @@ import CtaButton from '@/components/ui/CtaButton'
 import SectionHeading from '@/components/ui/SectionHeading'
 import { produto } from '@/lib/site'
 
-/**
- * Vídeo promocional.
- *
- * O arquivo é vertical (478x850), tem 76 segundos e tem FALA. Isso decide tudo
- * o que está escrito aqui:
- *
- * `controls` e nada de autoplay. Vídeo com voz não pode começar sozinho — o
- * navegador bloqueia áudio automático de qualquer forma, e o que sobraria seria
- * um vídeo mudo passando sem ninguém entender. Quem quiser assistir, aperta.
- *
- * `preload="metadata"` é o que impede o arquivo de 16,5 MB de ser baixado por
- * todo visitante. Só o cabeçalho vem junto com a página; os megabytes só saem
- * do servidor quando alguém aperta o play.
- *
- * `poster` é obrigatório aqui. A primeira tentativa foi usar o fragmento de
- * mídia `#t=0.1` na URL, que em tese faz o navegador buscar e pintar o quadro
- * de 0,1s. Não funcionou: com `preload="metadata"` o Chrome nem chegou a pedir
- * o arquivo, e o vídeo ficou um retângulo preto no meio de uma página de venda.
- * A capa em `video-promocional-capa.webp` é um quadro real extraído do próprio vídeo.
- * Se trocar o vídeo, gere uma capa nova junto — sem ela volta o retângulo preto.
- *
- * `playsInline` mantém o vídeo dentro da página no iPhone, em vez de abrir o
- * player em tela cheia por cima do site e tirar a pessoa da página de venda.
- *
- * A largura máxima é pequena de propósito: o arquivo tem 478px de largura real,
- * então esticá-lo além disso só entrega imagem borrada.
- */
 export default function VideoSection() {
   return (
     <section id="video" className="bg-cream-deep py-16 md:py-20">
-      {/*
-        Duas colunas a partir de `lg`, e não por estética: o vídeo é vertical e
-        alto. Empilhado no centro, ele empurrava o botão para fora da tela num
-        monitor comum — a pessoa terminava de assistir, ouvia "clique no botão"
-        e não via botão nenhum sem rolar. Ao lado do texto, vídeo e botão cabem
-        juntos na mesma tela.
-      */}
+
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 lg:grid-cols-2 lg:gap-16">
         <div className="flex justify-center lg:justify-start">
           <SectionHeading
@@ -64,9 +31,6 @@ export default function VideoSection() {
             </video>
           </div>
 
-          {/* O botão que ela pede no fim do vídeo. Fica logo abaixo do player
-              de propósito: é para onde o olho vai quando o vídeo termina. Sem
-              `href`, ele usa o destino padrão do CtaButton — a seção de kits. */}
           <CtaButton origem="video" bloco className="mt-6">
             Quero conhecer o {produto.nome}
           </CtaButton>

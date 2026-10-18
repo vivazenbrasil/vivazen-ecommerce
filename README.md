@@ -118,7 +118,7 @@ Com vídeo o cuidado é maior, porque aparece o rosto de uma pessoa. Além da ve
 
 | Arquivo | O que faz |
 |---|---|
-| `CtaButton.tsx` | O botão de compra, usado em toda parte. **Client Component** por causa da medição: dispara o evento `cta_clique` no clique, com a propriedade `origem`. Duas variantes de cor (fundo claro e escuro), `bloco` para ocupar a largura toda nos cards de oferta, `href` para apontar para o checkout de um kit específico, e `comAviso`, que mostra embaixo o texto explicando que o checkout acontece na Braip. Se o `href` começar com `#`, ele entende que é âncora interna: não abre aba nova e omite o aviso da Braip. **Como todo CTA passa por aqui, este é o ponto único para plugar rastreamento de conversão depois — não escreva `<a href={checkout}>` solto numa seção nova.** |
+| `CtaButton.tsx` | O botão de compra, usado em toda parte. **Client Component** por causa da medição: dispara o evento `cta_clique` no clique, com a propriedade `origem`. Duas variantes de cor (fundo claro e escuro), `bloco` para ocupar a largura toda nos cards de oferta, `href` para apontar para o checkout de um kit específico, e `comAviso`, que mostra embaixo o texto explicando que o checkout acontece na Braip. Se o `href` começar com `http`, ele entende que sai do site: abre aba nova e mostra o aviso da Braip. Qualquer outro valor é tratado como link interno — o teste é por `http` e não por `#`, porque desde que o destino padrão virou `/#ofertas` um link interno pode começar com barra, com `#` ou com os dois. **Como todo CTA passa por aqui, este é o ponto único para plugar rastreamento de conversão depois — não escreva `<a href={checkout}>` solto numa seção nova.** |
 | `SectionHeading.tsx` | O cabeçalho padrão de seção: o texto pequeno em maiúsculas, o título em Fraunces itálico e a descrição. Serve para as seções não divergirem de espaçamento e tamanho ao longo do tempo. |
 
 ### `lib/site.ts`
@@ -241,9 +241,9 @@ Duas decisões dentro dessa função que valem entender. A formatação é feita
 
 **Animação nova: declare o `@keyframes` e a classe que o usa em CSS puro, lado a lado.** Não passe o nome da animação por dentro de uma variável CSS, e não use o `--animate-*` do `@theme` do Tailwind. Isso já quebrou em produção: o brilho dos botões funcionava no build local e sumia no da Vercel, deixando um borrão branco parado sobre cada botão de compra. O CSS publicado saía 161 bytes menor, sem o `@keyframes` e sem a regra, enquanto todo o resto do arquivo era idêntico. O motivo é que o único lugar onde o nome da animação aparecia era dentro do valor de `--animate-brilho-cta` — e minificador não segue esse tipo de referência, então conclui que o `@keyframes` é código morto e apaga. Com a classe citando o nome direto na propriedade `animation`, a ligação fica visível para qualquer ferramenta. Ao suspeitar desse tipo de sumiço, compare o CSS de produção com o local: baixe os dois e conte as ocorrências da classe em cada um.
 
-**O brilho em loop dos botões roda para todo mundo, de propósito.** A prática comum seria desligá-lo sob `prefers-reduced-motion`, já que é animação infinita, e essa foi a primeira versão. Está ligado por decisão do dono do site: é o que chama atenção para o botão de compra, e a máquina de quem toca o projeto roda com "reduzir movimento" ativado — na prática o efeito nunca existiria. Para reverter, basta devolver o prefixo `motion-safe:` na classe `animate-brilho-cta` do `CtaButton`.
+**O brilho em loop dos botões roda para todo mundo, de propósito.** A prática comum seria desligá-lo sob `prefers-reduced-motion`, já que é animação infinita, e essa foi a primeira versão. Está ligado por decisão do dono do site: é o que chama atenção para o botão de compra, e a máquina de quem toca o projeto roda com "reduzir movimento" ativado — na prática o efeito nunca existiria. Para reverter, basta devolver o prefixo `motion-safe:` na classe `brilho-cta` do `CtaButton`. (A classe se chamava `animate-brilho-cta` na versão com `--animate-*` do `@theme` — exatamente a que quebrava na Vercel, descrita no parágrafo acima.)
 
-**"Reduzir movimento" tem dois pesos no resto do site, e a diferença é proposital.** No hover, o card de oferta dá um zoom de 3% e sobe 8px, a foto dos frascos cresce 4% e o botão sobe — são **mudanças de estado**, valem para todo mundo, e o que o `motion-reduce:transition-none` faz é tirar o percurso animado: com a preferência ligada, tudo troca de estado na hora. Quem se incomoda com movimento se incomoda com o trajeto, não com o resultado. Já o brilho que atravessa o botão é **animação** — meio segundo de algo se deslocando sozinho —, e esse fica atrás de `motion-safe:`, sumindo por completo. Ao criar efeito novo, decida em qual das duas categorias ele cai.
+**"Reduzir movimento" tem dois pesos no resto do site, e a diferença é proposital.** No hover, o card de oferta dá um zoom de 3% e sobe 8px, a foto dos frascos cresce 4% e o botão sobe — são **mudanças de estado**, valem para todo mundo, e o que o `motion-reduce:transition-none` faz é tirar o percurso animado: com a preferência ligada, tudo troca de estado na hora. Quem se incomoda com movimento se incomoda com o trajeto, não com o resultado. Já o brilho que atravessa o botão é **animação** — algo se deslocando sozinho, em loop —, e é a categoria que normalmente ficaria atrás de `motion-safe:`. Aqui ele roda para todo mundo, pela decisão descrita no parágrafo acima. Ao criar efeito novo, decida em qual das duas categorias ele cai antes de escolher o prefixo.
 
 **Âncora que não cai no lugar certo: some três medidas, não uma.** O clique em "Ver os kits e preços" pula para `#ofertas`, e onde a tela para depende de `scroll-margin-top` + o `padding-top` da seção + os 73px do cabeçalho fixo que cobrem o começo da tela. Com `scroll-mt-24` e `py-20` o título caía 135px abaixo do cabeçalho e a grade de cards só começava a 574px numa tela de 844px — o visitante clicava e via um vazio. Ao mexer em qualquer uma das três, meça as outras duas: o resultado só existe na soma.
 
@@ -301,12 +301,16 @@ Um detalhe sobre o `robots.txt`, que costuma ser mal entendido: **ele não prote
 
 ## Pendências
 
-- [ ] Preencher `ofertas` em `lib/site.ts` com os preços e os links de checkout da Braip de cada kit — enquanto estiverem vazios a seção de ofertas não aparece e o hero segue mostrando o preço avulso
+- [x] Preencher `ofertas` em `lib/site.ts` com os preços e os links de checkout da Braip de cada kit — feito: os três kits estão publicados, então a seção de ofertas está no ar e o preço saiu do hero
 - [ ] Preencher `entrega.prazos` em `lib/site.ts` — enquanto estiverem vazios, a tabela de prazo por região fica oculta no site (ver `ShippingSection.tsx`)
 - [ ] Preencher `entrega.freteGratisAcima`, se existir frete grátis
 - [ ] Preencher `produto.registroAnvisa`, se houver número de notificação
 - [ ] Coletar depoimentos reais para ligar a `TestimonialsSection` — é a maior lacuna de conversão do site hoje
+- [ ] Preencher `site.redesSociais` com as URLs dos perfis oficiais — alimenta o `sameAs` do JSON-LD, que é o que desambigua esta VivaZen das outras com nome parecido
+- [ ] Confirmar nome e cidade da cliente do depoimento em vídeo (`depoimentosEmVideo`, hoje só "Beatriz", sem cidade)
 - [ ] Validar o layout no celular de verdade, olhando a tela. Isso nunca foi feito: as medidas de texto do hero foram tiradas do DOM, não de um aparelho
+
+Os quatro primeiros itens também estão marcados como `TODO:` no ponto exato de `lib/site.ts` em que o campo vazio mora, então dá para chegar neles pelo código sem passar por aqui.
 
 ### Decidido não fazer
 

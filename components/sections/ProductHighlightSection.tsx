@@ -31,15 +31,9 @@ export default function ProductHighlightSection() {
     <section id="produto" className="py-20 md:py-28">
       <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 lg:grid-cols-2 lg:gap-16">
         {/*
-          Sem moldura, sem borda branca e sem recorte: a arte nova tem fundo
-          transparente de verdade (60% dos pixels), então o produto flutua sobre
-          o creme da página. A versão anterior tinha fundo próprio e precisava
-          da moldura para o fundo não brigar com o da seção.
-
-          `drop-shadow` e não `shadow`: o primeiro segue o contorno recortado da
-          embalagem, o segundo desenharia um retângulo em volta da imagem toda,
-          incluindo a área transparente — que é justamente o que denuncia um PNG
-          mal aplicado.
+          Sem moldura nem borda: a arte tem fundo transparente de verdade (60% dos
+          pixels) e o produto flutua sobre o creme. A versão anterior tinha fundo
+          próprio e precisava da moldura para não brigar com o da seção.
         */}
         <div className="flex justify-center lg:order-2">
           <Image

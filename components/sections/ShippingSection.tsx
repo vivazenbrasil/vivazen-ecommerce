@@ -2,13 +2,9 @@ import SectionHeading from '@/components/ui/SectionHeading'
 import { entrega } from '@/lib/site'
 import { Box, MapPin, PackageSearch, Truck, type LucideIcon } from 'lucide-react'
 
-/**
- * O tipo é explícito de propósito: `entrega` é `as const`, então os campos têm
- * tipo literal. Sem anotar `texto: string`, um campo preenchido nunca pode ser
- * falso, o TS estreita a união para `never` no ramo do `||` e o acesso a `aviso`
- * quebra o build. Anotar como `string` mantém o guard alcançável mesmo depois de
- * todos os campos serem preenchidos.
- */
+// Tipo explícito de propósito: `entrega` é `as const`, e sem anotar `texto:
+// string` o TS conclui que campo preenchido nunca é falso, estreita para `never`
+// no ramo do `||` e o acesso a `aviso` quebra o build.
 const cards: {
   icone: LucideIcon
   titulo: string
@@ -66,15 +62,10 @@ export default function ShippingSection() {
         </div>
 
         {/*
-          Tabela de prazos por região.
-
-          Só aparece quando existe pelo menos um prazo preenchido em
-          `entrega.prazos` (lib/site.ts). Enquanto estiverem todos vazios, o
-          bloco inteiro fica fora do ar: prometer prazo sem ter o número é pior
-          do que não falar de prazo, e o checkout da Braip já calcula o prazo
-          real para o CEP do cliente — o que a descrição da seção acima explica.
-
-          Para religar, basta preencher os prazos. Nada mais precisa mudar aqui.
+          Só aparece com pelo menos um prazo preenchido em `entrega.prazos`.
+          Prometer prazo sem ter o número é pior do que não falar de prazo, e o
+          checkout da Braip já calcula o real para o CEP do cliente. Para religar
+          basta preencher os prazos, nada mais muda aqui.
         */}
         {prazosPreenchidos.length > 0 && (
           <div className="border-sand mt-12 overflow-hidden rounded-2xl border">

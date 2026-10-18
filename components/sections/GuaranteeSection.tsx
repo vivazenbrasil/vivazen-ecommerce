@@ -4,14 +4,12 @@ import { ShieldCheck } from 'lucide-react'
 import Image from 'next/image'
 
 /**
- * O número de dias está DESENHADO dentro de public/selo-garantia.webp — a arte
- * não é gerada a partir de `garantia.dias`, é um arquivo pronto.
- *
- * Por isso o selo só aparece quando os dois números batem. Se um dia a garantia
- * virar 30 dias e ninguém trocar a arte, a seção volta sozinha para o círculo
- * desenhado em CSS logo abaixo, em vez de estampar "7 DIAS" ao lado de um texto
- * falando em 30 — que seria informação errada sobre garantia, justamente o tipo
- * de coisa que dá dor de cabeça com o CDC.
+ * O número está DESENHADO dentro de public/selo-garantia.webp — é arquivo pronto,
+ * não arte gerada a partir de `garantia.dias`. Por isso o selo só aparece quando
+ * os dois batem: se a garantia virar 30 dias e ninguém trocar a imagem, a seção
+ * cai sozinha no círculo em CSS lá embaixo em vez de estampar "7 DIAS" ao lado de
+ * um texto falando em 30 — informação errada sobre garantia é dor de cabeça com
+ * o CDC.
  */
 const DIAS_NO_SELO = 7
 
@@ -26,14 +24,10 @@ export default function GuaranteeSection() {
           />
 
           <div className="relative grid items-center gap-10 md:grid-cols-[auto_1fr] md:gap-12">
-            {/* Selo */}
             {garantia.dias === DIAS_NO_SELO ? (
               <div className="relative mx-auto shrink-0">
-                {/*
-                  O selo é preto sobre o verde escuro da seção. Este halo dourado
-                  desfocado atrás dele é o que separa as duas coisas — sem ele o
-                  miolo do selo some no fundo e só sobra o anel.
-                */}
+                {/* halo dourado: o selo é preto sobre o verde escuro da seção
+                    e sem isso o miolo dele some no fundo, sobrando só o anel */}
                 <div
                   aria-hidden="true"
                   className="bg-clay-soft/25 pointer-events-none absolute inset-4 rounded-full blur-2xl"

@@ -17,7 +17,8 @@ const links = [
 export default function Header() {
   const [aberto, setAberto] = useState(false)
 
-  // Trava o scroll do body enquanto o menu mobile está aberto
+  // Trava o scroll do body enquanto o menu mobile está aberto. Mexer no style
+  // direto é feio, mas é uma linha e não vale uma lib de scroll lock só por isso.
   useEffect(() => {
     document.body.style.overflow = aberto ? 'hidden' : ''
     return () => {
@@ -57,11 +58,9 @@ export default function Header() {
             </Link>
           ))}
           {/*
-            Este botão leva para a seção de kits, não para a Braip. Antes ia
-            direto ao checkout do frasco avulso — o botão mais visível do site
-            entregando a menor das três vendas possíveis. Sem `target="_blank"`
-            porque não sai mais do site; a regra do destino está em
-            `destinoDoCta`, no lib/site.ts.
+            Leva para a seção de kits, não para a Braip: antes ia direto ao checkout
+            do frasco avulso, ou seja, o botão mais visível do site entregando a
+            menor das três vendas. Sem `target="_blank"` porque não sai mais do site.
           */}
           <a
             href={destinoDoCta}

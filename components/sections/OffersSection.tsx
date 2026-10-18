@@ -13,22 +13,17 @@ import { Check, Lock, ShieldCheck, Truck } from 'lucide-react'
 import Image, { type StaticImageData } from 'next/image'
 
 /**
- * As três fotos são normalizadas no arquivo, e são DUAS regras, não uma:
+ * As três fotos são normalizadas no arquivo, e são duas regras e não uma:
  *
- * 1. Mesma altura de moldura — 700px nas três. Renderizadas com altura fixa e
- *    largura automática (`h-full w-auto`), isso mantém os frascos na mesma
- *    escala: 1 pote aparece estreito, 3 potes largos. Se fossem esticadas para
- *    preencher a largura do card, o frasco único ficaria do tamanho do trio e o
- *    kit maior pareceria levar menos produto.
+ * 1. Moldura de 700px nas três. Com `h-full w-auto` isso mantém os frascos na
+ *    mesma escala (1 pote estreito, 3 potes largos). Esticadas para preencher a
+ *    largura do card, o frasco único ficaria do tamanho do trio.
+ * 2. Base dos frascos em y=675 nas três, com 24px de branco abaixo. O container
+ *    alinha as IMAGENS pela base, e os originais tinham 26px, 7px e 50px — o
+ *    trio flutuava uns 11px acima dos outros na tela.
  *
- * 2. Mesma linha de base — a base dos frascos fica em y=675 nas três, com 24px
- *    de branco abaixo. Sem isso o alinhamento não acontece, mesmo com as
- *    molduras iguais: o container alinha as IMAGENS pela base, e as fotos
- *    originais tinham 26px, 7px e 50px de branco embaixo dos frascos. O trio
- *    flutuava uns 11px acima dos outros dois na tela.
- *
- * Ao trocar qualquer foto, refaça as duas medições — a segunda é invisível no
- * arquivo e só aparece quando as três estão lado a lado.
+ * Trocou foto, refaça as duas medições. A segunda é invisível no arquivo e só
+ * aparece com as três lado a lado.
  */
 const imagens: Record<number, StaticImageData> = {
   1: umFrasco,
@@ -43,37 +38,24 @@ const reforcos = [
 ]
 
 export default function OffersSection() {
-  /*
-    A seção inteira some enquanto nenhuma oferta tiver preço E link de checkout
-    preenchidos em lib/site.ts.
-
-    Isso não é preciosismo: um card de promoção sem preço, ou com botão que não
-    leva a lugar nenhum, custa mais confiança do que a promoção inteira gera. E
-    enquanto esta seção estiver fora do ar o hero volta a mostrar o preço avulso
-    sozinho, então a página nunca fica sem preço nenhum.
-  */
+  // Some inteira enquanto nenhuma oferta tiver preço E link em lib/site.ts. Card
+  // de promoção sem preço, ou com botão que não leva a lugar nenhum, custa mais
+  // confiança do que a promoção gera — e o hero volta a mostrar o preço avulso
+  // nesse caso, então a página nunca fica sem preço nenhum.
   if (ofertasPublicadas.length === 0) return null
 
   return (
     /*
-      ALINHAMENTO DO CLIQUE "Ver os kits e preços"
-
-      Três medidas se somam quando o navegador pula para cá, e é fácil errar
-      olhando só uma: a margem de rolagem, o padding de topo da seção, e o
+      Alinhamento do clique "Ver os kits e preços": somam-se três medidas quando o
+      navegador pula para cá — a margem de rolagem, o padding de topo e o
       cabeçalho fixo de 73px que cobre o começo da tela.
 
-      Com `scroll-mt-24` (96px) e `py-20`, o título caía 135px abaixo do
-      cabeçalho e a grade de cards só começava a 574px — 68% da altura da tela.
-      O visitante clicava em "ver os kits" e via um vazio, com os cards
-      espiando na borda de baixo.
+      Com `scroll-mt-24` (96px) e `py-20` o título caía 135px abaixo do cabeçalho
+      e a grade só começava a 574px, 68% da altura da tela: clicava em "ver os
+      kits" e via um vazio, com os cards espiando na borda de baixo.
 
-      Agora a margem de rolagem é pequena o bastante para o cabeçalho cobrir a
-      folga, e o padding de topo foi reduzido (o hero acima já dá respiro). O
-      padding de baixo continua grande, porque ali a seção precisa se separar
-      da próxima.
-
-      Se mexer na altura do cabeçalho ou nesses paddings, meça de novo: o
-      resultado só aparece somando os três.
+      Mexeu no cabeçalho ou nesses paddings, meça de novo — o resultado só
+      aparece somando os três.
     */
     <section
       id="ofertas"
@@ -99,34 +81,15 @@ export default function OffersSection() {
 
             return (
               /*
-                O grupo tem nome (`group/card`) e não é detalhe: o CtaButton lá
-                embaixo também é um grupo, e ele está DENTRO deste card. Com os
-                dois grupos anônimos, o `group-hover` do botão responderia ao
-                hover do card inteiro — passar o mouse em qualquer canto
-                dispararia o brilho do botão. Com nome, cada um responde só ao
-                seu. Se criar outro grupo aqui dentro, nomeie também.
+                O grupo tem nome (`group/card`) e isso não é detalhe: o CtaButton
+                lá embaixo também é grupo e está DENTRO deste card. Com os dois
+                anônimos, o `group-hover` do botão responderia ao hover do card
+                inteiro e o brilho disparava de qualquer canto. Criou outro grupo
+                aqui dentro, nomeia também.
 
-                `hover:z-20` importa por causa do card do meio, que fica por
-                cima dos vizinhos: sem isso, ao passar o mouse num card lateral
-                ele subiria por baixo do destaque e a sombra ficaria cortada.
-
-                O card cresce 4% e sobe 8px em 500ms, com `ease-[cubic-bezier]`
-                em vez do `ease-out` padrão. Essa curva é o que dá a sensação de
-                crescimento em vez de salto: ela arranca devagar, ganha corpo no
-                meio e desacelera no fim, então o olho acompanha o card
-                inflando. Com `ease-out` puro o movimento nasce na velocidade
-                máxima e o card parecia simplesmente aparecer maior.
-
-                4% e 8px continuam sendo valores pequenos de propósito: o card
-                ocupa um terço da largura, então passar de 5% começa a empurrar
-                visualmente os vizinhos e a parecer defeito.
-
-                Sobre "reduzir movimento": o zoom e a subida acontecem para todo
-                mundo, e o que muda é o `motion-reduce:transition-none` — com a
-                preferência ligada, o card troca de estado na hora, sem percurso
-                animado. A distinção é essa: o que passa mal é com o movimento
-                percorrido, não com o estado final. Animação de verdade, como o
-                brilho que atravessa o botão, essa continua desligada.
+                `hover:z-20` é por causa do card do meio, que fica por cima dos
+                vizinhos: sem isso um card lateral sobe por baixo do destaque e a
+                sombra sai cortada.
               */
               <div
                 key={oferta.id}
@@ -144,18 +107,6 @@ export default function OffersSection() {
 
                 {imagem && (
                   <div className="flex h-44 items-end justify-center md:h-48">
-                    {/*
-                      `origin-bottom` faz a foto crescer a partir da base, como
-                      se os frascos se aproximassem. Crescendo pelo centro eles
-                      pareceriam flutuar, e a linha de apoio dos três cards
-                      deixaria de bater.
-
-                      Só 4% aqui porque este zoom SOMA com os 3% do card: o
-                      resultado na tela é perto de 7% na foto contra 3% no card.
-                      Essa diferença é o que dá sensação de profundidade — a
-                      foto vem um pouco mais à frente que a moldura. Subir esse
-                      número faz os frascos furarem o topo do card.
-                    */}
                     <Image
                       src={imagem}
                       alt={`Kit com ${oferta.frascos} ${
@@ -191,18 +142,11 @@ export default function OffersSection() {
                 </div>
 
                 {/*
-                  "Você economiza" e "Frete grátis" (este último decidido em
-                  lib/site.ts, campo `freteGratis` de cada kit — precisa
-                  também estar configurado no checkout da Braip, senão o site
-                  promete o que o checkout não cumpre) dividem a MESMA linha.
-
-                  Empilhados em dois parágrafos, os dois juntos só apareciam
-                  no card de 3 frascos e engordavam ele bem mais que os outros
-                  dois — que já ficam maiores por design (`md:-my-4 md:py-11`
-                  logo acima). Lado a lado, a altura extra some quando cabem
-                  numa linha só, e nos raros casos em que quebram, quebram
-                  como um bloco (`flex-wrap`), sem depender de qual dos dois
-                  veio primeiro.
+                  "Você economiza" e "Frete grátis" dividem a MESMA linha. Em dois
+                  parágrafos empilhados eles só apareciam juntos no card de 3
+                  frascos e engordavam ele bem além dos outros, que já são maiores
+                  por design (`md:-my-4 md:py-11`). Lado a lado a altura extra
+                  some, e quando quebram, quebram como bloco (`flex-wrap`).
                 */}
                 {(economia || oferta.freteGratis) && (
                   <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
@@ -237,10 +181,9 @@ export default function OffersSection() {
         </div>
 
         {/*
-          Formas de pagamento e reforços ficam AQUI, colados nas ofertas, e não
-          numa seção própria mais abaixo. Essa informação é objeção de última
-          hora — ela só trabalha no instante em que a pessoa está olhando o
-          preço. Isolada num bloco distante, vira enfeite que ninguém lê.
+          Colados nas ofertas de propósito, e não numa seção própria mais abaixo:
+          isso é objeção de última hora e só trabalha no instante em que a pessoa
+          está olhando o preço. Longe dali vira enfeite que ninguém lê.
         */}
         <div className="border-sand mt-14 rounded-3xl border border-dashed p-7">
           <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">

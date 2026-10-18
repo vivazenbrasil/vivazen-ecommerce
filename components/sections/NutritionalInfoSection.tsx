@@ -143,11 +143,10 @@ export default function NutritionalInfoSection() {
               className="focus-visible:ring-clay/50 relative mx-auto w-full cursor-pointer overflow-hidden rounded-xl focus-visible:ring-4 focus-visible:outline-none"
             >
               {/*
-                Sem width/height fixos de propósito: o import estático já traz a
-                dimensão real do arquivo (1122x1402). Antes estava declarado
-                800x550 — proporção 1.45 contra os 0.80 reais —, o que fazia o
-                navegador reservar uma caixa deitada e depois "pular" para a
-                caixa em pé quando a imagem carregava.
+                Sem width/height fixos: o import estático já traz a dimensão real
+                (1122x1402). Estava declarado 800x550, proporção 1.45 contra os
+                0.80 reais, e o navegador reservava uma caixa deitada para depois
+                pular para a em pé quando a imagem carregava.
               */}
               <Image
                 src={tabelaNutricional}

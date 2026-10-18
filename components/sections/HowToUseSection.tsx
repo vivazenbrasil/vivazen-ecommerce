@@ -21,7 +21,6 @@ export default function HowToUseSection() {
             const Icone = icones[i] ?? Sparkles
             return (
               <li key={passo.titulo} className="relative">
-                {/* Conector entre os passos no desktop */}
                 {i < passos.length - 1 && (
                   <span
                     aria-hidden="true"

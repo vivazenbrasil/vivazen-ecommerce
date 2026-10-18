@@ -6,13 +6,9 @@ interface LegalPageProps {
   children: ReactNode
 }
 
-/**
- * Casca das páginas institucionais (privacidade, termos, trocas e devoluções).
- *
- * Serve para as três não divergirem de cabeçalho e espaçamento com o tempo.
- * Os textos foram revisados juridicamente — se alterar o conteúdo de qualquer
- * uma delas, atualize a data em `atualizadoEm` na página correspondente.
- */
+// Casca das três páginas institucionais, para elas não divergirem de cabeçalho e
+// espaçamento com o tempo. Os textos foram revisados juridicamente: mexeu no
+// conteúdo de uma, atualize o `atualizadoEm` dela.
 export default function LegalPage({ titulo, atualizadoEm, children }: LegalPageProps) {
   return (
     <div className="mx-auto max-w-3xl px-6 py-20 md:py-28">

@@ -23,10 +23,10 @@ export default function TestimonialsSection() {
 
         {depoimentosEmVideo.length > 0 && (
           /*
-            `flex flex-wrap justify-center` em vez de grade de colunas fixas: com
-            um depoimento só, uma grade de três colunas deixaria o vídeo encostado
-            na esquerda com dois buracos ao lado. Assim, um centraliza, dois ficam
-            lado a lado e três preenchem a linha, sem mexer no código.
+            flex-wrap em vez de grade de colunas fixas: com um depoimento só, uma
+            grade de três deixaria o vídeo encostado na esquerda com dois buracos
+            do lado. Assim um centraliza, dois ficam lado a lado e três preenchem
+            a linha, sem tocar no código.
           */
           <div className="mt-14 flex flex-wrap justify-center gap-8">
             {depoimentosEmVideo.map((dep) => (
